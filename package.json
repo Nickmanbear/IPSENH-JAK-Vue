@@ -5,7 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
+    "test": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -27,6 +27,7 @@
     "eslint-plugin-vue": "^6.2.2",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
+    "jest-sonar-reporter": "^2.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -60,6 +61,7 @@
     "not dead"
   ],
   "jest": {
-    "preset": "@vue/cli-plugin-unit-jest"
+    "preset": "@vue/cli-plugin-unit-jest",
+    "testResultsProcessor": "jest-sonar-reporter"
   }
 }
