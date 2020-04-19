@@ -1,0 +1,16 @@
+dist: trusty # Needed for SonarCloud
+language: node_js
+node_js:
+- node
+
+addons:
+  sonarcloud:
+    organization: nickmanbear
+    token:
+      secure: D3/PuS3ls8U1SvGJjsUf2jz71F9dJRCfZB/OtTp26Kw3bSshmUPh4aEQaiPk9cMWK3dCQ6mjWhR4/9KEC+oaH5NTs5nHaNm7cv46g43ikO3aNKOLqLKwsdVtIdIV2gDWEGADDNTTNqugLzWsktNgsSQSmzYCK10iVi9dy0jDi47cFmAH6PrXcADqtfxXqZX4wzZLwR5XIgJBwUo1cn+sryOtUL/XcGRVA9CUJbiE/W9rJ5ViV8+kLqhQKuYhjXY9vHAbV+lLSbqbcawxT6WoAVyeVancRylLsZ26HooEsw3GcY1QxfNaXwJCr3q6XX/eOLF5ta57QRbrBiZ9oUjZjm906cUio6CKbV936iX7BFBGpb/v9Z7B4h2HIUTFqmcaLdXhmAi1RJsDdkpcVoZmhNg6gq9V5FdzQpOjbCQqm5GpVLUekCbmCbRW3o/wnlljcvVOj8Nv886fZa2lhOwuJejXP4E80B0628X1EEznnzwBhlGhpfYuolpg7LkZQ4rLGhRLTSnr6n1pZFi4XlrWDCjURcGVrA3rMUALOCUqyPTgOBURJuCdQD1EmjnUp0hY577ZryabCzazQ6HtV7nDROdy2+ewPR+g5dNEeUNGhQ2RDRpcdIRyZJ9Rp5XGwnnPVj9R3BPxP5qW1cgSOLKgYlvCqjqzpG8HsUKTjqHPiD0=
+
+cache: npm
+
+script:
+- npm test
+- sonar-scanner
