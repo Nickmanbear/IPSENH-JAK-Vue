@@ -58,18 +58,28 @@ deploy:
     on:
       branch: dev
   
-      
+    # deploy master to the staging environment  
   - provider: script
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
-    script:
-    - npm run build
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress dist travis-ci@swarm.cherement.nl:$BUILD_DIR\dist
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
-    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+    skip_cleanup: true
+    script: rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress dist travis-ci@swarm.cherement.nl:$BUILD_DIR\dist
     on:
-      branch: master   
-    
+      branch: master
+  
+  - provider: script
+    env:
+    - BUILD_DIR="~/builds/frontend-prod/" 
+    skip_cleanup: true
+    script: rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
+    on:
+      branch: master
+      
+  - provider: script
+    env:
+    - BUILD_DIR="~/builds/frontend-prod/" 
+    skip_cleanup: true
+    script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh    
+    on:
+      branch: master
     
