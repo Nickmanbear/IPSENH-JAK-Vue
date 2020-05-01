@@ -47,7 +47,7 @@ deploy:
     on:
       branch: dev
       
-  - provider:
+  - provider: script
     env:
     - BUILD_DIR="~/builds/frontend-test/"
     skip_cleanup: true
