@@ -21,7 +21,7 @@ before_install:
 - echo -e "Host swarm.cherement.nl\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo $BUILD_DIR
 - ssh -i ./id_rsa travis-ci@swarm.cherement.nl pwd
-- npm run install
+- npm install
 - npm run build
 services:
 - docker
