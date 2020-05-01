@@ -51,7 +51,7 @@ deploy:
     env:
     - BUILD_DIR="~/builds/frontend-test/"
     skip_cleanup: true
-    script: ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+    script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl "$BUILD_DIR\rebuild-docker.sh"
     on:
       branch: dev
   
