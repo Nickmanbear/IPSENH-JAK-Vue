@@ -26,7 +26,12 @@ services:
 jobs:
   include:
   - stage: Tests
-    script: npm test
+    script:
+    - npm test
+  - stage: Test Build Docker image
+    script:
+    - npm run build
+    - docker build -t jak/frontend .
   - stage: Deployment-Test.server
     if: branch = dev
     script:
@@ -36,8 +41,6 @@ jobs:
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
       --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
     - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
-    on:
-      branch: dev
   - stage: Deployment-prod.server
     if: branch = master
     env:
