@@ -31,16 +31,16 @@ jobs:
   - stage: Deployment-Test.server
     script:
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress dist travis-ci@jak.cherement.nl:$BUILD_DIR\dist
+      --progress dist travis-ci@swarm.cherement.nl:$BUILD_DIR\dist
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress Dockerfile travis-ci@jak.cherement.nl:$BUILD_DIR\Dockerfile
-    - ssh -i ./id_rsa travis-ci@jak.cherement.nl $BUILD_DIR\rebuild-docker.sh
+      --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
+    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
   - stage: Deployment-prod.server
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
     script:
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress dist travis-ci@jak.cherement.nl:$BUILD_DIR\dist
+      --progress dist travis-ci@swarm.cherement.nl:$BUILD_DIR\dist
     - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress Dockerfile travis-ci@jak.cherement.nl:$BUILD_DIR\Dockerfile
-    - ssh -i ./id_rsa travis-ci@jak.cherement.nl $BUILD_DIR\rebuild-docker.sh
+      --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
+    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
