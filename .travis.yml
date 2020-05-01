@@ -12,7 +12,6 @@ env:
 cache: npm
 script:
 - sonar-scanner
-- npm run build
 before_install:
 - openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv
   -in id_rsa-travis-ci.enc -out id_rsa -d
@@ -22,6 +21,7 @@ before_install:
 - echo -e "Host swarm.cherement.nl\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo $BUILD_DIR
 - ssh -i ./id_rsa travis-ci@swarm.cherement.nl pwd
+- npm run build
 services:
 - docker
 jobs:
