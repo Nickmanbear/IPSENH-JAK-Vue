@@ -74,7 +74,7 @@ deploy:
       
   - provider: script
     skip_cleanup: true
-    script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl ~/builds/frontend-prod/rebuild-docker.sh    
+    script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl "~/builds/frontend-prod/rebuild-docker.sh"
     on:
       branch: master
     
