@@ -32,7 +32,7 @@ jobs:
     - npm test
     - sonar-scanner
   - stage: Deployment-Test.server
-    if: (branch = dev)
+    if: branch = dev
     deploy:
       provider: script
       script:
