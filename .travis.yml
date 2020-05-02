@@ -28,8 +28,9 @@ services:
 jobs:
   include:
   - stage: Tests 
-    script: npm test
-    script: sonar-scanner
+    script: 
+    - npm test
+    - sonar-scanner
   - stage: Deployment-Test.server
     if: (branch = dev) AND (NOT (type IN (push, pull_request)))
     script:
