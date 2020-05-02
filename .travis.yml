@@ -33,10 +33,12 @@ jobs:
     - sonar-scanner
   - stage: Deployment-Test.server
     if: (branch = dev) 
-    script:
-    - docker build -t swarm.cherement.nl:5000/frontend-test .
-    - docker push swarm.cherement.nl:5000/frontend-test
-    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+    deploy:
+      provider: script
+      script:
+      - docker build -t swarm.cherement.nl:5000/frontend-test .
+      - docker push swarm.cherement.nl:5000/frontend-test
+      - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
   - stage: Deployment-prod.server
     if: (branch = master) AND (NOT (type IN (push, pull_request)))
     env:
