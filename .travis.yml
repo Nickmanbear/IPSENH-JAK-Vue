@@ -21,7 +21,6 @@ before_install:
 - ssh -i ./id_rsa travis-ci@swarm.cherement.nl pwd
 - docker login swarm.cherement.nl:5000 -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 install:
-- npm install
 - npm run build
 services:
 - docker
@@ -51,3 +50,5 @@ jobs:
       - docker build -t swarm.cherement.nl:5000/frontend-prod .
       - docker push swarm.cherement.nl:5000/frontend-prod
       - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+      on:
+        branch: master
