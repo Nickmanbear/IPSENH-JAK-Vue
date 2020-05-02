@@ -34,6 +34,7 @@ jobs:
   - stage: Deployment-Test.server
     deploy:
       provider: script
+      skip_cleanup: true
       script:
       - docker build -t swarm.cherement.nl:5000/frontend-test .
       - docker push swarm.cherement.nl:5000/frontend-test
@@ -41,10 +42,12 @@ jobs:
       on:
         branch: dev  
   - stage: Deployment-prod.server
-    if: (branch = master) AND (NOT (type IN (push, pull_request)))
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
-    script:
-    - docker build -t swarm.cherement.nl:5000/frontend-prod .
-    - docker push swarm.cherement.nl:5000/frontend-prod
-    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script:
+      - docker build -t swarm.cherement.nl:5000/frontend-prod .
+      - docker push swarm.cherement.nl:5000/frontend-prod
+      - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
