@@ -32,7 +32,7 @@ jobs:
     - npm test
     - sonar-scanner
   - stage: Deployment-Test.server
-    if: (branch = dev) AND (NOT (type IN (push, pull_request)))
+    if: (branch = dev)
     deploy:
       provider: script
       script:
