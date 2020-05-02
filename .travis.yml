@@ -31,23 +31,23 @@ jobs:
     script: 
     - npm test
     - sonar-scanner
-deploy:
-  provider: script
-  skip_cleanup: true
-  script:
-  - docker build -t swarm.cherement.nl:5000/frontend-test .
-  - docker push swarm.cherement.nl:5000/frontend-test
-  - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
-  on:
-    branch: dev  
-deploy:
-  provider: script
-  skip_cleanup: true
-  env:
-  - BUILD_DIR="~/builds/frontend-prod/"
-  script:
-  - docker build -t swarm.cherement.nl:5000/frontend-prod .
-  - docker push swarm.cherement.nl:5000/frontend-prod
-  - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
-  on:
-    branch: master
+  - stage: Deployment-Test.server
+    if: (branch = dev) AND (NOT (type IN (push, pull_request)))
+    deploy:
+      provider: script
+      script:
+      - docker build -t swarm.cherement.nl:5000/frontend-test .
+      - docker push swarm.cherement.nl:5000/frontend-test
+      - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+      on:
+        branch: dev  
+  - stage: Deployment-prod.server
+    if: (branch = master) AND (NOT (type IN (push, pull_request)))
+    env:
+    - BUILD_DIR="~/builds/frontend-prod/"
+    script:
+    - docker build -t swarm.cherement.nl:5000/frontend-prod .
+    - docker push swarm.cherement.nl:5000/frontend-prod
+    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+    on:
+      branch: master
