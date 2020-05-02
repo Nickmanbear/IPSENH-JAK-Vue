@@ -36,12 +36,21 @@ jobs:
     deploy:
       provider: script
       skip_cleanup: true
-      script:
-      - docker build -t swarm.cherement.nl:5000/frontend-test .
-      - docker push swarm.cherement.nl:5000/frontend-test
-      - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+      script: docker build -t swarm.cherement.nl:5000/frontend-test .
       on:
-        branch: dev  
+        branch: dev
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: docker push swarm.cherement.nl:5000/frontend-test
+      on:
+        branch: dev
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl "~/builds/frontend-test/rebuild-docker.sh"
+      on:
+        branch: dev      
   - stage: Deployment-prod.server
     if: branch = master
     env:
