@@ -10,8 +10,6 @@ addons:
 env:
 - BUILD_DIR="~/builds/frontend-test/"
 cache: npm
-script:
-- sonar-scanner
 before_install:
 - openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv
   -in id_rsa-travis-ci.enc -out id_rsa -d
@@ -21,7 +19,9 @@ before_install:
 - echo -e "Host swarm.cherement.nl\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo $BUILD_DIR
 - ssh -i ./id_rsa travis-ci@swarm.cherement.nl pwd
-- npm install
+- docker login swarm.cherement.nl:5000 -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+install:
+- npm ci
 - npm run build
 services:
 - docker
@@ -30,51 +30,46 @@ jobs:
   - stage: Tests
     script:
     - npm test
-  - stage: Test Build Docker image
-    script:
-    - docker build -t jak/frontend .
-    
-deploy:
-  # deploy develop to the staging environment
-  - provider: script
+    - sonar-scanner
+  - stage: Deployment-Test.server
+    if: (branch = dev) AND (NOT (type IN (push, pull_request)))
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: docker build -t swarm.cherement.nl:5000/frontend-test .
+      on:
+        branch: dev
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: docker push swarm.cherement.nl:5000/frontend-test
+      on:
+        branch: dev
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl "~/builds/frontend-test/rebuild-docker.sh"
+      on:
+        branch: dev
+  - stage: Deployment-prod.server
+    if: (branch = master) AND (NOT (type IN (push, pull_request)))
     env:
-    - BUILD_DIR="~/builds/frontend-test/"
-    skip_cleanup: true
-    script: rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress dist travis-ci@swarm.cherement.nl:$BUILD_DIR\dist
-    
-     
-  - provider: script
-    env:
-    - BUILD_DIR="~/builds/frontend-test/"
-    skip_cleanup: true
-    script: rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
-    on:
-      branch: dev
-      
-  - provider: script
-    env:
-    - BUILD_DIR="~/builds/frontend-test/"
-    skip_cleanup: true
-    script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl "$BUILD_DIR\rebuild-docker.sh"
-    on:
-      branch: dev
-  
-    # deploy master to the staging environment  
-  - provider: script
-    skip_cleanup: true
-    script: rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress dist travis-ci@swarm.cherement.nl:~/builds/frontend-prod/dist
-    on:
-      branch: master
-  
-  - provider: script
-    skip_cleanup: true
-    script: rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null" --progress Dockerfile travis-ci@swarm.cherement.nl:~/builds/frontend-prod/Dockerfile
-    on:
-      branch: master
-      
-  - provider: script
-    skip_cleanup: true
-    script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl "~/builds/frontend-prod/rebuild-docker.sh"
-    on:
-      branch: master
-    
+    - BUILD_DIR="~/builds/frontend-prod/"
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: docker build -t swarm.cherement.nl:5000/frontend-prod .
+      on:
+        branch: master
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: docker push swarm.cherement.nl:5000/frontend-prod
+      on:
+        branch: master
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: ssh -yt -i ./id_rsa travis-ci@swarm.cherement.nl "~/builds/frontend-prod/rebuild-docker.sh"
+      on:
+        branch: master
