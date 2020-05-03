@@ -52,7 +52,7 @@ jobs:
       on:
         branch: dev
   - stage: Deployment-prod.server
-    if: branch = master
+    if: (branch = master) AND (NOT (type IN (push, pull_request)))
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
     deploy:
