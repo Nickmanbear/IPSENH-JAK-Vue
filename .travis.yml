@@ -58,9 +58,18 @@ jobs:
     deploy:
       provider: script      
       skip_cleanup: true
-      script:
-      - docker build -t swarm.cherement.nl:5000/frontend-prod .
-      - docker push swarm.cherement.nl:5000/frontend-prod
-      - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+      script: docker build -t swarm.cherement.nl:5000/frontend-prod .
+      on:
+        branch: master
+    deploy:
+      provider: script      
+      skip_cleanup: true
+      script: docker push swarm.cherement.nl:5000/frontend-prod
+      on:
+        branch: master
+    deploy:
+      provider: script      
+      skip_cleanup: true
+      script: ssh -yt -i ./id_rsa travis-ci@swarm.cherement.nl "~/builds/frontend-prod/rebuild-docker.sh"
       on:
         branch: master
