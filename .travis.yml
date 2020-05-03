@@ -36,13 +36,13 @@ jobs:
     deploy:
       provider: script
       skip_cleanup: true
-      script: docker build -t swarm.cherement.nl:5000/frontend-test .
+      script: bash "docker build -t swarm.cherement.nl:5000/frontend-test ."
       on:
         branch: dev
     deploy:
       provider: script
       skip_cleanup: true
-      script: docker push swarm.cherement.nl:5000/frontend-test
+      script: bash "docker push swarm.cherement.nl:5000/frontend-test"
       on:
         branch: dev
     deploy:
@@ -58,18 +58,18 @@ jobs:
     deploy:
       provider: script
       skip_cleanup: true
-      script: docker build -t swarm.cherement.nl:5000/frontend-prod .
+      script: bash "docker build -t swarm.cherement.nl:5000/frontend-prod ."
       on:
         branch: master
     deploy:
       provider: script
       skip_cleanup: true
-      script: docker push swarm.cherement.nl:5000/frontend-prod
+      script: bash "docker push swarm.cherement.nl:5000/frontend-prod"
       on:
         branch: master
     deploy:
       provider: script
       skip_cleanup: true
-      script: ssh -yt -i ./id_rsa travis-ci@swarm.cherement.nl "~/builds/frontend-prod/rebuild-docker.sh"
+      script: ssh -t -i ./id_rsa travis-ci@swarm.cherement.nl "~/builds/frontend-prod/rebuild-docker.sh"
       on:
         branch: master
