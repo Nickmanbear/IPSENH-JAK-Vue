@@ -10,11 +10,7 @@ addons:
 env:
 - BUILD_DIR="~/builds/frontend-test/"
 cache: npm
-script:
-- sonar-scanner
 before_install:
-- openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv
-  -in id_rsa-travis-ci.enc -out id_rsa-travis-ci -d
 - openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv
   -in id_rsa-travis-ci.enc -out id_rsa -d
 - eval "$(ssh-agent -s)"
@@ -23,27 +19,33 @@ before_install:
 - echo -e "Host swarm.cherement.nl\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
 - echo $BUILD_DIR
 - ssh -i ./id_rsa travis-ci@swarm.cherement.nl pwd
+- docker login swarm.cherement.nl:5000 -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+install:
+- npm ci
+- npm run build
 services:
 - docker
 jobs:
   include:
   - stage: Tests
-    script: npm test
-  - stage: Deployment-Test.server
     script:
-    - npm run build
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress dist travis-ci@swarm.cherement.nl:$BUILD_DIR\dist
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
-    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+    - npm test
+    - sonar-scanner
+  - stage: Deployment-Test.server
+    if: branch = dev
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: bash ".travis/deploy-test.sh"
+      on:
+        branch: dev
   - stage: Deployment-prod.server
+    if: branch = master
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
-    script:
-    - npm run build
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress dist travis-ci@swarm.cherement.nl:$BUILD_DIR\dist
-    - rsync -au -e "ssh -i ./id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-      --progress Dockerfile travis-ci@swarm.cherement.nl:$BUILD_DIR\Dockerfile
-    - ssh -i ./id_rsa travis-ci@swarm.cherement.nl $BUILD_DIR\rebuild-docker.sh
+    deploy:
+      provider: script
+      skip_cleanup: true
+      script: bash ".travis/deploy-prod.sh"
+      on:
+        branch: master
