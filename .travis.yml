@@ -32,7 +32,7 @@ jobs:
     - npm test
     - sonar-scanner
   - stage: Deployment-Test.server
-    if: (branch = dev) AND (NOT (type IN (push, pull_request)))
+    if: branch = dev
     deploy:
       provider: script
       skip_cleanup: true
@@ -52,7 +52,7 @@ jobs:
       on:
         branch: dev
   - stage: Deployment-prod.server
-    if: (branch = master) AND (NOT (type IN (push, pull_request)))
+    if: branch = master
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
     deploy:
