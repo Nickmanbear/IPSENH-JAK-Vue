@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import HelloWorld from '@/components/HelloWorld.vue';
 
 describe('HelloWorld.vue', () => {
@@ -9,4 +9,9 @@ describe('HelloWorld.vue', () => {
     });
     expect(wrapper.text()).toMatch(msg);
   });
+
+  test('renders correctly', () => {
+    const wrapper = mount(HelloWorld);
+    expect(wrapper.element).toMatchSnapshot()
+  })
 });
