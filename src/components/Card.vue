@@ -1,16 +1,26 @@
 <template>
   <div id="card">
     <p>Name</p>
+    <p>Omschrijving etc.</p>
+    <p>Priority</p>
+    <p>Point</p>
+    <p>Tag</p>
+    <p>Task</p>
   </div>
 </template>
 
 <style lang="scss">
   #card {
-    background-color: #fff;
-    border: 1px solid #fff;
+    position: fixed;
+    z-index: 500;
+    background-color: white;
+    width: 40%;
+    border: 1px solid #ccc;
     border-radius: 3px;
-    padding: 0 8px;
-    margin: 8px 0;
-    box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.5);
+    padding: 16px 35px;
+    left: 30%;
+    top: 20%;
+    box-sizing: border-box;
+    transition: all 0.3s ease-out;
   }
 </style>

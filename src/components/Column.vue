@@ -21,7 +21,7 @@
 
 <script>
 // @ is an alias to /src
-import Card from '@/components/Card.vue';
+import Card from '@/components/CardPreview.vue';
 
 export default {
   name: 'Home',
