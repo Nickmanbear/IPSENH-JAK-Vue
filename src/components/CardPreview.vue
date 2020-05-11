@@ -1,10 +1,10 @@
 <template>
   <div>
     <div id="cardprev" v-on:click="toggleCard">
-      <p>Name</p>
+      <p>{{ card.name }}</p>
     </div>
     <Backdrop v-show="show" v-on:clicked="toggleCard"/>
-    <Card v-show="show"/>
+    <Card v-show="show" v-bind:card="card"/>
   </div>
 </template>
 
@@ -17,6 +17,9 @@ export default {
   components: {
     Backdrop,
     Card,
+  },
+  props: {
+    card: Object,
   },
   data() {
     return {

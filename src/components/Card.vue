@@ -1,13 +1,22 @@
 <template>
   <div id="card">
-    <p>Name</p>
-    <p>Omschrijving etc.</p>
+    <p>{{ card.name }}</p>
+    <p>{{ card.description }}</p>
     <p>Priority</p>
     <p>Point</p>
     <p>Tag</p>
     <p>Task</p>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'Home',
+  props: {
+    card: Object,
+  },
+};
+</script>
 
 <style lang="scss">
   #card {
@@ -22,5 +31,8 @@
     top: 20%;
     box-sizing: border-box;
     transition: all 0.3s ease-out;
+    p {
+      white-space: normal;
+    }
   }
 </style>

@@ -1,10 +1,19 @@
 <template>
   <router-link to="/board">
     <div id="boardprev">
-      <h2>Title</h2>
+      <h2>{{ board.name }}</h2>
     </div>
   </router-link>
 </template>
+
+<script>
+export default {
+  name: 'BoardPreview',
+  props: {
+    board: Object,
+  },
+};
+</script>
 
 <style lang="scss">
   #boardprev {

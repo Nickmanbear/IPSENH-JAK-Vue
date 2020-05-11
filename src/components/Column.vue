@@ -1,10 +1,8 @@
 <template>
   <div id="column">
-    <h2>Title</h2>
+    <h2>{{ column.name }}</h2>
     <div id="cards">
-      <Card />
-      <Card />
-      <Card />
+      <Card v-for="card in cards" :key="card.id" v-bind:card="card" />
     </div>
     <a>+ Add card</a>
   </div>
@@ -13,11 +11,34 @@
 <script>
 // @ is an alias to /src
 import Card from '@/components/CardPreview.vue';
+import axios from '@/axiosConfig';
 
 export default {
   name: 'Home',
   components: {
     Card,
+  },
+  props: {
+    column: Object,
+  },
+  data() {
+    return {
+      cards: [],
+    };
+  },
+  mounted() {
+    axios.get('/card')
+      .then((response) => {
+        response.data.forEach((card) => {
+          if (card.columnId === this.column.id) {
+            this.cards.push(card);
+          }
+        });
+      })
+      .catch((error) => {
+        // TODO: maak een foutmelding ofzo
+        console.log(error);
+      });
   },
 };
 </script>
@@ -30,6 +51,7 @@ export default {
     padding: 5px 10px;
     margin: 5px;
     display: inline-block;
+    vertical-align: top;
     width: 240px;
     max-height: 80vh;
   }
