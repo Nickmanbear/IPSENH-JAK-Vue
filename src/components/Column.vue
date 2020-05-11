@@ -5,17 +5,8 @@
       <Card />
       <Card />
       <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
-      <Card />
     </div>
-    <p>+ Add card</p>
+    <a>+ Add card</a>
   </div>
 </template>
 
@@ -48,7 +39,7 @@ export default {
   }
 
   #cards {
-    height: 70vh;
+    max-height: 70vh;
     overflow: scroll;
     -ms-overflow-style: none;
   }

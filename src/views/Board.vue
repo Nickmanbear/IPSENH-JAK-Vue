@@ -5,9 +5,6 @@
       <Column />
       <Column />
       <Column />
-      <Column />
-      <Column />
-      <Column />
     </div>
   </div>
 </template>
