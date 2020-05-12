@@ -9,7 +9,7 @@ exports[`Board.spec.js has the expected html structure 1`] = `
   </h1>
    
   <div>
-    <router-link
+    <router-link-stub
       to="/board"
     >
       <div
@@ -19,8 +19,8 @@ exports[`Board.spec.js has the expected html structure 1`] = `
           Board 1
         </h2>
       </div>
-    </router-link>
-    <router-link
+    </router-link-stub>
+    <router-link-stub
       to="/board"
     >
       <div
@@ -30,8 +30,8 @@ exports[`Board.spec.js has the expected html structure 1`] = `
           Board 2
         </h2>
       </div>
-    </router-link>
-    <router-link
+    </router-link-stub>
+    <router-link-stub
       to="/board"
     >
       <div
@@ -41,7 +41,7 @@ exports[`Board.spec.js has the expected html structure 1`] = `
           Board 3
         </h2>
       </div>
-    </router-link>
+    </router-link-stub>
   </div>
 </div>
 `;

@@ -14,6 +14,7 @@ describe('Board.spec.js', () => {
           ],
         };
       },
+      stubs: ['router-link', 'router-view'],
     });
   });
 

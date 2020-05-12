@@ -10,7 +10,7 @@
 <script>
 // @ is an alias to /src
 import Column from '@/components/Column.vue';
-import axios from '@/axiosConfig';
+import axios from '@/axiosInstance';
 
 export default {
   name: 'Home',

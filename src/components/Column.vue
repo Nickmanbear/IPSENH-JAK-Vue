@@ -11,7 +11,7 @@
 <script>
 // @ is an alias to /src
 import Card from '@/components/CardPreview.vue';
-import axios from '@/axiosConfig';
+import axios from '@/axiosInstance';
 
 export default {
   name: 'Home',
