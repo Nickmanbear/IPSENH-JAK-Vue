@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Column.spec.js has the expected html structure 1`] = `
+<div
+  id="column"
+>
+  <h2>
+    test column
+  </h2>
+   
+  <div
+    id="cards"
+  />
+   
+  <a>
+    + Add card
+  </a>
+</div>
+`;

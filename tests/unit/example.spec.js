@@ -12,6 +12,6 @@ describe('HelloWorld.vue', () => {
 
   test('renders correctly', () => {
     const wrapper = mount(HelloWorld);
-    expect(wrapper.element).toMatchSnapshot()
-  })
+    expect(wrapper.element).toMatchSnapshot();
+  });
 });
