@@ -27,18 +27,24 @@ export default {
     };
   },
   mounted() {
-    axios.get('/card')
-      .then((response) => {
-        response.data.forEach((card) => {
-          if (card.columnId === this.column.id) {
-            this.cards.push(card);
-          }
+    this.getCards();
+  },
+  methods: {
+    getCards() {
+      axios.get('/card')
+        .then((response) => {
+          this.cards = [];
+          response.data.forEach((card) => {
+            if (card.columnId === this.column.id) {
+              this.cards.push(card);
+            }
+          });
+        })
+        .catch((error) => {
+          // TODO: maak een foutmelding ofzo
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        // TODO: maak een foutmelding ofzo
-        console.log(error);
-      });
+    },
   },
 };
 </script>

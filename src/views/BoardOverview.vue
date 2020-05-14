@@ -24,14 +24,19 @@ export default {
     };
   },
   mounted() {
-    axios.get('/board')
-      .then((response) => {
-        this.boards = response.data;
-      })
-      .catch((error) => {
-        // TODO: maak een foutmelding ofzo
-        console.log(error);
-      });
+    this.getBoards();
+  },
+  methods: {
+    getBoards() {
+      axios.get('/board')
+        .then((response) => {
+          this.boards = response.data;
+        })
+        .catch((error) => {
+          // TODO: maak een foutmelding ofzo
+          console.log(error);
+        });
+    },
   },
 };
 </script>

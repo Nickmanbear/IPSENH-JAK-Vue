@@ -26,18 +26,24 @@ export default {
     };
   },
   mounted() {
-    axios.get('/column')
-      .then((response) => {
-        response.data.forEach((column) => {
-          if (column.boardId === this.boardId) {
-            this.columns.push(column);
-          }
+    this.getColumns();
+  },
+  methods: {
+    getColumns() {
+      axios.get('/column')
+        .then((response) => {
+          this.columns = [];
+          response.data.forEach((column) => {
+            if (column.boardId === this.boardId) {
+              this.columns.push(column);
+            }
+          });
+        })
+        .catch((error) => {
+          // TODO: maak een foutmelding ofzo
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        // TODO: maak een foutmelding ofzo
-        console.log(error);
-      });
+    },
   },
 };
 </script>
