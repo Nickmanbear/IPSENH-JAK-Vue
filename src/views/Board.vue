@@ -1,6 +1,8 @@
 <template>
   <div class="board">
-    <h1>{{ name }}</h1>
+    <h1 v-if="!editingName">{{ board.name }}</h1>
+    <input v-else v-model="board.name" @keydown.enter="editName" type="text">
+    <button @click="editName">{{ editingName ? 'Save' : 'Edit' }}</button>
     <div id="columns">
       <Column v-for="column in columns" :key="column.id" v-bind:column="column"/>
     </div>
@@ -19,13 +21,17 @@ export default {
   },
   data() {
     return {
-      // TODO board id en name is nu nog hardcoded
-      boardId: 1,
-      name: 'Board1',
+      board: {
+        id: 0,
+        userId: 0,
+        name: 'board1',
+      },
       columns: [],
+      editingName: false,
     };
   },
   mounted() {
+    this.getBoard();
     this.getColumns();
   },
   methods: {
@@ -34,7 +40,7 @@ export default {
         .then((response) => {
           this.columns = [];
           response.data.forEach((column) => {
-            if (column.boardId === this.boardId) {
+            if (column.boardId === this.$route.params.id) {
               this.columns.push(column);
             }
           });
@@ -43,6 +49,19 @@ export default {
           // TODO: maak een foutmelding ofzo
           console.log(error);
         });
+    },
+    editName() {
+      if (this.editingName) {
+        axios.post(
+          '/board',
+          this.board,
+        );
+      }
+      this.editingName = !this.editingName;
+    },
+    async getBoard() {
+      this.board = await axios.get(`/board/${this.$route.params.id}`)
+        .then((response) => response.data);
     },
   },
 };

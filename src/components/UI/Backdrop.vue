@@ -1,5 +1,5 @@
 <template>
-  <div id="backdrop" v-on:click="$emit('clicked')"></div>
+  <div id="backdrop" @click="$emit('clicked')"></div>
 </template>
 
 <style>

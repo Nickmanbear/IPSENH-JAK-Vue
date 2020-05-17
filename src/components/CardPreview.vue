@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div id="cardprev" v-on:click="toggleCard">
+    <div id="cardprev" @click="toggleCard">
       <p>{{ card.name }}</p>
     </div>
-    <Backdrop v-show="show" v-on:clicked="toggleCard"/>
+    <Backdrop v-show="show" @clicked="toggleCard"/>
     <Card v-show="show" v-bind:card="card"/>
   </div>
 </template>

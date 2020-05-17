@@ -1,16 +1,25 @@
 <template>
-  <router-link to="/board">
-    <div id="boardprev">
+  <div id="boardprev">
+    <router-link :to="`/board/${board.id}`">
       <h2>{{ board.name }}</h2>
-    </div>
-  </router-link>
+    </router-link>
+    <button @click="deleteBoard">X</button>
+  </div>
 </template>
 
 <script>
+
+import axios from '@/axiosInstance';
+
 export default {
   name: 'BoardPreview',
   props: {
     board: Object,
+  },
+  methods: {
+    deleteBoard() {
+      axios.delete(`board/${this.board.id}`).then(() => this.$emit('deleted'));
+    },
   },
 };
 </script>
@@ -20,11 +29,19 @@ export default {
     background-color: #eee;
     border: 1px solid #eee;
     border-radius: 2px;
-    padding: 0 20px;
+    padding: 0 8px;
     margin: 10px;
     display: inline-block;
     width: 200px;
-    text-decoration: none;
-    color: black;
+
+    a {
+      text-decoration: none;
+      color: black;
+      padding: 0 8px;
+    }
+
+    h2 {
+      display: inline-block;
+    }
   }
 </style>
