@@ -1,6 +1,9 @@
 <template>
   <div id="column">
-    <h2>{{ column.name }}</h2>
+    <h2 v-if="!editingName" @click="editingName = true">{{ column.name }}</h2>
+    <input v-else v-model="column.name" @keydown.enter="saveName" type="text">
+    <button v-if="editingName" @click="saveName">save</button>
+    <button @click="deleteColumn">X</button>
     <div id="cards">
       <Card v-for="card in cards" :key="card.id" v-bind:card="card" />
     </div>
@@ -24,6 +27,7 @@ export default {
   data() {
     return {
       cards: [],
+      editingName: false,
     };
   },
   mounted() {
@@ -45,6 +49,16 @@ export default {
           console.log(error);
         });
     },
+    deleteColumn() {
+      axios.delete(`column/${this.column.id}`).then(() => this.$emit('deleted'));
+    },
+    saveName() {
+      this.editingName = false;
+      axios.post(
+        '/column',
+        this.column,
+      );
+    },
   },
 };
 </script>
@@ -64,6 +78,7 @@ export default {
 
   h2 {
     margin: 5px 0;
+    display: inline-block;
   }
 
   #cards {
