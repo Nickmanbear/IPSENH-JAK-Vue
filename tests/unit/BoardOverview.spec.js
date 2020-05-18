@@ -2,6 +2,7 @@ import { mount } from '@vue/test-utils';
 import BoardOverview from '@/views/BoardOverview.vue';
 
 jest.mock('axios', () => ({
+  create: () => null,
   get: () => Promise.resolve({ data: [] }),
 }));
 
