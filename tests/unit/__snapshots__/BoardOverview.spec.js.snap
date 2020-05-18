@@ -5,8 +5,16 @@ exports[`Board.spec.js has the expected html structure 1`] = `
   class="overview"
 >
   <h1>
-    Choose ur board
+    Choose your board
   </h1>
+   
+  <p>
+    this is a counter: 1
+  </p>
+   
+  <button>
+    +1
+  </button>
    
   <div>
     <router-link-stub
