@@ -23,6 +23,10 @@ describe('Board.spec.js', () => {
     expect(cmp.find('p').text()).toEqual('this is a counter: 1');
   });
 
+  it('should count + 1', () => {
+    expect(cmp.testTheTest(1)).toEqual(2);
+  });
+
   it('has the expected html structure', () => {
     expect(cmp.element).toMatchSnapshot();
   });
