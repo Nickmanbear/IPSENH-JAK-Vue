@@ -26,8 +26,4 @@ describe('Board.spec.js', () => {
   it('has the expected html structure', () => {
     expect(cmp.element).toMatchSnapshot();
   });
-
-  it('should count + 1', () => {
-    expect(cmp.testTheTest(1)).toEqual(2);
-  });
 });
