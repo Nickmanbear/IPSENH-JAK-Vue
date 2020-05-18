@@ -2,8 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import Board from '@/views/Board.vue';
 
 jest.mock('axios', () => ({
-  create: () => null,
-  get: () => Promise.resolve({ data: [] }),
+  create: () => ({ get: () => Promise.resolve({ data: [] }) }),
 }));
 
 describe('Board.spec.js', () => {
