@@ -26,15 +26,13 @@ export default {
       counter: 0,
     };
   },
-  mounted() {
-    this.getBoards();
+  async mounted() {
+    this.boards = await this.getBoards();
   },
   methods: {
     getBoards() {
-      axios.get('/board')
-        .then((response) => {
-          this.boards = response.data;
-        })
+      return axios.get('/board')
+        .then((response) => response.data)
         .catch((error) => {
           // TODO: maak een foutmelding ofzo
           console.log(error);
