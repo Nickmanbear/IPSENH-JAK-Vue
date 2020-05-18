@@ -28,6 +28,6 @@ describe('Board.spec.js', () => {
   });
 
   it('should count + 1', () => {
-    expect(BoardOverview.testTheTest(1)).toEqual(2);
+    expect(cmp.testTheTest(1)).toEqual(2);
   });
 });
