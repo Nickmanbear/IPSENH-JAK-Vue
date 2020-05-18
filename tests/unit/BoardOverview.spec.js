@@ -1,6 +1,10 @@
 import { mount } from '@vue/test-utils';
 import BoardOverview from '@/views/BoardOverview.vue';
 
+jest.mock('axios', () => ({
+  get: () => Promise.resolve({ data: [] }),
+}));
+
 describe('Board.spec.js', () => {
   let cmp;
   beforeEach(async () => {

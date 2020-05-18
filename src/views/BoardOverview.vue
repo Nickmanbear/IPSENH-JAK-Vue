@@ -40,10 +40,7 @@ export default {
     },
     plusCounter() {
       this.counter += 1;
-    },
-    testTheTest(input) {
-      return input + 1;
-    },
+    }
   },
 };
 </script>
