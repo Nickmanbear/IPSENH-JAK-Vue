@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Board.spec.js has the expected html structure 1`] = `
+<div
+  class="overview"
+>
+  <h1>
+    Choose your board
+  </h1>
+   
+  <p>
+    this is a counter: 1
+  </p>
+   
+  <button>
+    +1
+  </button>
+   
+  <div />
+</div>
+`;
