@@ -1,11 +1,10 @@
-import { shallowMount } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import BoardOverview from '@/views/BoardOverview.vue';
 
 describe('Board.spec.js', () => {
   let cmp;
-
   beforeEach(() => {
-    cmp = shallowMount(BoardOverview, {
+    cmp = mount(BoardOverview, {
       data() {
         return {
           boards: [{ boardId: 1, name: 'Board 1' },
