@@ -3,8 +3,8 @@ import BoardOverview from '@/views/BoardOverview.vue';
 
 describe('Board.spec.js', () => {
   let cmp;
-  beforeEach(() => {
-    cmp = mount(BoardOverview, {
+  beforeEach(async () => {
+    cmp = await mount(BoardOverview, {
       data() {
         return {
           boards: [{ boardId: 1, name: 'Board 1' },
