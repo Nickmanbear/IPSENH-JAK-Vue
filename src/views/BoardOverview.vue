@@ -40,7 +40,7 @@ export default {
     },
     plusCounter() {
       this.counter += 1;
-    }
+    },
   },
 };
 </script>
