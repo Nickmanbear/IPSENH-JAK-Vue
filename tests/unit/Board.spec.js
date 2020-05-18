@@ -1,6 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
 import Board from '@/views/Board.vue';
 
+jest.mock('axios', () => ({
+  create: () => ({ get: () => Promise.resolve({ data: [] }) }),
+}));
+
 describe('Board.spec.js', () => {
   let cmp;
 
@@ -10,7 +14,7 @@ describe('Board.spec.js', () => {
         return {
           boardId: 5,
           name: 'Boardname',
-          // columns: [],
+          columns: [],
         };
       },
     });

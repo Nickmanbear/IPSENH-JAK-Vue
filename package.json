@@ -64,6 +64,8 @@
   ],
   "jest": {
     "preset": "@vue/cli-plugin-unit-jest",
-    "testResultsProcessor": "jest-sonar-reporter"
+    "testResultsProcessor": "jest-sonar-reporter",
+    "collectCoverage": true,
+    "collectCoverageFrom": ["**/*.{js,vue}", "!**/node_modules/**"]
   }
 }

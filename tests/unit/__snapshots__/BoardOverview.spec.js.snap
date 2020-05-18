@@ -5,43 +5,17 @@ exports[`Board.spec.js has the expected html structure 1`] = `
   class="overview"
 >
   <h1>
-    Choose ur board
+    Choose your board
   </h1>
    
-  <div>
-    <router-link-stub
-      to="/board"
-    >
-      <div
-        id="boardprev"
-      >
-        <h2>
-          Board 1
-        </h2>
-      </div>
-    </router-link-stub>
-    <router-link-stub
-      to="/board"
-    >
-      <div
-        id="boardprev"
-      >
-        <h2>
-          Board 2
-        </h2>
-      </div>
-    </router-link-stub>
-    <router-link-stub
-      to="/board"
-    >
-      <div
-        id="boardprev"
-      >
-        <h2>
-          Board 3
-        </h2>
-      </div>
-    </router-link-stub>
-  </div>
+  <p>
+    this is a counter: 1
+  </p>
+   
+  <button>
+    +1
+  </button>
+   
+  <div />
 </div>
 `;
