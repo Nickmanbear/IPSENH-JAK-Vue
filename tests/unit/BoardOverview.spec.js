@@ -12,10 +12,16 @@ describe('Board.spec.js', () => {
             { boardId: 2, name: 'Board 2' },
             { boardId: 3, name: 'Board 3' },
           ],
+          counter: 0,
         };
       },
       stubs: ['router-link', 'router-view'],
     });
+    cmp.find('button').trigger('click');
+  });
+
+  it('test button click', () => {
+    expect(cmp.find('p').text()).toEqual('this is a counter: 1');
   });
 
   it('has the expected html structure', () => {
