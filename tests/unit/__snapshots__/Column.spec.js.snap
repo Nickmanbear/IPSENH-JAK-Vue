@@ -18,8 +18,10 @@ exports[`Column.spec.js has the expected html structure 1`] = `
     id="cards"
   />
    
-  <a>
+  <button>
     + Add card
-  </a>
+  </button>
+   
+  <!---->
 </div>
 `;
