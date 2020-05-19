@@ -5,9 +5,14 @@
     <button v-if="editingName" @click="saveName">save</button>
     <button @click="deleteColumn">X</button>
     <div id="cards">
-      <Card v-for="card in cards" :key="card.id" v-bind:card="card" />
+      <Card v-for="card in cards" :key="card.id" v-bind:card="card" @deleted="removeCard()" />
     </div>
-    <a>+ Add card</a>
+    <button v-if="!creatingCard" @click="creatingCard = true">+ Add card</button>
+    <input v-else
+      v-model="newCardName"
+      @keydown.enter="createCard" @keydown.esc="creatingCard = false"
+      type="text">
+    <button v-if="creatingCard" @click="createCard">save</button>
   </div>
 </template>
 
@@ -22,12 +27,18 @@ export default {
     Card,
   },
   props: {
-    column: Object,
+    column: {
+      id: 0,
+      boardId: 0,
+      name: '',
+    },
   },
   data() {
     return {
       cards: [],
+      newCardName: '',
       editingName: false,
+      creatingCard: false,
     };
   },
   mounted() {
@@ -58,6 +69,26 @@ export default {
         '/column',
         this.column,
       );
+    },
+    createCard() {
+      this.creatingCard = false;
+      if (this.newCardName.length > 0) {
+        axios.post(
+          '/card',
+          {
+            id: 0,
+            columnId: this.column.id,
+            name: this.newCardName,
+            description: '',
+          },
+        ).then((response) => {
+          this.cards.push(response.data);
+          this.newCardName = '';
+        });
+      }
+    },
+    removeCard() {
+      this.getCards(); // TODO: Remove from array instead
     },
   },
 };

@@ -1,6 +1,8 @@
 <template>
   <div id="card">
-    <p>{{ card.name }}</p>
+    <h3 v-if="!editingName" @click="editingName = true">{{ card.name }}</h3>
+    <input v-else v-model="card.name" @keydown.enter="saveName" type="text">
+    <button v-if="editingName" @click="saveName">save</button>
     <p>{{ card.description }}</p>
     <p>Priority</p>
     <p>Point</p>
@@ -10,10 +12,26 @@
 </template>
 
 <script>
+import axios from '@/axiosInstance';
+
 export default {
   name: 'Home',
   props: {
     card: Object,
+  },
+  data() {
+    return {
+      editingName: false,
+    };
+  },
+  methods: {
+    saveName() {
+      this.editingName = false;
+      axios.post(
+        '/card',
+        this.card,
+      );
+    },
   },
 };
 </script>
