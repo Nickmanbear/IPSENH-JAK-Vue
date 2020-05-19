@@ -1,6 +1,6 @@
 <template>
   <div class="overview">
-    <h1>Choose ur board</h1>
+    <h1>Choose your board</h1>
     <div v-if="boards.length > 0">
       <BoardPreview
         v-for="board in boards" :key="board.id"

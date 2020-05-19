@@ -1,6 +1,10 @@
 import { shallowMount } from '@vue/test-utils';
 import Column from '@/components/Column.vue';
 
+jest.mock('axios', () => ({
+  create: () => ({ get: () => Promise.resolve({ data: [] }) }),
+}));
+
 describe('Column.spec.js', () => {
   let cmp;
 
