@@ -1,6 +1,8 @@
 import { shallowMount } from '@vue/test-utils';
 import Board from '@/views/Board.vue';
 
+const $route = { params: { id: 1 } };
+
 jest.mock('axios', () => ({
   create: () => ({ get: () => Promise.resolve({ data: [] }) }),
 }));
@@ -10,6 +12,9 @@ describe('Board.spec.js', () => {
 
   beforeEach(() => {
     cmp = shallowMount(Board, {
+      mocks: {
+        $route,
+      },
       data() {
         return {
           boardId: 5,

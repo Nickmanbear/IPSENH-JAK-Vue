@@ -54,7 +54,7 @@ export default {
           name: newBoardName,
         },
       ).then((response) => {
-        this.columns.push(response.data);
+        this.boards.push(response.data);
       }).catch((error) => {
         // TODO: maak een foutmelding ofzo
         console.log(error);
