@@ -36,14 +36,10 @@ export default {
   },
   methods: {
     getColumns() {
-      axios.get('/column')
+      axios.get(`/column/board/${this.$route.params.id}`)
         .then((response) => {
           this.columns = [];
-          response.data.forEach((column) => {
-            if (column.boardId === this.$route.params.id) {
-              this.columns.push(column);
-            }
-          });
+          this.columns = response.data;
         })
         .catch((error) => {
           // TODO: maak een foutmelding ofzo

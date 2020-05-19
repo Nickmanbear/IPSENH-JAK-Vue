@@ -2,8 +2,8 @@
   <div id="card">
     <p>{{ card.name }}</p>
     <p>{{ card.description }}</p>
-    <p>Priority</p>
-    <p>Point</p>
+    <p>Priority: {{ card.priority }}</p>
+    <p>Points: {{ card.points}}</p>
     <p>Tag</p>
     <p>Task</p>
   </div>

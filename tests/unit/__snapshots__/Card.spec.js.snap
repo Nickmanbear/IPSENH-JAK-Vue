@@ -13,11 +13,11 @@ exports[`Card.spec.js has the expected html structure 1`] = `
   </p>
    
   <p>
-    Priority
+    Priority: 
   </p>
    
   <p>
-    Point
+    Points: 
   </p>
    
   <p>

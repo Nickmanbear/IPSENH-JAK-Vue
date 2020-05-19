@@ -31,14 +31,10 @@ export default {
   },
   methods: {
     getCards() {
-      axios.get('/card')
+      axios.get(`/card/column/${this.column.id}`)
         .then((response) => {
           this.cards = [];
-          response.data.forEach((card) => {
-            if (card.columnId === this.column.id) {
-              this.cards.push(card);
-            }
-          });
+          this.cards = response.data;
         })
         .catch((error) => {
           // TODO: maak een foutmelding ofzo
