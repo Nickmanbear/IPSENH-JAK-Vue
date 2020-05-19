@@ -39,15 +39,15 @@ export default {
   },
   async mounted() {
     await this.getBoard();
-    this.getColumns(this.board.id);
+    this.getColumns();
   },
   methods: {
-    getColumns(boardId) {
+    getColumns() {
       axios.get('/column')
         .then((response) => {
           this.columns = [];
           response.data.forEach((column) => {
-            if (column.boardId === boardId) {
+            if (column.boardId === this.board.id) {
               this.columns.push(column);
             }
           });
@@ -78,13 +78,14 @@ export default {
         },
       ).then((response) => {
         this.columns.push(response.data);
+        this.newColumnName = '';
       }).catch((error) => {
         // TODO: maak een foutmelding ofzo
         console.log(error);
       });
     },
     removeColumn() {
-      this.getColumns(this.board.id); // TODO: Remove from array instead
+      this.getColumns(); // TODO: Remove from array instead
     },
   },
 };
