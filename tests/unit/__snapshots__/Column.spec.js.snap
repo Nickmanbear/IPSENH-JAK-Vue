@@ -8,6 +8,12 @@ exports[`Column.spec.js has the expected html structure 1`] = `
     test column
   </h2>
    
+  <!---->
+   
+  <button>
+    X
+  </button>
+   
   <div
     id="cards"
   />
