@@ -8,12 +8,22 @@ exports[`Board.spec.js has the expected html structure 1`] = `
     board1
   </h1>
    
-  <button>
-    Edit
-  </button>
+  <!---->
    
   <div
     id="columns"
-  />
+  >
+     
+    <div>
+      <input
+        placeholder="New column name"
+        type="text"
+      />
+       
+      <button>
+        Create new column
+      </button>
+    </div>
+  </div>
 </div>
 `;
