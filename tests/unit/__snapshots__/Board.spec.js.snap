@@ -5,8 +5,12 @@ exports[`Board.spec.js has the expected html structure 1`] = `
   class="board"
 >
   <h1>
-    Boardname
+    board1
   </h1>
+   
+  <button>
+    Edit
+  </button>
    
   <div
     id="columns"

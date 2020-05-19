@@ -17,12 +17,9 @@ const routes = [
     component: BoardOverview,
   },
   {
-    path: '/board',
+    path: '/board/:id',
     name: 'Board',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "board" */ '../views/Board.vue'),
+    component: () => import('../views/Board.vue'),
   },
 ];
 

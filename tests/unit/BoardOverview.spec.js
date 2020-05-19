@@ -20,11 +20,6 @@ describe('Board.spec.js', () => {
       },
       stubs: ['router-link', 'router-view'],
     });
-    cmp.find('button').trigger('click');
-  });
-
-  it('test button click', () => {
-    expect(cmp.find('p').text()).toEqual('this is a counter: 1');
   });
 
   it('has the expected html structure', () => {

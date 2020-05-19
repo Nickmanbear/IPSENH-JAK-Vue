@@ -7,13 +7,10 @@
 
 <style lang="scss">
   #nav {
-    background-color: #ccc;
+    background-color: #cccccc;
     height: 40px;
     margin: 0;
     width: 100%;
-    top: 0;
-    left: 0;
-    position: absolute;
     text-align: center;
 
     a {

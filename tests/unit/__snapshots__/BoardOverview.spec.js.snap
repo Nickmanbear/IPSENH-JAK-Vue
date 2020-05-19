@@ -9,13 +9,7 @@ exports[`Board.spec.js has the expected html structure 1`] = `
   </h1>
    
   <p>
-    this is a counter: 1
+    Loading...
   </p>
-   
-  <button>
-    +1
-  </button>
-   
-  <div />
 </div>
 `;

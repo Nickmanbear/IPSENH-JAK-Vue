@@ -1,10 +1,15 @@
 <template>
   <div class="overview">
     <h1>Choose your board</h1>
-    <p>this is a counter: {{ counter }}</p>
-    <button v-on:click="plusCounter">+1</button>
-    <div v-if="boards !== []">
-      <BoardPreview v-for="board in boards" :key="board.id" v-bind:board="board"/>
+    <div v-if="boards.length > 0">
+      <BoardPreview
+        v-for="board in boards" :key="board.id"
+        v-bind:board="board"
+        @deleted="removeBoardPreview()"/>
+      <div>
+        <input v-model="newBoardName" type="text" placeholder="New board name">
+        <button @click="createBoard(newBoardName)">Create new board</button>
+      </div>
     </div>
     <p v-else>Loading...</p>
   </div>
@@ -23,23 +28,40 @@ export default {
   data() {
     return {
       boards: [],
-      counter: 0,
+      newBoardName: '',
     };
   },
-  async mounted() {
-    this.boards = await this.getBoards();
+  mounted() {
+    this.getBoards();
   },
   methods: {
     getBoards() {
-      return axios.get('/board')
-        .then((response) => response.data)
+      axios.get('/board')
+        .then((response) => {
+          this.boards = response.data;
+        })
         .catch((error) => {
           // TODO: maak een foutmelding ofzo
           console.log(error);
         });
     },
-    plusCounter() {
-      this.counter += 1;
+    createBoard(newBoardName) {
+      axios.post(
+        '/board',
+        {
+          id: 0,
+          userId: 1, // TODO: Make current user_id
+          name: newBoardName,
+        },
+      ).then((response) => {
+        this.boards.push(response.data);
+      }).catch((error) => {
+        // TODO: maak een foutmelding ofzo
+        console.log(error);
+      });
+    },
+    removeBoardPreview() {
+      this.getBoards(); // TODO: Remove from array instead
     },
   },
 };
