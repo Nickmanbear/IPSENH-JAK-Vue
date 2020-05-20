@@ -12,12 +12,14 @@ describe('Card.spec.js', () => {
           columnId: 1,
           name: 'test card',
           description: 'test description for the card',
+          priority: 'high',
+          points: 5,
         },
       },
     });
   });
 
-  it('equals name to "test card"', () => {
+  it('equals test description', () => {
     expect(cmp.find('p').text()).toEqual('test description for the card');
   });
 
