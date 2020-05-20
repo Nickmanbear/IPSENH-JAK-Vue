@@ -14,13 +14,19 @@ exports[`Card.spec.js has the expected html structure 1`] = `
     test description for the card
   </p>
    
-  <p>
-    Priority: 
-  </p>
+  <!---->
    
   <p>
-    Points: 
+    Priority: high
   </p>
+   
+  <!---->
+   
+  <p>
+    Points: 5
+  </p>
+   
+  <!---->
    
   <p>
     Tag

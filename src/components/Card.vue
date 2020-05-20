@@ -1,11 +1,21 @@
 <template>
   <div id="card">
-    <h3 v-if="!editingName" @click="editingName = true">{{ card.name }}</h3>
-    <input v-else v-model="card.name" @keydown.enter="saveName" type="text">
-    <button v-if="editingName" @click="saveName">save</button>
-    <p>{{ card.description }}</p>
-    <p>Priority: {{ card.priority }}</p>
-    <p>Points: {{ card.points}}</p>
+    <h3 v-if="!editing.name" @click="edit('name')">{{ card.name }}</h3>
+    <input v-else v-model="card.name" @keydown.enter="save" type="text">
+    <button v-if="editing.name" @click="save">save</button>
+
+    <p v-if="!editing.description" @click="edit('description')">{{ card.description }}</p>
+    <input v-else v-model="card.description" @keydown.enter="save" type="text">
+    <button v-if="editing.description" @click="save">save</button>
+
+    <p v-if="!editing.priority" @click="edit('priority')">Priority: {{ card.priority }}</p>
+    <input v-else v-model="card.priority" @keydown.enter="save" type="text">
+    <button v-if="editing.priority" @click="save">save</button>
+
+    <p v-if="!editing.points" @click="edit('points')">Points: {{ card.points}}</p>
+    <input v-else v-model="card.points" @keydown.enter="save" type="number">
+    <button v-if="editing.points" @click="save">save</button>
+
     <p>Tag</p>
     <p>Task</p>
   </div>
@@ -21,12 +31,27 @@ export default {
   },
   data() {
     return {
-      editingName: false,
+      editing: {
+        name: false,
+        description: false,
+        priority: false,
+        points: false,
+      },
     };
   },
   methods: {
-    saveName() {
-      this.editingName = false;
+    edit(obj) {
+      this.editing.name = false;
+      this.editing.description = false;
+      this.editing.priority = false;
+      this.editing.points = false;
+      this.editing[obj] = true;
+    },
+    save() {
+      this.editing.name = false;
+      this.editing.description = false;
+      this.editing.priority = false;
+      this.editing.points = false;
       axios.post(
         '/card',
         this.card,
