@@ -16,7 +16,14 @@ exports[`Column.spec.js has the expected html structure 1`] = `
    
   <div
     id="cards"
-  />
+  >
+    <draggable-stub
+      clone="function(t){return t}"
+      element="div"
+      group="cards"
+      value=""
+    />
+  </div>
    
   <button>
     + Add card

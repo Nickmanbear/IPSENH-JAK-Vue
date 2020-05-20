@@ -5,7 +5,9 @@
     <button v-if="editingName" @click="saveName">save</button>
     <button @click="deleteColumn">X</button>
     <div id="cards">
-      <Card v-for="card in cards" :key="card.id" v-bind:card="card" @deleted="removeCard()" />
+      <draggable v-model="cards" group="cards" @add="moveCard($event)">
+        <Card v-for="card in cards" :key="card.id" v-bind:card="card" @deleted="removeCard()" />
+      </draggable>
     </div>
     <button v-if="!creatingCard" @click="creatingCard = true">+ Add card</button>
     <input v-else
@@ -19,11 +21,13 @@
 <script>
 // @ is an alias to /src
 import Card from '@/components/CardPreview.vue';
+import draggable from 'vuedraggable';
 import axios from '@/axiosInstance';
 
 export default {
   name: 'Home',
   components: {
+    draggable,
     Card,
   },
   props: {
@@ -85,6 +89,12 @@ export default {
     removeCard() {
       this.getCards(); // TODO: Remove from array instead
     },
+    moveCard(event) {
+      // eslint-disable-next-line no-underscore-dangle
+      const card = event.item._underlying_vm_;
+      card.columnId = this.column.id;
+      axios.post('/card', card);
+    },
   },
 };
 </script>
@@ -111,9 +121,9 @@ export default {
     max-height: 70vh;
     overflow: scroll;
     -ms-overflow-style: none;
-  }
 
-  #cards::-webkit-scrollbar {
-    display: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 </style>
