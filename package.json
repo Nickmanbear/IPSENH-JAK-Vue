@@ -11,9 +11,10 @@
   "dependencies": {
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
+    "node": "latest",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
-    "node": "latest"
+    "vuedraggable": "^2.23.2"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",
@@ -68,6 +69,9 @@
     "preset": "@vue/cli-plugin-unit-jest",
     "testResultsProcessor": "jest-sonar-reporter",
     "collectCoverage": true,
-    "collectCoverageFrom": ["./src/**/*.{js,vue}", "!**/node_modules/**"]
+    "collectCoverageFrom": [
+      "./src/**/*.{js,vue}",
+      "!**/node_modules/**"
+    ]
   }
 }
