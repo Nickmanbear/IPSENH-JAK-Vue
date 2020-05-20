@@ -4,8 +4,8 @@
     <input v-else v-model="card.name" @keydown.enter="saveName" type="text">
     <button v-if="editingName" @click="saveName">save</button>
     <p>{{ card.description }}</p>
-    <p>Priority</p>
-    <p>Point</p>
+    <p>Priority: {{ card.priority }}</p>
+    <p>Points: {{ card.points}}</p>
     <p>Tag</p>
     <p>Task</p>
   </div>
