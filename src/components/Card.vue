@@ -1,20 +1,20 @@
 <template>
   <div id="card">
-    <h3 v-if="!editing.name" @click="edit('name')">{{ card.name }}</h3>
+    <h3 v-if="editing !== 'name'" @click="editing = 'name'">{{ card.name }}</h3>
     <input v-else v-model="card.name" @keydown.enter="save" type="text">
-    <button v-if="editing.name" @click="save">save</button>
+    <button v-if="editing === 'name'" @click="save">save</button>
 
-    <p v-if="!editing.description" @click="edit('description')">{{ card.description }}</p>
+    <p v-if="editing !== 'description'" @click="editing = 'description'">{{ card.description }}</p>
     <input v-else v-model="card.description" @keydown.enter="save" type="text">
-    <button v-if="editing.description" @click="save">save</button>
+    <button v-if="editing === 'description'" @click="save">save</button>
 
-    <p v-if="!editing.priority" @click="edit('priority')">Priority: {{ card.priority }}</p>
+    <p v-if="editing !== 'priority'" @click="editing = 'priority'">Priority: {{ card.priority }}</p>
     <input v-else v-model="card.priority" @keydown.enter="save" type="text">
-    <button v-if="editing.priority" @click="save">save</button>
+    <button v-if="editing === 'priority'" @click="save">save</button>
 
-    <p v-if="!editing.points" @click="edit('points')">Points: {{ card.points}}</p>
+    <p v-if="editing !== 'points'" @click="editing = 'points'">Points: {{ card.points}}</p>
     <input v-else v-model="card.points" @keydown.enter="save" type="number">
-    <button v-if="editing.points" @click="save">save</button>
+    <button v-if="editing === 'points'" @click="save">save</button>
 
     <p>Tag</p>
     <p>Task</p>
@@ -31,27 +31,12 @@ export default {
   },
   data() {
     return {
-      editing: {
-        name: false,
-        description: false,
-        priority: false,
-        points: false,
-      },
+      editing: null,
     };
   },
   methods: {
-    edit(obj) {
-      this.editing.name = false;
-      this.editing.description = false;
-      this.editing.priority = false;
-      this.editing.points = false;
-      this.editing[obj] = true;
-    },
     save() {
-      this.editing.name = false;
-      this.editing.description = false;
-      this.editing.priority = false;
-      this.editing.points = false;
+      this.editing = null;
       axios.post(
         '/card',
         this.card,
