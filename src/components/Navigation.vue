@@ -1,17 +1,14 @@
 <template>
   <div id="nav">
-    <router-link to="/b">Board Overview</router-link> |
-    <router-link to="/board">Board</router-link>
+    <router-link to="/">Board Overview</router-link>
   </div>
 </template>
 
 <style lang="scss">
   #nav {
     background-color: #cccccc;
-    height: 40px;
-    margin: 0;
     width: 100%;
-    text-align: center;
+    padding: 8px;
 
     a {
       font-weight: bold;

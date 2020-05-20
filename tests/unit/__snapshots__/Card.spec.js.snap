@@ -4,9 +4,11 @@ exports[`Card.spec.js has the expected html structure 1`] = `
 <div
   id="card"
 >
-  <p>
+  <h3>
     test card
-  </p>
+  </h3>
+   
+  <!---->
    
   <p>
     test description for the card

@@ -18,7 +18,7 @@ describe('Card.spec.js', () => {
   });
 
   it('equals name to "test card"', () => {
-    expect(cmp.find('p').text()).toEqual('test card');
+    expect(cmp.find('p').text()).toEqual('test description for the card');
   });
 
   it('has the expected html structure', () => {

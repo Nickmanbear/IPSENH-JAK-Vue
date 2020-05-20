@@ -1,10 +1,18 @@
 <template>
   <div id="column">
-    <h2>{{ column.name }}</h2>
+    <h2 v-if="!editingName" @click="editingName = true">{{ column.name }}</h2>
+    <input v-else v-model="column.name" @keydown.enter="saveName" type="text">
+    <button v-if="editingName" @click="saveName">save</button>
+    <button @click="deleteColumn">X</button>
     <div id="cards">
-      <Card v-for="card in cards" :key="card.id" v-bind:card="card" />
+      <Card v-for="card in cards" :key="card.id" v-bind:card="card" @deleted="removeCard()" />
     </div>
-    <a>+ Add card</a>
+    <button v-if="!creatingCard" @click="creatingCard = true">+ Add card</button>
+    <input v-else
+      v-model="newCardName"
+      @keydown.enter="createCard" @keydown.esc="creatingCard = false"
+      type="text">
+    <button v-if="creatingCard" @click="createCard">save</button>
   </div>
 </template>
 
@@ -19,11 +27,18 @@ export default {
     Card,
   },
   props: {
-    column: Object,
+    column: {
+      id: 0,
+      boardId: 0,
+      name: '',
+    },
   },
   data() {
     return {
       cards: [],
+      newCardName: '',
+      editingName: false,
+      creatingCard: false,
     };
   },
   mounted() {
@@ -33,13 +48,42 @@ export default {
     getCards() {
       axios.get(`/card/column/${this.column.id}`)
         .then((response) => {
-          this.cards = [];
           this.cards = response.data;
         })
         .catch((error) => {
           // TODO: maak een foutmelding ofzo
           console.log(error);
         });
+    },
+    deleteColumn() {
+      axios.delete(`column/${this.column.id}`).then(() => this.$emit('deleted'));
+    },
+    saveName() {
+      this.editingName = false;
+      axios.post(
+        '/column',
+        this.column,
+      );
+    },
+    createCard() {
+      this.creatingCard = false;
+      if (this.newCardName.length > 0) {
+        axios.post(
+          '/card',
+          {
+            id: 0,
+            columnId: this.column.id,
+            name: this.newCardName,
+            description: '',
+          },
+        ).then((response) => {
+          this.cards.push(response.data);
+          this.newCardName = '';
+        });
+      }
+    },
+    removeCard() {
+      this.getCards(); // TODO: Remove from array instead
     },
   },
 };
@@ -60,6 +104,7 @@ export default {
 
   h2 {
     margin: 5px 0;
+    display: inline-block;
   }
 
   #cards {
