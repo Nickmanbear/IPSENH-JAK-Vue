@@ -9,7 +9,7 @@
               @deleted="removeColumn()"/>
       <div>
         <input v-model="newColumnName" type="text" placeholder="New column name">
-        <button @click="createColumn(newColumnName)">Create new column</button>
+        <button @click="createColumn()">Create new column</button>
       </div>
     </div>
   </div>
@@ -46,10 +46,6 @@ export default {
       axios.get(`/column/board/${this.$route.params.id}`)
         .then((response) => {
           this.columns = response.data;
-        })
-        .catch((error) => {
-          // TODO: maak een foutmelding ofzo
-          console.log(error);
         });
     },
     saveName() {
@@ -63,20 +59,17 @@ export default {
       this.board = await axios.get(`/board/${this.$route.params.id}`)
         .then((response) => response.data);
     },
-    createColumn(newColumnName) {
+    createColumn() {
       axios.post(
         '/column',
         {
           id: 0,
           boardId: this.board.id,
-          name: newColumnName,
+          name: this.newColumnName,
         },
       ).then((response) => {
         this.columns.push(response.data);
         this.newColumnName = '';
-      }).catch((error) => {
-        // TODO: maak een foutmelding ofzo
-        console.log(error);
       });
     },
     removeColumn() {

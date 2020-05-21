@@ -53,10 +53,6 @@ export default {
       axios.get(`/card/column/${this.column.id}`)
         .then((response) => {
           this.cards = response.data;
-        })
-        .catch((error) => {
-          // TODO: maak een foutmelding ofzo
-          console.log(error);
         });
     },
     deleteColumn() {

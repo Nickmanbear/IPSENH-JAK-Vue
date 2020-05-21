@@ -8,7 +8,7 @@
         @deleted="removeBoardPreview()"/>
       <div>
         <input v-model="newBoardName" type="text" placeholder="New board name">
-        <button @click="createBoard(newBoardName)">Create new board</button>
+        <button @click="createBoard()">Create new board</button>
       </div>
     </div>
     <p v-else>Loading...</p>
@@ -39,26 +39,19 @@ export default {
       axios.get('/board')
         .then((response) => {
           this.boards = response.data;
-        })
-        .catch((error) => {
-          // TODO: maak een foutmelding ofzo
-          console.log(error);
         });
     },
-    createBoard(newBoardName) {
+    createBoard() {
       axios.post(
         '/board',
         {
           id: 0,
           userId: 1, // TODO: Make current user_id
-          name: newBoardName,
+          name: this.newBoardName,
         },
       ).then((response) => {
         this.boards.push(response.data);
         this.newBoardName = '';
-      }).catch((error) => {
-        // TODO: maak een foutmelding ofzo
-        console.log(error);
       });
     },
     removeBoardPreview() {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Card.spec.js has the expected html structure 1`] = `
+exports[`Card has the expected html structure 1`] = `
 <div
   id="card"
 >

@@ -11,8 +11,7 @@ env:
 - BUILD_DIR="~/builds/frontend-test/"
 cache: npm
 before_install:
-- openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv
-  -in id_rsa-travis-ci.enc -out id_rsa -d
+- openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv -in id_rsa-travis-ci.enc -out id_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 ./id_rsa
 - ssh-add ./id_rsa
