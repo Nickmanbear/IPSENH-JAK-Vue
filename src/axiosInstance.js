@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://backend-test.cherement.nl',
+  baseURL: process.env.VUE_APP_BACKEND_URL,
 });
 
 export default axiosInstance;

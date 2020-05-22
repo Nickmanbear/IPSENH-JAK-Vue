@@ -1,16 +1,25 @@
-import { mount } from '@vue/test-utils';
+import { shallowMount } from '@vue/test-utils';
 import BoardOverview from '@/views/BoardOverview.vue';
 
 const $route = { params: { id: 1 } };
 
 jest.mock('axios', () => ({
-  create: () => ({ get: () => Promise.resolve({ data: [] }) }),
+  create: () => ({
+    post: () => Promise.resolve({
+      data: {
+        id: 1,
+        userId: 1,
+        name: 'new board',
+      },
+    }),
+    get: () => Promise.resolve({ data: [] }),
+  }),
 }));
 
-describe('Board.spec.js', () => {
+describe('BoardOverview', () => {
   let cmp;
   beforeEach(async () => {
-    cmp = await mount(BoardOverview, {
+    cmp = await shallowMount(BoardOverview, {
       mocks: {
         $route,
       },
@@ -22,9 +31,24 @@ describe('Board.spec.js', () => {
           ],
           counter: 0,
         };
-      },
-      stubs: ['router-link', 'router-view'],
+      }
     });
+  });
+
+  it('should create a new board', async () => {
+    cmp.vm.newBoardName = 'new board';
+    await cmp.vm.createBoard();
+    expect(cmp.vm.boards).toEqual([{
+      id: 1,
+      userId: 1,
+      name: 'new board',
+    }]);
+  });
+
+  it('should reload its boards', async () => {
+    cmp.vm.boards = [{ test: 'test' }];
+    await cmp.vm.removeBoardPreview();
+    expect(cmp.vm.boards).toEqual([]);
   });
 
   it('has the expected html structure', () => {
