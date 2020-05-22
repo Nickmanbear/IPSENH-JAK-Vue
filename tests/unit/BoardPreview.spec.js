@@ -19,6 +19,7 @@ describe('BoardPreview', () => {
       },
       stubs: ['router-link'],
     });
+    window.confirm = jest.fn(() => true);
   });
 
   it('should delete itself', async () => {

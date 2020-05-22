@@ -26,7 +26,7 @@ describe('Card', () => {
   });
 
   it('equals test description', () => {
-    expect(cmp.find('p').text()).toEqual('test description for the card');
+    expect(cmp.findAll('p').at(1).text()).toEqual('test description for the card');
   });
 
   it('has the expected html structure', () => {

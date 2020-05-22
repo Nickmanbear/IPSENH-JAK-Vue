@@ -12,8 +12,10 @@ exports[`BoardPreview has the expected html structure 1`] = `
     </h2>
   </router-link-stub>
    
-  <button>
-    X
+  <button
+    id="delete"
+  >
+    ×
   </button>
 </div>
 `;

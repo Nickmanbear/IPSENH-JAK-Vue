@@ -10,8 +10,10 @@ exports[`Column has the expected html structure 1`] = `
    
   <!---->
    
-  <button>
-    X
+  <button
+    id="delete"
+  >
+    ×
   </button>
    
   <div
@@ -25,7 +27,9 @@ exports[`Column has the expected html structure 1`] = `
     />
   </div>
    
-  <button>
+  <button
+    id="create"
+  >
     + Add card
   </button>
    

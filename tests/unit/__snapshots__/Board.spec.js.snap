@@ -8,21 +8,18 @@ exports[`Board has the expected html structure 1`] = `
     
   </h1>
    
-  <!---->
-   
   <div
     id="columns"
   >
      
-    <div>
-      <input
-        placeholder="New column name"
-        type="text"
-      />
+    <div
+      id="createColumn"
+    >
+      <p>
+        + Add column
+      </p>
        
-      <button>
-        Create new column
-      </button>
+      <!---->
     </div>
   </div>
 </div>

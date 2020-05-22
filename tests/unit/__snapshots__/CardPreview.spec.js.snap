@@ -9,8 +9,10 @@ exports[`CardPreview has the expected html structure 1`] = `
       test card
     </p>
      
-    <button>
-      X
+    <button
+      id="delete"
+    >
+      ×
     </button>
   </div>
    
