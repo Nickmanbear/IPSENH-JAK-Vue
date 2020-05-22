@@ -75,6 +75,8 @@ export default {
             columnId: this.column.id,
             name: this.newCardName,
             description: '',
+            priority: '',
+            points: null,
           },
         ).then((response) => {
           this.cards.push(response.data);
