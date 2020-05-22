@@ -28,8 +28,7 @@ jobs:
   - stage: Deployment-Test.server
     if: branch = dev
     script:
-      - openssl aes-256-cbc -K $encrypted_1fa30fea3e9a_key -iv $encrypted_1fa30fea3e9a_iv -in .env-test.enc -out .env -d
-      - npm run build
+      - npm run build --mode staging
       - npm test
       - sonar-scanner
     deploy:
@@ -41,7 +40,6 @@ jobs:
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
     script:
-      - openssl aes-256-cbc -K $encrypted_81707c91e4f6_key -iv $encrypted_81707c91e4f6_iv -in .env-prod.enc -out .env -d
       - npm run build
       - npm test
       - sonar-scanner
