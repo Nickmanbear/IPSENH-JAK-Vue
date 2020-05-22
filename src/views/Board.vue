@@ -131,8 +131,8 @@ export default {
     }
 
     #createColumn {
-      background-color: #eee;
-      border: 1px solid #eee;
+      background-color: #f8f8f8;
+      border: 1px solid #f8f8f8;
       border-radius: 4px;
       padding: 5px 10px;
       margin: 5px;
@@ -140,7 +140,7 @@ export default {
       vertical-align: top;
       width: 240px;
       max-height: 80vh;
-      color: #666;
+      color: #888;
 
       p {
         padding-left: 10px;
@@ -153,7 +153,6 @@ export default {
         font-size: 1.5em;
         font-weight: bold;
         margin: 8px 5px 8px 0;
-        width: 80%;
       }
 
       button {
