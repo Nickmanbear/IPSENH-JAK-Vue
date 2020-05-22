@@ -28,7 +28,7 @@ jobs:
   - stage: Deployment-Test.server
     if: branch = dev
     script:
-      - npm run build --mode staging
+      - vue-cli-service build --mode staging
       - npm test
       - sonar-scanner
     deploy:
@@ -40,7 +40,7 @@ jobs:
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
     script:
-      - npm run build
+      - vue-cli-service build
       - npm test
       - sonar-scanner
     deploy:
