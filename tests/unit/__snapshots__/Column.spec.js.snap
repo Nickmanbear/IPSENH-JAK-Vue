@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Column.spec.js has the expected html structure 1`] = `
+exports[`Column has the expected html structure 1`] = `
 <div
   id="column"
 >

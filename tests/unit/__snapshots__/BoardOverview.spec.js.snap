@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Board.spec.js has the expected html structure 1`] = `
+exports[`BoardOverview has the expected html structure 1`] = `
 <div
   class="overview"
 >

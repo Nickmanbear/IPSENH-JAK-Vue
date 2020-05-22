@@ -14,7 +14,11 @@ import axios from '@/axiosInstance';
 export default {
   name: 'BoardPreview',
   props: {
-    board: Object,
+    board: {
+      id: 0,
+      userId: 0,
+      name: '',
+    },
   },
   methods: {
     deleteBoard() {

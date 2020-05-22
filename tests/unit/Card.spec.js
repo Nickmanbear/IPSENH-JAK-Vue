@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils';
 import Card from '@/components/Card.vue';
 
-describe('Card.spec.js', () => {
+describe('Card', () => {
   let cmp;
 
   beforeEach(() => {
@@ -17,6 +17,12 @@ describe('Card.spec.js', () => {
         },
       },
     });
+  });
+
+  it('should stop editing', () => {
+    cmp.vm.editing = 'name';
+    cmp.vm.save();
+    expect(cmp.vm.editing).toEqual(null);
   });
 
   it('equals test description', () => {
