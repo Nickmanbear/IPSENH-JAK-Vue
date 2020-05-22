@@ -2,7 +2,7 @@
   <div>
     <div id="cardprev">
       <p @click="toggleCard">{{ card.name }}</p>
-      <button @click="deleteCard">X</button>
+      <button id="delete" @click="deleteCard">&times;</button>
     </div>
     <Backdrop v-if="show" @clicked="toggleCard"/>
     <Card v-if="show" v-bind:card="card" v-on:close="toggleCard"/>
@@ -40,7 +40,10 @@ export default {
       this.show = !this.show;
     },
     deleteCard() {
-      axios.delete(`card/${this.card.id}`).then(() => this.$emit('deleted'));
+      if (window.confirm(`Do you really want to delete card '${this.card.name}'?`)) {
+        axios.delete(`card/${this.card.id}`)
+          .then(() => this.$emit('deleted'));
+      }
     },
   },
 };
@@ -65,8 +68,25 @@ export default {
 
     &:hover {
       background-color: #fbfbfb;
-      border: 1px solid #ddd;
       box-shadow: none;
+    }
+
+    #delete {
+      font-size: 1em;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 5px 10px;
+      position: relative;
+      float: right;
+      color: #eee;
+      margin: 5px 0;
+
+      &:hover {
+        color: red;
+        background-color: #f4f4f4;
+        border-radius: 50%;
+      }
     }
   }
 </style>

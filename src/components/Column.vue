@@ -3,13 +3,16 @@
     <h2 v-if="!editingName" @click="editingName = true">{{ column.name }}</h2>
     <input v-else v-model="column.name" @keydown.enter="saveName" type="text">
     <button v-if="editingName" @click="saveName">save</button>
-    <button @click="deleteColumn">X</button>
+
+    <button id="delete" @click="deleteColumn">&times;</button>
+
     <div id="cards">
       <draggable v-model="cards" group="cards" @add="moveCard($event)">
         <Card v-for="card in cards" :key="card.id" v-bind:card="card" @deleted="removeCard()" />
       </draggable>
     </div>
-    <button v-if="!creatingCard" @click="creatingCard = true">+ Add card</button>
+
+    <button id="create" v-if="!creatingCard" @click="creatingCard = true">+ Add card</button>
     <input v-else
       v-model="newCardName"
       @keydown.enter="createCard" @keydown.esc="creatingCard = false"
@@ -56,7 +59,10 @@ export default {
         });
     },
     deleteColumn() {
-      axios.delete(`column/${this.column.id}`).then(() => this.$emit('deleted'));
+      if (window.confirm(`Do you really want to delete column '${this.column.name}'?`)) {
+        axios.delete(`column/${this.column.id}`)
+          .then(() => this.$emit('deleted'));
+      }
     },
     saveName() {
       this.editingName = false;
@@ -101,27 +107,66 @@ export default {
   #column {
     background-color: #eee;
     border: 1px solid #eee;
-    border-radius: 3px;
+    border-radius: 4px;
     padding: 5px 10px;
     margin: 5px;
     display: inline-block;
     vertical-align: top;
     width: 240px;
     max-height: 80vh;
-  }
 
-  h2 {
-    margin: 5px 0;
-    display: inline-block;
-  }
+    h2 {
+      margin: 5px 0;
+      display: inline-block;
+    }
 
-  #cards {
-    max-height: 70vh;
-    overflow: scroll;
-    -ms-overflow-style: none;
+    #cards {
+      max-height: 70vh;
+      overflow: scroll;
+      -ms-overflow-style: none;
 
-    &::-webkit-scrollbar {
-      display: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    input, textarea {
+      border: none;
+      background-color: #f9f9f9;
+      font-family: Arial, serif;
+      font-size: 1em;
+      margin: 8px 5px 8px 0;
+    }
+
+    button {
+      border: none;
+      font-size: 0.8em;
+      padding: 3px 5px;
+      margin: 0;
+    }
+
+    #delete {
+      font-size: 1em;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 5px 10px;
+      position: relative;
+      float: right;
+      color: #ddd;
+      top: 5px;
+
+      &:hover {
+        color: red;
+        background-color: #f4f4f4;
+        border-radius: 50%;
+      }
+    }
+
+    #create {
+      color: #666;
+      background-color: transparent;
+      padding: 10px 5px;
     }
   }
 </style>

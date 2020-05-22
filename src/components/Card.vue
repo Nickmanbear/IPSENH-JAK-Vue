@@ -112,12 +112,12 @@ export default {
       position: absolute;
       top: 10px;
       right: 10px;
-    }
 
-    #close:hover {
-      color: red;
-      background-color: #f4f4f4;
-      border-radius: 50%;
+      &:hover {
+        color: red;
+        background-color: #f4f4f4;
+        border-radius: 50%;
+      }
     }
   }
 </style>
