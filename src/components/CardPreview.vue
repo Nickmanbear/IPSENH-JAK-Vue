@@ -5,7 +5,7 @@
       <button @click="deleteCard">X</button>
     </div>
     <Backdrop v-if="show" @clicked="toggleCard"/>
-    <Card v-if="show" v-bind:card="card"/>
+    <Card v-if="show" v-bind:card="card" v-on:close="toggleCard"/>
   </div>
 </template>
 
@@ -26,6 +26,8 @@ export default {
       columnId: 0,
       name: '',
       description: '',
+      priority: '',
+      points: null,
     },
   },
   data() {
