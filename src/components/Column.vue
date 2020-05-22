@@ -130,12 +130,14 @@ export default {
       }
     }
 
-    input, textarea {
+    input {
       border: none;
       background-color: #f9f9f9;
       font-family: Arial, serif;
-      font-size: 1em;
+      font-size: 1.5em;
+      font-weight: bold;
       margin: 8px 5px 8px 0;
+      width: 80%;
     }
 
     button {
