@@ -9,8 +9,9 @@ addons:
       secure: MljEs5al1mEuS/pFNy/JrENA5C7BEqR0RA+1GTPLEG2dFZp86UfmC3hBUAXRMlJ/1f5ydoGK7oAxzC4R2kT/8f3AQM9CXWsD4ccvJp9VspqTE6OaZ495CW+nmycWyL5Vq1xXqnvV8gJMJ8BGdrdU/5deh9JDioqVvKlCdDdFpz3oUMWvs6W+yvYtwNjEczOlqDlEnL1Cnk/I2l0mREGvl/41CpUjWIkG1PhdcEMJrXAqJNY5GsB9R+gUHPcreCviLEF4+wQLWSb+AyRvvXLLKHGyyz522a77gvGE0BXQIjW+jh4wZySjik4QYp55oqwvdWlBS3YjzER1IPnmNKkS0x0BUjDSDOTc/eEV5rDkNXuL4Ul50pLX/F8gio2yyHvJKHQzVzRpjOJyXq3aIWqn00F8I50WZRPzPW4K1VuaPlVKLfzjoLNZAMmp7GMEAjk+SH9ebGq9WfJBF6eITj23TtW4M7e50v57IrSw6OLtRp9BBfFzrOQ5qQ8YSM0M+x/oon+PJUWIa2L7ZUP5L6drPvmV1spVUU9iqu/teSnNk2OwsLSI9+fHyqXUM0yQf/koUFvF8Ss2JYlBCzRRkXHbwmOoahKTyHmj1F4RfYIiQrOchYzKoKk1FPnu6QM8nCCb09ygPrMS0Y5kIsElUEn1EVNUiMZN3MZ1GPAI4bpL71Y=
 env:
 - BUILD_DIR="~/builds/frontend-test/"
-cache: npm
-before_install:
+services:
+- docker
+before_deploy:
 - openssl aes-256-cbc -K $encrypted_c28ab4f155ee_key -iv $encrypted_c28ab4f155ee_iv -in id_rsa-travis-ci.enc -out id_rsa -d
 - eval "$(ssh-agent -s)"
 - chmod 600 ./id_rsa
@@ -19,18 +20,14 @@ before_install:
 - echo $BUILD_DIR
 - ssh -i ./id_rsa travis-ci@swarm.cherement.nl pwd
 - docker login swarm.cherement.nl:5000 -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-install:
-- npm i
-services:
-- docker
 jobs:
   include:
   - stage: Deployment-Test.server
     if: branch = dev
     script:
-      - vue-cli-service build --mode staging
       - npm test
       - sonar-scanner
+      - vue-cli-service build --mode staging
     deploy:
       provider: script
       skip_cleanup: true
@@ -40,9 +37,9 @@ jobs:
     env:
     - BUILD_DIR="~/builds/frontend-prod/"
     script:
-      - vue-cli-service build
       - npm test
       - sonar-scanner
+      - vue-cli-service build
     deploy:
       provider: script
       skip_cleanup: true
