@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Board has the expected html structure 1`] = `
+<div
+  class="board"
+>
+  <h1>
+    
+  </h1>
+   
+  <div
+    id="columns"
+  >
+     
+    <div
+      id="createColumn"
+    >
+      <p>
+        + Add column
+      </p>
+       
+      <!---->
+    </div>
+  </div>
+</div>
+`;

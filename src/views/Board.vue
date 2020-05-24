@@ -1,0 +1,166 @@
+<template>
+  <div class="board">
+    <h1 v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
+    <div id="title" v-else>
+      <input v-model="board.name" @keydown.enter="saveName" type="text">
+      <button @click="saveName">save</button>
+    </div>
+    <div id="columns">
+      <Column v-for="column in columns" :key="column.id"
+              v-bind:column="column"
+              @deleted="removeColumn()"/>
+      <div id="createColumn">
+        <p v-if="!editingNewColumn" @click="editingNewColumn = true">+ Add column</p>
+        <input v-else v-model="newColumnName" type="text"
+               @keydown.enter="createColumn" @keydown.esc="editingNewColumn = false">
+        <button v-if="editingNewColumn" @click="createColumn()">Add</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+// @ is an alias to /src
+import Column from '@/components/Column.vue';
+import axios from '@/axiosInstance';
+
+export default {
+  name: 'Home',
+  components: {
+    Column,
+  },
+  data() {
+    return {
+      board: {
+        id: 0,
+        userId: 0,
+        name: 'board1',
+      },
+      columns: [],
+      editingName: false,
+      editingNewColumn: false,
+      newColumnName: '',
+    };
+  },
+  async mounted() {
+    await this.getBoard();
+    this.getColumns();
+  },
+  methods: {
+    getColumns() {
+      axios.get(`/column/board/${this.$route.params.id}`)
+        .then((response) => {
+          this.columns = response.data;
+        });
+    },
+    saveName() {
+      this.editingName = false;
+      axios.post(
+        '/board',
+        this.board,
+      );
+    },
+    async getBoard() {
+      this.board = await axios.get(`/board/${this.$route.params.id}`)
+        .then((response) => response.data);
+    },
+    createColumn() {
+      axios.post(
+        '/column',
+        {
+          id: 0,
+          boardId: this.board.id,
+          name: this.newColumnName,
+        },
+      ).then((response) => {
+        this.columns.push(response.data);
+        this.newColumnName = '';
+      });
+    },
+    removeColumn() {
+      this.getColumns(); // TODO: Remove from array instead
+    },
+  },
+};
+</script>
+
+<style lang="scss">
+  .board {
+    padding: 0 10px;
+
+    h1 {
+      padding: 0;
+      margin: 0 0 5px 10px;
+    }
+
+    input {
+      border: none;
+      background-color: #f9f9f9;
+      font-family: Arial, serif;
+      font-size: 1em;
+      margin: 8px 5px 8px 0;
+    }
+
+    button {
+      border: none;
+      font-size: 0.8em;
+      padding: 3px 5px;
+      margin: 0;
+    }
+
+    #title {
+      input {
+        font-size: 2em;
+        font-weight: bold;
+        margin: 0 5px 5px 10px;
+      }
+
+      button {
+        font-size: 1em;
+      }
+    }
+  }
+
+  #columns {
+    overflow: auto;
+    white-space: nowrap;
+    -ms-overflow-style: none;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    #createColumn {
+      background-color: #f8f8f8;
+      border: 1px solid #f8f8f8;
+      border-radius: 4px;
+      padding: 5px 10px;
+      margin: 5px;
+      display: inline-block;
+      vertical-align: top;
+      width: 240px;
+      max-height: 80vh;
+      color: #888;
+
+      p {
+        padding-left: 10px;
+      }
+
+      input {
+        border: none;
+        background-color: #f9f9f9;
+        font-family: Arial, serif;
+        font-size: 1.5em;
+        font-weight: bold;
+        margin: 8px 5px 8px 0;
+      }
+
+      button {
+        border: none;
+        font-size: 0.8em;
+        padding: 3px 5px;
+        margin: 0;
+      }
+    }
+  }
+</style>
