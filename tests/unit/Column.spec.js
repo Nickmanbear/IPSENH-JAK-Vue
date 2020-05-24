@@ -29,6 +29,7 @@ describe('Column', () => {
         },
       },
     });
+    window.confirm = jest.fn(() => true);
   });
 
   it('should delete itself', async () => {

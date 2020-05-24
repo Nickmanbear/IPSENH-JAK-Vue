@@ -7,7 +7,7 @@
 <style lang="scss">
   #nav {
     background-color: #cccccc;
-    width: 100%;
+    width: calc(100% - 16px);
     padding: 8px;
 
     a {

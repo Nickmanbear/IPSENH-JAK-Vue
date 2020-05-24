@@ -15,10 +15,11 @@ describe('CardPreview', () => {
           id: 5,
           columnId: 1,
           name: 'test card',
-          description: 'test description for the card'
+          description: 'test description for the card',
         },
       },
     });
+    window.confirm = jest.fn(() => true);
   });
 
   it('should toggle the card modal', () => {
