@@ -59,7 +59,7 @@ export default {
       padding: 5px 10px;
       position: relative;
       float: right;
-      color: #ddd;
+      color: #ccc;
       margin: 5px 0;
 
       &:hover {

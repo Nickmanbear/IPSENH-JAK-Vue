@@ -106,6 +106,7 @@ export default {
     #close {
       font-size: 1em;
       border: none;
+      color: #ccc;
       background-color: transparent;
       cursor: pointer;
       padding: 5px 10px;
