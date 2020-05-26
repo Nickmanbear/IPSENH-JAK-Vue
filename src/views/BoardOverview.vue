@@ -45,6 +45,7 @@ export default {
         });
     },
     createBoard() {
+      this.editingNewBoard = false;
       axios.post(
         '/board',
         {

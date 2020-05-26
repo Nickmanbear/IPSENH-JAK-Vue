@@ -5,6 +5,14 @@
       <input v-model="board.name" @keydown.enter="saveName" type="text">
       <button @click="saveName">save</button>
     </div>
+
+    <div id="add-user-button" @click="addingUser = !addingUser">
+      <span>+</span>
+      <span> Add user</span>
+    </div>
+
+    <AddUser v-if="addingUser" v-bind:boardId="board.id"/>
+
     <div id="columns">
       <Column v-for="column in columns" :key="column.id"
               v-bind:column="column"
@@ -21,12 +29,14 @@
 
 <script>
 // @ is an alias to /src
+import AddUser from '@/components/AddUser.vue';
 import Column from '@/components/Column.vue';
 import axios from '@/axiosInstance';
 
 export default {
   name: 'Home',
   components: {
+    AddUser,
     Column,
   },
   data() {
@@ -40,6 +50,7 @@ export default {
       editingName: false,
       editingNewColumn: false,
       newColumnName: '',
+      addingUser: false,
     };
   },
   async mounted() {
@@ -65,6 +76,7 @@ export default {
         .then((response) => response.data);
     },
     createColumn() {
+      this.editingNewColumn = false;
       axios.post(
         '/column',
         {
@@ -121,6 +133,41 @@ export default {
     }
   }
 
+  #add-user-button {
+    position: fixed;
+    top: 48px;
+    right: 15px;
+    width: calc(1em - 5px);
+    height: calc(1em + 4px);
+    overflow: hidden;
+    font-size: 1em;
+    text-align: center;
+    color: #ccc;
+    background-color: #eee;
+    border: 1px solid #eee;
+    border-radius: 50%;
+    padding: 5px 10px;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+
+    span:nth-child(2) {
+      color: transparent;
+      display: block;
+      right: -200px;
+    }
+
+    &:hover {
+      border-radius: 4px;
+      width: 80px;
+      color: black;
+
+      span:nth-child(2) {
+        color: black;
+        display: inline;
+      }
+    }
+  }
+
   #columns {
     overflow: auto;
     white-space: nowrap;
@@ -154,13 +201,6 @@ export default {
         font-weight: bold;
         margin: 8px 5px 8px 0;
         width: 80%;
-      }
-
-      button {
-        border: none;
-        font-size: 0.8em;
-        padding: 3px 5px;
-        margin: 0;
       }
     }
   }
