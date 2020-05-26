@@ -22,27 +22,27 @@ before_deploy:
   - docker login swarm.cherement.nl:5000 -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 jobs:
   include:
-  - stage: Deployment-Test.server
-    if: branch = dev
-    env:
-      - BUILD_DIR="~/builds/frontend-test/"
-    script:
-      - vue-cli-service build --mode staging
-    deploy:
-      provider: script
-      skip_cleanup: true
-      script: bash ".travis/deploy-test.sh"
-      on:
-        branch: dev
-  - stage: Deployment-prod.server
-    if: branch = master
-    env:
-      - BUILD_DIR="~/builds/frontend-prod/"
-    script:
-      - vue-cli-service build
-    deploy:
-      provider: script
-      skip_cleanup: true
-      script: bash ".travis/deploy-prod.sh"
-      on:
-        branch: master
+    - stage: Deployment-Test.server
+      if: branch = dev
+      env:
+        - BUILD_DIR="~/builds/frontend-test/"
+      script:
+        - vue-cli-service build --mode staging
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: bash ".travis/deploy-test.sh"
+        on:
+          branch: dev
+    - stage: Deployment-prod.server
+      if: branch = master
+      env:
+        - BUILD_DIR="~/builds/frontend-prod/"
+      script:
+        - vue-cli-service build
+      deploy:
+        provider: script
+        skip_cleanup: true
+        script: bash ".travis/deploy-prod.sh"
+        on:
+          branch: master
