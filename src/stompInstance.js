@@ -1,7 +1,7 @@
 import { Client } from '@stomp/stompjs';
 
 const stompInstance = new Client({
-  brokerURL: 'ws://localhost:8080/ws',
+  brokerURL: `${process.env.VUE_APP_BACKEND_URL}/ws`,
 });
 
 export default stompInstance;
