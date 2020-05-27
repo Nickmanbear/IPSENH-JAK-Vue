@@ -14,7 +14,7 @@
     <AddUser v-if="addingUser" v-bind:boardUsers="board.users"/>
 
     <div id="columns">
-      <Column v-for="column in columns" :key="column.id"
+      <Column v-for="column in columns" :key="column.id" ref="columns"
               v-bind:column="column"
               @deleted="removeColumn()"/>
       <div id="createColumn">
@@ -32,6 +32,7 @@
 import AddUser from '@/components/AddUser.vue';
 import Column from '@/components/Column.vue';
 import axios from '@/axiosInstance';
+import stomp from '@/stompInstance';
 
 export default {
   name: 'Home',
@@ -56,8 +57,19 @@ export default {
   async mounted() {
     await this.getBoard();
     this.getColumns();
+    this.stompSetup();
   },
   methods: {
+    stompSetup() {
+      stomp.onConnect = () => {
+        stomp.subscribe(`/app/board/${this.$route.params.id}`, () => {
+          this.$refs.columns.forEach((column) => {
+            column.getCards();
+          });
+        });
+      };
+      stomp.activate();
+    },
     getColumns() {
       axios.get(`/column/board/${this.$route.params.id}`)
         .then((response) => {

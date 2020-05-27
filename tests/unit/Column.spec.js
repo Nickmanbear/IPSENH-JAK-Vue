@@ -60,6 +60,10 @@ describe('Column', () => {
     expect(cmp.vm.cards).toEqual([]);
   });
 
+  it('should react to a moved card', () => {
+    cmp.vm.moveCard({ item: { _underlying_vm_: { columnId: 1 } } });
+  });
+
   it('equals name to "test column"', () => {
     expect(cmp.find('h2').text()).toEqual('test column');
   });

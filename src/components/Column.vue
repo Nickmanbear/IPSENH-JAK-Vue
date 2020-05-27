@@ -26,6 +26,7 @@
 import Card from '@/components/CardPreview.vue';
 import draggable from 'vuedraggable';
 import axios from '@/axiosInstance';
+import stomp from '@/stompInstance';
 
 export default {
   name: 'Home',
@@ -97,7 +98,9 @@ export default {
       // eslint-disable-next-line no-underscore-dangle
       const card = event.item._underlying_vm_;
       card.columnId = this.column.id;
-      axios.post('/card', card);
+      axios.post('/card', card).then(() => {
+        stomp.publish({ destination: `/app/board/${this.$route.params.id}` });
+      });
     },
   },
 };
