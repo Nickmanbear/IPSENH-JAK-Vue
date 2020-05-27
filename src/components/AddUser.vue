@@ -26,14 +26,17 @@ export default {
     };
   },
   mounted() {
-    axios.get('/user').then((response) => {
-      this.users = Object.keys(response.data)
-        .map((user) => (
-          { id: user, username: response.data[user] }
-        ));
-    });
+    this.getUsers();
   },
   methods: {
+    getUsers() {
+      axios.get('/user').then((response) => {
+        this.users = Object.keys(response.data)
+          .map((key) => (
+            { id: key, username: response.data[key] }
+          ));
+      });
+    },
     addUser() {
       const selectedUser = this.users.find(
         (user) => user.username === this.selectedUsername,

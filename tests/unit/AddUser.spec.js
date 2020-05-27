@@ -5,18 +5,18 @@ const $route = { params: { id: 1 } };
 
 jest.mock('axios', () => ({
   create: () => ({
-    post: () => Promise.resolve({
+    post: (url, userId) => Promise.resolve({
       data: {
-        userId: 2,
-        boardId: 1,
+        userId: userId,
+        boardId: url,
       },
     }),
     get: () => Promise.resolve({
-      data: [
-        { id: 1, username: 'user1', permission: 'nothing' },
-        { id: 2, username: 'user2', permission: 'nothing' },
-        { id: 3, username: 'user3', permission: 'nothing' },
-      ],
+      data: {
+        1: 'user1',
+        2: 'user2',
+        3: 'user3',
+      },
     }),
   }),
 }));
@@ -29,13 +29,17 @@ describe('AddUser', () => {
       mocks: {
         $route,
       },
-      data() {
+      propsData: {
+        boardUsers: {},
+      },
+        data() {
         return {
           users: [],
           selectedUsername: '',
         };
       },
     });
+    window.alert = jest.fn(() => true);
   });
 
   it('should update selectedUsername', () => {
@@ -44,13 +48,28 @@ describe('AddUser', () => {
   });
 
   it('should get users', async () => {
-    cmp.vm.selectedUsername = 'user2';
-    await cmp.vm.addUser();
+    await cmp.vm.getUsers();
     expect(cmp.vm.users).toEqual([
-      { id: 1, username: 'user1' },
-      { id: 2, username: 'user2' },
-      { id: 3, username: 'user3' },
+      { id: '1', username: 'user1' },
+      { id: '2', username: 'user2' },
+      { id: '3', username: 'user3' },
     ]);
+  });
+
+  it('should add user', async () => {
+    cmp.vm.users = [
+      { id: '1', username: 'user1' },
+      { id: '2', username: 'user2' },
+      { id: '3', username: 'user3' },
+    ];
+    cmp.vm.selectedUsername = 'user2';
+
+    await cmp.vm.addUser();
+    cmp.vm.$nextTick(() => {
+      expect(cmp.vm.boardUsers).toEqual([
+        { id: '2', username: 'user2' },
+      ]);
+    });
   });
 
   it('has the expected html structure', () => {
