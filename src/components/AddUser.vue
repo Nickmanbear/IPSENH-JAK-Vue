@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from '../axiosInstance';
+import axios from '@/axiosInstance';
 
 export default {
   name: 'Home',
