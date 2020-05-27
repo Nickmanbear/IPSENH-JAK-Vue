@@ -9,6 +9,20 @@ exports[`Board has the expected html structure 1`] = `
   </h1>
    
   <div
+    id="add-user-button"
+  >
+    <span>
+      +
+    </span>
+     
+    <span>
+       Add user
+    </span>
+  </div>
+   
+  <!---->
+   
+  <div
     id="columns"
   >
      
