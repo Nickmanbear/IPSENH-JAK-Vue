@@ -46,10 +46,10 @@ export default {
         return;
       }
 
-      const userId = selectedUser;
+      const userId = selectedUser.id;
       const boardId = parseInt(this.$route.params.id, 10);
 
-      axios.post(`board/user/${boardId}`, userId)
+      axios.post(`board/user/${boardId}/${userId}`)
         .then(() => {
           this.boardUsers.push(selectedUser);
           this.selectedUsername = '';
