@@ -5,6 +5,9 @@
       <option v-for="user in users" :key="user.id" :value="user.username"/>
     </datalist>
     <button @click="addUser">Add to board</button>
+
+    <p>Current users:</p>
+    <p v-for="user in boardUsers" :key="user.id">{{ user.username }}</p>
   </div>
 </template>
 
@@ -14,7 +17,7 @@ import axios from '../axiosInstance';
 export default {
   name: 'Home',
   props: {
-    boardId: null,
+    boardUsers: {},
   },
   data() {
     return {
@@ -24,9 +27,9 @@ export default {
   },
   mounted() {
     axios.get('/user').then((response) => {
-      this.users = response.data
+      this.users = Object.keys(response.data)
         .map((user) => (
-          { id: user.id, username: user.username }
+          { id: user, username: response.data[user] }
         ));
     });
   },
@@ -35,11 +38,19 @@ export default {
       const selectedUser = this.users.find(
         (user) => user.username === this.selectedUsername,
       );
-      const toSend = {
-        userId: selectedUser.id,
-        boardId: parseInt(this.$route.params.id, 10),
-      };
-      console.log(toSend); // TODO: send to backend
+      if (!selectedUser) {
+        alert('This user doesn\'t exist.');
+        return;
+      }
+
+      const userId = selectedUser;
+      const boardId = parseInt(this.$route.params.id, 10);
+
+      axios.post(`board/user/${boardId}`, userId)
+        .then(() => {
+          this.boardUsers.push(selectedUser);
+          this.selectedUsername = '';
+        });
     },
   },
 };

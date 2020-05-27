@@ -14,18 +14,23 @@ exports[`AddUser has the expected html structure 1`] = `
     id="user-list"
   >
     <option
-      value="user1"
+      value="[object Object]"
     />
     <option
-      value="user2"
+      value="[object Object]"
     />
     <option
-      value="user3"
+      value="[object Object]"
     />
   </datalist>
    
   <button>
     Add to board
   </button>
+   
+  <p>
+    Current users:
+  </p>
+   
 </div>
 `;

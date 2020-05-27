@@ -11,7 +11,7 @@
       <span> Add user</span>
     </div>
 
-    <AddUser v-if="addingUser" v-bind:boardId="board.id"/>
+    <AddUser v-if="addingUser" v-bind:boardUsers="board.users"/>
 
     <div id="columns">
       <Column v-for="column in columns" :key="column.id"
@@ -43,7 +43,7 @@ export default {
     return {
       board: {
         id: 0,
-        userId: 0,
+        users: [],
         name: 'board1',
       },
       columns: [],
