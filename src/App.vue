@@ -34,16 +34,15 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
   body {
-    background-color: #F0F0F0;
-  }
-  h1 {
-    padding: 0;
-    margin-top: 0;
+    margin: 0;
   }
   #app {
-    width: 1024px;
-    margin: auto;
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    /*text-align: center;*/
+    color: #2c3e50;
   }
 </style>
