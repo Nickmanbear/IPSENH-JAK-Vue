@@ -4,28 +4,20 @@
       <form>
             <h1>Signup</h1>
             <hr>
-            <div class="form-group">
-              <label for="firstName">First Name</label>
-              <input type="text" id="firstName" class="form-control" v-model="userData.firstName">
+            <div>
+              <label for="username">First Name</label>
+              <input type="text" id="username"  v-model="userData.firstName">
             </div>
-            <div class="form-group">
-              <label for="lastName">Last Name</label>
-              <input type="text" id="lastName" class="form-control" v-model="userData.lastName">
-            </div>
-            <div class="form-group">
-              <label for="email">Mail</label>
-              <input type="text" id="email" class="form-control" v-model="userData.email">
-            </div>
-            <div class="form-group">
+            <div>
               <label for="password">Password</label>
-              <input type="password" id="password" class="form-control" v-model="userData.password">
+              <input type="password" id="password"  v-model="userData.password">
               <p>
                 {{ userData.password }}
               </p>
             </div>
         <hr>
         <div class="row">
-            <button class="btn btn-primary" @click.prevent="register">Submit!
+            <button  @click.prevent="register">Submit!
             </button>
           </div>
       </form>
@@ -58,7 +50,7 @@ export default {
       axios.post('/user/register', {
         username: this.userData.firstName,
         password: this.userData.password,
-      });
+      }).then(() => this.$router.push('/'));
     },
   },
 };
