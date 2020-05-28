@@ -1,34 +1,31 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../views/Home.vue';
 import BoardOverview from '../views/BoardOverview.vue';
-import LoginComponent from "../views/login.vue"
-import SecureComponent from "../views/secure.vue"
+import LoginComponent from '../views/Login.vue';
+import Register from '../views/Register.vue';
+import Home from '../views/Home.vue';
 
 Vue.use(VueRouter);
 
 const routes = [
+
   {
     path: '/',
-    redirect: {
-      name: "login"
-    }
+    name: 'Home',
+    component: Home,
   },
   {
-    path: "/login",
-    name: "login",
-    component: LoginComponent
+    path: '/login',
+    name: 'Login',
+    component: LoginComponent,
   },
   {
-    path: "/secure",
-    name: "secure",
-    component: SecureComponent
+    path: '/register',
+    name: 'Register',
+    component: Register,
   },
-  // {
-  //   path: '/',
-  //   name: 'Home',
-  //   component: Home,
-  // },
+
+
   {
     path: '/b',
     name: 'Board overview',
