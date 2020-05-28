@@ -4,6 +4,7 @@ import BoardOverview from '../views/BoardOverview.vue';
 import LoginComponent from '../views/Login.vue';
 import Register from '../views/Register.vue';
 import store from '../store';
+import Logout from '../views/Logout.vue';
 
 
 Vue.use(VueRouter);
@@ -36,6 +37,14 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: Register,
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    component: Logout,
+    meta: {
+      requiresAuth: true,
+    },
   },
   {
     path: '/board/:id',

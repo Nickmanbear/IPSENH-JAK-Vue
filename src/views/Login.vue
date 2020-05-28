@@ -11,9 +11,6 @@
 
 import axios from '@/axiosInstance';
 
-
-// import { AxiosInstance as axios } from 'axios';
-
 export default {
   name: 'Login',
   data() {
