@@ -1,15 +1,40 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Board.spec.js has the expected html structure 1`] = `
+exports[`Board has the expected html structure 1`] = `
 <div
   class="board"
 >
   <h1>
-    Boardname
+    
   </h1>
    
   <div
+    id="add-user-button"
+  >
+    <span>
+      +
+    </span>
+     
+    <span>
+       Add user
+    </span>
+  </div>
+   
+  <!---->
+   
+  <div
     id="columns"
-  />
+  >
+     
+    <div
+      id="createColumn"
+    >
+      <p>
+        + Add column
+      </p>
+       
+      <!---->
+    </div>
+  </div>
 </div>
 `;

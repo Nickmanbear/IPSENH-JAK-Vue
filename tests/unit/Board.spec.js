@@ -1,19 +1,59 @@
 import { shallowMount } from '@vue/test-utils';
 import Board from '@/views/Board.vue';
 
-describe('Board.spec.js', () => {
+const $route = { params: { id: 1 } };
+
+jest.mock('axios', () => ({
+  create: () => ({
+    post: () => Promise.resolve({
+      data: {
+        id: 1,
+        boardId: 1,
+        name: 'new column',
+      },
+    }),
+    get: () => Promise.resolve({ data: [] })
+  }),
+}));
+
+describe('Board', () => {
   let cmp;
 
   beforeEach(() => {
     cmp = shallowMount(Board, {
+      mocks: {
+        $route,
+      },
       data() {
         return {
           boardId: 5,
           name: 'Boardname',
-          // columns: [],
+          columns: [],
         };
       },
     });
+  });
+
+  it('should stop editing the name', () => {
+    cmp.vm.editingName = true;
+    cmp.vm.saveName();
+    expect(cmp.vm.editingName).toBeFalsy();
+  });
+
+  it('should create a new column', async () => {
+    cmp.vm.newColumnName = 'new column';
+    await cmp.vm.createColumn();
+    expect(cmp.vm.columns).toEqual([{
+      id: 1,
+      boardId: 1,
+      name: 'new column',
+    }]);
+  });
+
+  it('should reload its columns', async () => {
+    cmp.vm.columns = ['test'];
+    await cmp.vm.removeColumn();
+    expect(cmp.vm.columns).toEqual([]);
   });
 
   it('equals name to "Boardname"', () => {

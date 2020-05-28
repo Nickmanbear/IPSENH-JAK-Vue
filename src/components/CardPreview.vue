@@ -1,16 +1,18 @@
 <template>
   <div>
-    <div id="cardprev" @click="toggleCard">
-      <p>{{ card.name }}</p>
+    <div id="cardprev">
+      <p @click="toggleCard">{{ card.name }}</p>
+      <button id="delete" @click="deleteCard">&times;</button>
     </div>
-    <Backdrop v-show="show" @clicked="toggleCard"/>
-    <Card v-show="show" v-bind:card="card"/>
+    <Backdrop v-if="show" @clicked="toggleCard"/>
+    <Card v-if="show" v-bind:card="card" v-on:close="toggleCard"/>
   </div>
 </template>
 
 <script>
 import Card from '@/components/Card.vue';
 import Backdrop from '@/components/UI/Backdrop.vue';
+import axios from '@/axiosInstance';
 
 export default {
   name: 'Home',
@@ -19,7 +21,14 @@ export default {
     Card,
   },
   props: {
-    card: Object,
+    card: {
+      id: 0,
+      columnId: 0,
+      name: '',
+      description: '',
+      priority: '',
+      points: null,
+    },
   },
   data() {
     return {
@@ -29,6 +38,12 @@ export default {
   methods: {
     toggleCard() {
       this.show = !this.show;
+    },
+    deleteCard() {
+      if (window.confirm(`Do you really want to delete card '${this.card.name}'?`)) {
+        axios.delete(`card/${this.card.id}`)
+          .then(() => this.$emit('deleted'));
+      }
     },
   },
 };
@@ -42,14 +57,36 @@ export default {
     padding: 0 8px;
     margin: 8px 0;
     box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.5);
-  }
 
-  #cardprev:hover {
-    cursor: pointer;
-    background-color: #fbfbfb;
-    border: 1px solid #ddd;
-    box-shadow: none;
+    p {
+      display: inline-block;
 
+      &:hover {
+        cursor: pointer;
+      }
+    }
 
+    &:hover {
+      background-color: #fbfbfb;
+      box-shadow: none;
+    }
+
+    #delete {
+      font-size: 1em;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 5px 10px;
+      position: relative;
+      float: right;
+      color: #eee;
+      margin: 5px 0;
+
+      &:hover {
+        color: red;
+        background-color: #f4f4f4;
+        border-radius: 50%;
+      }
+    }
   }
 </style>

@@ -1,29 +1,52 @@
 <template>
   <div id="column">
-    <h2>{{ column.name }}</h2>
+    <h2 v-if="!editingName" @click="editingName = true">{{ column.name }}</h2>
+    <input id="column-name" v-else v-model="column.name" @keydown.enter="saveName" type="text">
+    <button v-if="editingName" @click="saveName">save</button>
+
+    <button id="delete" @click="deleteColumn">&times;</button>
+
     <div id="cards">
-      <Card v-for="card in cards" :key="card.id" v-bind:card="card" />
+      <draggable v-model="cards" group="cards" @add="moveCard($event)">
+        <Card v-for="card in cards" :key="card.id" v-bind:card="card" @deleted="removeCard()" />
+      </draggable>
     </div>
-    <a>+ Add card</a>
+
+    <button id="create" v-if="!creatingCard" @click="creatingCard = true">+ Add card</button>
+    <input v-else
+      v-model="newCardName"
+      @keydown.enter="createCard" @keydown.esc="creatingCard = false"
+      type="text">
+    <button v-if="creatingCard" @click="createCard">save</button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import Card from '@/components/CardPreview.vue';
+import draggable from 'vuedraggable';
 import axios from '@/axiosInstance';
+import stomp from '@/stompInstance';
 
 export default {
   name: 'Home',
   components: {
+    draggable,
     Card,
   },
   props: {
-    column: Object,
+    column: {
+      id: 0,
+      boardId: 0,
+      name: '',
+    },
   },
   data() {
     return {
       cards: [],
+      newCardName: '',
+      editingName: false,
+      creatingCard: false,
     };
   },
   mounted() {
@@ -31,19 +54,53 @@ export default {
   },
   methods: {
     getCards() {
-      axios.get('/card')
+      axios.get(`/card/column/${this.column.id}`)
         .then((response) => {
-          this.cards = [];
-          response.data.forEach((card) => {
-            if (card.columnId === this.column.id) {
-              this.cards.push(card);
-            }
-          });
-        })
-        .catch((error) => {
-          // TODO: maak een foutmelding ofzo
-          console.log(error);
+          this.cards = response.data;
         });
+    },
+    deleteColumn() {
+      if (window.confirm(`Do you really want to delete column '${this.column.name}'?`)) {
+        axios.delete(`column/${this.column.id}`)
+          .then(() => this.$emit('deleted'));
+      }
+    },
+    saveName() {
+      this.editingName = false;
+      axios.post(
+        '/column',
+        this.column,
+      );
+    },
+    createCard() {
+      this.creatingCard = false;
+      if (this.newCardName.length > 0) {
+        axios.post(
+          '/card',
+          {
+            id: 0,
+            columnId: this.column.id,
+            name: this.newCardName,
+            description: '',
+            priority: '',
+            points: null,
+          },
+        ).then((response) => {
+          this.cards.push(response.data);
+          this.newCardName = '';
+        });
+      }
+    },
+    removeCard() {
+      this.getCards(); // TODO: Remove from array instead
+    },
+    moveCard(event) {
+      // eslint-disable-next-line no-underscore-dangle
+      const card = event.item._underlying_vm_;
+      card.columnId = this.column.id;
+      axios.post('/card', card).then(() => {
+        stomp.publish({ destination: `/app/board/${this.$route.params.id}` });
+      });
     },
   },
 };
@@ -53,26 +110,68 @@ export default {
   #column {
     background-color: #eee;
     border: 1px solid #eee;
-    border-radius: 3px;
+    border-radius: 4px;
     padding: 5px 10px;
     margin: 5px;
     display: inline-block;
     vertical-align: top;
     width: 240px;
     max-height: 80vh;
-  }
 
-  h2 {
-    margin: 5px 0;
-  }
+    h2 {
+      margin: 5px 0;
+      display: inline-block;
+    }
 
-  #cards {
-    max-height: 70vh;
-    overflow: scroll;
-    -ms-overflow-style: none;
-  }
+    #cards {
+      max-height: 70vh;
+      overflow: scroll;
+      -ms-overflow-style: none;
 
-  #cards::-webkit-scrollbar {
-    display: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    #column-name input {
+      border: none;
+      background-color: #f9f9f9;
+      font-family: Arial, serif;
+      font-size: 1.5em;
+      font-weight: bold;
+      margin: 8px 5px 8px 0;
+      width: 80%;
+    }
+
+    button {
+      border: none;
+      font-size: 0.8em;
+      padding: 3px 5px;
+      margin: 0;
+    }
+
+    #delete {
+      font-size: 1em;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 5px 10px;
+      position: relative;
+      float: right;
+      color: #ccc;
+      top: 5px;
+
+      &:hover {
+        color: red;
+        background-color: #f4f4f4;
+        border-radius: 50%;
+      }
+    }
+
+    #create {
+      color: #666;
+      background-color: transparent;
+      padding: 10px 5px;
+    }
   }
 </style>
