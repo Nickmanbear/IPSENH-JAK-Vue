@@ -26,7 +26,6 @@ export default {
       this.authenticated = this.$store.getters.isLoggedIn;
     },
   },
-
 };
 </script>
 

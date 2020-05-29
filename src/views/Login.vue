@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <h1>Login</h1>
-    <input type="text" name="username" v-model="userData.firstName" placeholder="Username"/>
+    <input type="text" name="username" v-model="userData.username" placeholder="Username"/>
     <input type="password" name="password" v-model="userData.password" placeholder="Password"/>
     <button type="button" v-on:click="login()">Login</button>
   </div>
@@ -15,9 +15,7 @@ export default {
   data() {
     return {
       userData: {
-        firstName: '',
-        lastName: '',
-        email: '',
+        username: '',
         password: '',
       },
     };
@@ -25,7 +23,7 @@ export default {
   methods: {
     login() {
       this.$store.dispatch('login', {
-        username: this.userData.firstName,
+        username: this.userData.username,
         password: this.userData.password,
       })
         .then(() => {

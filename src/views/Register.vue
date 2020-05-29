@@ -32,7 +32,6 @@ export default {
         username: '',
         password: '',
       },
-      isSubmitted: false,
     };
   },
 
