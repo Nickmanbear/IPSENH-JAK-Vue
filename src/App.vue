@@ -1,35 +1,18 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link v-if="authenticated" to="/login" v-on:click.native="logout()"
-                   replace>Logout</router-link>
-    </div>
-    <router-view @authenticated="setAuthenticated" />
+    <Navigation />
+    <br>
+    <router-view/>
   </div>
 </template>
 
 <script>
+import Navigation from '@/components/Navigation.vue';
+
 export default {
   name: 'App',
-  data() {
-    return {
-      authenticated: false,
-      mockAccount: {
-        username: 'nraboy',
-        password: 'password',
-      },
-    };
-  },
-  mounted() {
-
-  },
-  methods: {
-    setAuthenticated(status) {
-      this.authenticated = status;
-    },
-    logout() {
-      this.authenticated = false;
-    },
+  components: {
+    Navigation,
   },
 };
 </script>

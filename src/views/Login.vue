@@ -8,7 +8,6 @@
 </template>
 
 <script>
-
 import axios from '@/axiosInstance';
 
 export default {
@@ -24,7 +23,6 @@ export default {
     };
   },
   methods: {
-
     login() {
       this.$store.dispatch('login', {
         username: this.userData.firstName,

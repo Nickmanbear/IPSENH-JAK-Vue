@@ -2,31 +2,26 @@
   <div id="register">
     <div class="container">
       <form>
-            <h1>Signup</h1>
-            <hr>
-            <div>
-              <label for="username">First Name</label>
-              <input type="text" id="username"  v-model="userData.firstName">
-            </div>
-            <div>
-              <label for="password">Password</label>
-              <input type="password" id="password"  v-model="userData.password">
-              <p>
-                {{ userData.password }}
-              </p>
-            </div>
+        <h1>Signup</h1>
+        <hr>
+        <div>
+          <label for="username">First Name</label>
+          <input type="text" id="username" v-model="userData.username">
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input type="password" id="password" v-model="userData.password">
+        </div>
         <hr>
         <div class="row">
-            <button  @click.prevent="register">Submit!
-            </button>
-          </div>
+          <button @click.prevent="register">Submit!</button>
+        </div>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import axios from '@/axiosInstance';
 
 export default {
@@ -34,23 +29,20 @@ export default {
   data() {
     return {
       userData: {
-        firstName: '',
-        lastName: '',
-        email: '',
+        username: '',
         password: '',
       },
-      storeData: 'Yes',
       isSubmitted: false,
     };
   },
 
   methods: {
-
     register() {
       axios.post('/user/register', {
-        username: this.userData.firstName,
+        username: this.userData.username,
         password: this.userData.password,
-      }).then(() => this.$router.push('/'));
+      })
+        .then(() => this.$router.push('/'));
     },
   },
 };

@@ -1,16 +1,11 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import BoardOverview from '../views/BoardOverview.vue';
-import LoginComponent from '../views/Login.vue';
-import Register from '../views/Register.vue';
 import store from '../store';
-import Logout from '../views/Logout.vue';
-
 
 Vue.use(VueRouter);
 
 const routes = [
-
   {
     path: '/',
     name: 'Board overview',
@@ -27,21 +22,20 @@ const routes = [
       requiresAuth: true,
     },
   },
-
   {
     path: '/login',
     name: 'Login',
-    component: LoginComponent,
+    component: () => import('../views/Login.vue'),
   },
   {
     path: '/register',
     name: 'Register',
-    component: Register,
+    component: () => import('../views/Register.vue'),
   },
   {
     path: '/logout',
     name: 'logout',
-    component: Logout,
+    component: () => import('../views/Logout.vue'),
     meta: {
       requiresAuth: true,
     },
@@ -54,7 +48,6 @@ const routes = [
       requiresAuth: true,
     },
   },
-
 ];
 
 const router = new VueRouter({
@@ -64,11 +57,8 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (store.getters.isLoggedIn) {
-      next();
-      return;
-    }
+  if (to.matched.some((record) => record.meta.requiresAuth)
+    && !store.getters.isLoggedIn) {
     next('/login');
   } else {
     next();

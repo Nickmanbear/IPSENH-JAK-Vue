@@ -1,7 +1,3 @@
-<template>
-<h1>By by</h1>
-</template>
-
 <script>
 export default {
   name: 'Logout',
@@ -10,10 +6,5 @@ export default {
       this.$router.push('/');
     });
   },
-
 };
 </script>
-
-<style scoped>
-
-</style>
