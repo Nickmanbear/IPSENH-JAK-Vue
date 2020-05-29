@@ -19,7 +19,5 @@ yarn-error.log*
 *.sln
 *.sw?
 
-*.iml
-
 coverage
 test-report.xml
