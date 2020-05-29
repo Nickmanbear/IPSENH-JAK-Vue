@@ -4,9 +4,11 @@ exports[`App has the expected html structure 1`] = `
 <div
   id="app"
 >
-  <navigation-stub />
-   
-  <br />
+  <div
+    id="nav"
+  >
+    <!---->
+  </div>
    
   <router-view-stub />
 </div>
