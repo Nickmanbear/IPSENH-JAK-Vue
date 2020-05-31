@@ -48,6 +48,11 @@ const routes = [
       requiresAuth: true,
     },
   },
+  {
+    path: '/teams',
+    name: 'Teams',
+    component: () => import('../views/Teams.vue'),
+  },
 ];
 
 const router = new VueRouter({
