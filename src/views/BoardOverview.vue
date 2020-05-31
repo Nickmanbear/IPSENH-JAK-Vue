@@ -1,19 +1,16 @@
 <template>
   <div class="overview">
     <h1>Choose your board</h1>
-    <div v-if="boards.length > 0">
-      <BoardPreview
-        v-for="board in boards" :key="board.id"
-        v-bind:board="board"
-        @deleted="removeBoardPreview()"/>
-      <div id="createBoard">
-        <h2 v-if="!editingNewBoard" @click="editingNewBoard = true">Add board</h2>
-        <input v-else v-model="newBoardName" type="text"
-               @keydown.enter="createBoard" @keydown.esc="editingNewBoard = false">
-        <button v-if="editingNewBoard" @click="createBoard()">Add</button>
-      </div>
+    <BoardPreview
+      v-for="board in boards" :key="board.id"
+      v-bind:board="board"
+      @deleted="removeBoardPreview()"/>
+    <div id="createBoard">
+      <h2 v-if="!editingNewBoard" @click="editingNewBoard = true">Add board</h2>
+      <input v-else v-model="newBoardName" type="text"
+             @keydown.enter="createBoard" @keydown.esc="editingNewBoard = false">
+      <button v-if="editingNewBoard" @click="createBoard()">Add</button>
     </div>
-    <p v-else>Loading...</p>
   </div>
 </template>
 

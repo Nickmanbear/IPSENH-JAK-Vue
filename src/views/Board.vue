@@ -93,7 +93,7 @@ export default {
         '/column',
         {
           id: 0,
-          boardId: this.board.id,
+          board: this.board,
           name: this.newColumnName,
         },
       ).then((response) => {

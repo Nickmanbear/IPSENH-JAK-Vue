@@ -79,7 +79,7 @@ export default {
           '/card',
           {
             id: 0,
-            columnId: this.column.id,
+            column: this.column,
             name: this.newCardName,
             description: '',
             priority: '',
