@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import Card from '@/components/CardPreview.vue';
+import Card from '@/components/Card.vue';
 
 describe('Card', () => {
   let cmp;
@@ -9,7 +9,7 @@ describe('Card', () => {
       propsData: {
         card: {
           id: 5,
-          columnId: 1,
+          column: { id: 1 },
           name: 'test card',
           description: 'test description for the card',
           priority: 'high',
