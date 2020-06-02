@@ -8,7 +8,8 @@
 
     <div id="cards">
       <draggable v-model="cards" group="cards" @add="moveCard($event)">
-        <Card v-for="card in cards" :key="card.id" v-bind:card="card" @deleted="removeCard()" />
+        <CardPreview v-for="card in cards" :key="card.id" v-bind:card="card"
+              @deleted="removeCard()" @saved="getCards"/>
       </draggable>
     </div>
 
@@ -23,16 +24,16 @@
 
 <script>
 // @ is an alias to /src
-import Card from '@/components/CardPreview.vue';
+import CardPreview from '@/components/CardPreview.vue';
 import draggable from 'vuedraggable';
 import axios from '@/axiosInstance';
 import stomp from '@/stompInstance';
 
 export default {
-  name: 'Home',
+  name: 'Column',
   components: {
     draggable,
-    Card,
+    CardPreview,
   },
   props: {
     column: {
@@ -79,7 +80,7 @@ export default {
           '/card',
           {
             id: 0,
-            columnId: this.column.id,
+            column: { id: this.column.id },
             name: this.newCardName,
             description: '',
             priority: '',
@@ -99,7 +100,7 @@ export default {
       const card = event.item._underlying_vm_;
       card.columnId = this.column.id;
       axios.post('/card', card).then(() => {
-        stomp.publish({ destination: `/app/board/${this.$route.params.id}` });
+        stomp.send(`/app/board/${this.$route.params.id}`);
       });
     },
   },

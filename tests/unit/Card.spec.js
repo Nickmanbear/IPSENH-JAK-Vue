@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import Card from '@/components/Card.vue';
+import Card from '@/components/CardPreview.vue';
 
 describe('Card', () => {
   let cmp;

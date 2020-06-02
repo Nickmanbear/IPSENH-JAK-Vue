@@ -1,7 +1,7 @@
-import { Client } from '@stomp/stompjs';
+import webstomp from 'webstomp-client';
 
-const stompInstance = new Client({
-  brokerURL: `ws${process.env.VUE_APP_BACKEND_URL}/ws`,
-});
+const protocols = webstomp.VERSIONS.supportedProtocols();
+protocols.push(localStorage.getItem('token').replace(' ', '.'));
+const stompInstance = webstomp.over(new WebSocket(`ws${process.env.VUE_APP_BACKEND_URL}/ws`, protocols));
 
 export default stompInstance;

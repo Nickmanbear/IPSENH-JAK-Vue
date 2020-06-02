@@ -23,7 +23,7 @@ import BoardPreview from '@/components/BoardPreview.vue';
 import axios from '@/axiosInstance';
 
 export default {
-  name: 'Home',
+  name: 'BoardOverview',
   components: {
     BoardPreview,
   },
