@@ -78,10 +78,17 @@ export default {
     },
     saveName() {
       this.editingName = false;
+      const postUsers = [];
+      this.board.users.forEach((user) => {
+        postUsers.push({ id: user.id });
+      });
+      this.board.users = postUsers;
       axios.post(
         '/board',
         this.board,
-      );
+      ).then((response) => {
+        this.board = response.data;
+      });
     },
     async getBoard() {
       this.board = await axios.get(`/board/${this.$route.params.id}`)

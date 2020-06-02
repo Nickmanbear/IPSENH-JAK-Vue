@@ -50,7 +50,6 @@ export default {
         '/board',
         {
           id: 0,
-          userId: 1, // TODO: Make current user_id
           name: this.newBoardName,
         },
       ).then((response) => {

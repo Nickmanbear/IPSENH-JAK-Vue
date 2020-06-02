@@ -68,10 +68,13 @@ export default {
     },
     saveName() {
       this.editingName = false;
+      this.column.board = { id: this.column.board.id };
       axios.post(
         '/column',
         this.column,
-      );
+      ).this((response) => {
+        this.column = response.data;
+      });
     },
     createCard() {
       this.creatingCard = false;
