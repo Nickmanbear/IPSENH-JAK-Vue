@@ -1,5 +1,10 @@
 <template>
   <div class="overview">
+    <div id="manage-teams-button" @click="managingTeams = !managingTeams">
+      <span>Manage teams</span>
+    </div>
+    <Teams v-if="managingTeams"/>
+
     <h1>Choose your board</h1>
     <BoardPreview
       v-for="board in boards" :key="board.id"
@@ -17,18 +22,21 @@
 <script>
 // @ is an alias to /src
 import BoardPreview from '@/components/BoardPreview.vue';
+import Teams from '@/components/Teams.vue';
 import axios from '@/axiosInstance';
 
 export default {
   name: 'Home',
   components: {
     BoardPreview,
+    Teams,
   },
   data() {
     return {
       boards: [],
       editingNewBoard: false,
       newBoardName: '',
+      managingTeams: false,
     };
   },
   mounted() {
@@ -102,6 +110,27 @@ export default {
         font-size: 0.8em;
         padding: 3px 5px;
         margin: 0;
+      }
+    }
+
+    #manage-teams-button {
+      position: fixed;
+      top: 48px;
+      right: 15px;
+      height: calc(1em + 4px);
+      overflow: hidden;
+      font-size: 1em;
+      text-align: center;
+      color: #ccc;
+      background-color: #eee;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: all 0.3s ease-out;
+
+      &:hover {
+        color: black;
       }
     }
   }

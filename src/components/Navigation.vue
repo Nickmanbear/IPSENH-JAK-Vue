@@ -4,7 +4,6 @@
     <router-link v-if="authenticated === true" to="/logout">Logout</router-link>
     <router-link v-if="authenticated === false" to="/login">Login</router-link>
     <router-link v-if="authenticated === false" to="/register">Register</router-link>
-    <router-link to="/teams">Teams</router-link>
   </div>
 </template>
 

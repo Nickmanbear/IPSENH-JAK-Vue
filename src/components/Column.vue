@@ -133,7 +133,7 @@ export default {
       }
     }
 
-    #column-name input {
+    #column-name {
       border: none;
       background-color: #f9f9f9;
       font-family: Arial, serif;

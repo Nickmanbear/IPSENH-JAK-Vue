@@ -130,6 +130,10 @@ export default {
       font-size: 0.8em;
       padding: 3px 5px;
       margin: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     #title {
