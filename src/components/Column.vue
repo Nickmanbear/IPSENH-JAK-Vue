@@ -72,7 +72,7 @@ export default {
       axios.post(
         '/column',
         this.column,
-      ).this((response) => {
+      ).then((response) => {
         this.column = response.data;
       });
     },
