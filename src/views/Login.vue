@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import axios from '@/axiosInstance';
 
 export default {
   name: 'Login',
@@ -28,10 +27,6 @@ export default {
       })
         .then(() => {
           this.$router.push('/');
-        });
-      axios.get('board')
-        .then((response) => {
-          console.log(response);
         });
     },
   },
