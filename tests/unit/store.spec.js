@@ -55,4 +55,24 @@ describe('store', () => {
       'login', userData,
     )).rejects.toMatch('error');
   });
+
+  it('mutations auth_success', () => {
+    store.commit('auth_request');
+    expect(store.getters.authStatus).toEqual('loading');
+  });
+
+  it('mutations auth_error', () => {
+    store.commit('auth_error');
+    expect(store.getters.authStatus).toEqual('error');
+  });
+
+  it('mutations logout', () => {
+    store.commit('logout');
+    expect(store.getters.authStatus).toEqual('');
+  });
+
+  it('mutations succes', () => {
+    store.commit('auth_success');
+    expect(store.getters.authStatus).toEqual('success');
+  });
 });
