@@ -15,7 +15,7 @@
 import axios from '@/axiosInstance';
 
 export default {
-  name: 'Home',
+  name: 'AddUser',
   props: {
     boardUsers: {},
   },

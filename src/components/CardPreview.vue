@@ -5,7 +5,7 @@
       <button id="delete" @click="deleteCard">&times;</button>
     </div>
     <Backdrop v-if="show" @clicked="toggleCard"/>
-    <Card v-if="show" v-bind:card="card" v-on:close="toggleCard"/>
+    <Card v-if="show" v-bind:card="card" @close="toggleCard" @saved="$emit('saved')"/>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import Backdrop from '@/components/UI/Backdrop.vue';
 import axios from '@/axiosInstance';
 
 export default {
-  name: 'Home',
+  name: 'CardPreview',
   components: {
     Backdrop,
     Card,
