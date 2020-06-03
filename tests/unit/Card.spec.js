@@ -25,6 +25,12 @@ describe('Card', () => {
     expect(cmp.vm.editing).toEqual(null);
   });
 
+  it('should assign a user', () => {
+    cmp.vm.assigningUser = true;
+    cmp.vm.assignUser(1);
+    expect(cmp.vm.assigningUser).toBeFalsy();
+  });
+
   it('equals test description', () => {
     expect(cmp.findAll('p').at(1).text()).toEqual('test description for the card');
   });
