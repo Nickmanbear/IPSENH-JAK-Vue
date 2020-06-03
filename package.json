@@ -72,7 +72,7 @@
     "testResultsProcessor": "jest-sonar-reporter",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "./src/**/*.vue",
+      "./src/**/*.{js,vue}",
       "!**/node_modules/**"
     ]
   }
