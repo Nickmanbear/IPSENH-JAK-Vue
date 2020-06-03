@@ -7,7 +7,7 @@ jest.mock('axios', () => ({
   create: () => ({
     post: (url, userId) => Promise.resolve({
       data: {
-        userId: userId,
+        userId,
         boardId: url,
       },
     }),
@@ -32,7 +32,7 @@ describe('AddUser', () => {
       propsData: {
         boardUsers: {},
       },
-        data() {
+      data() {
         return {
           users: [],
           selectedUsername: '',
@@ -65,7 +65,7 @@ describe('AddUser', () => {
     cmp.vm.selectedUsername = 'user2';
 
     await cmp.vm.addUser();
-    cmp.vm.$nextTick(() => {
+    await cmp.vm.$nextTick(() => {
       expect(cmp.vm.boardUsers).toEqual([
         { id: '2', username: 'user2' },
       ]);

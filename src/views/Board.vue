@@ -35,7 +35,7 @@ import axios from '@/axiosInstance';
 import stomp from '@/stompInstance';
 
 export default {
-  name: 'Home',
+  name: 'Board',
   components: {
     AddUser,
     Column,
@@ -55,20 +55,20 @@ export default {
     };
   },
   async mounted() {
+    this.stompSetup();
     await this.getBoard();
     this.getColumns();
-    this.stompSetup();
   },
   methods: {
     stompSetup() {
-      stomp.onConnect = () => {
+      // eslint-disable-next-line quote-props
+      stomp.connect({}, () => {
         stomp.subscribe(`/app/board/${this.$route.params.id}`, () => {
           this.$refs.columns.forEach((column) => {
             column.getCards();
           });
         });
-      };
-      stomp.activate();
+      });
     },
     getColumns() {
       axios.get(`/column/board/${this.$route.params.id}`)
@@ -78,10 +78,17 @@ export default {
     },
     saveName() {
       this.editingName = false;
+      const postUsers = [];
+      this.board.users.forEach((user) => {
+        postUsers.push({ id: user.id });
+      });
+      this.board.users = postUsers;
       axios.post(
         '/board',
         this.board,
-      );
+      ).then((response) => {
+        this.board = response.data;
+      });
     },
     async getBoard() {
       this.board = await axios.get(`/board/${this.$route.params.id}`)
@@ -93,7 +100,7 @@ export default {
         '/column',
         {
           id: 0,
-          board: this.board,
+          board: { id: this.board.id },
           name: this.newColumnName,
         },
       ).then((response) => {
@@ -161,7 +168,7 @@ export default {
     color: #ccc;
     background-color: #eee;
     border: 1px solid #eee;
-    border-radius: 50%;
+    border-radius: 50px;
     padding: 5px 10px;
     cursor: pointer;
     transition: all 0.3s ease-out;

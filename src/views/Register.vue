@@ -5,7 +5,7 @@
         <h1>Signup</h1>
         <hr>
         <div>
-          <label for="username">First Name</label>
+          <label for="username">Username</label>
           <input type="text" id="username" v-model="userData.username">
         </div>
         <div>
@@ -22,7 +22,6 @@
 </template>
 
 <script>
-import axios from '@/axiosInstance';
 
 export default {
   name: 'Register',
@@ -37,12 +36,21 @@ export default {
 
   methods: {
     register() {
-      axios.post('/user/register', {
+      this.$store.dispatch('register', {
         username: this.userData.username,
         password: this.userData.password,
       })
-        .then(() => this.$router.push('/'));
+        .then(() => {
+          this.$router.push('/login');
+        });
     },
   },
 };
 </script>
+
+<style>
+  #register {
+    margin: auto;
+    width: 500px;
+  }
+</style>

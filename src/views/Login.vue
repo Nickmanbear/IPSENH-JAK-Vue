@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import axios from '@/axiosInstance';
-
 export default {
   name: 'Login',
   data() {
@@ -25,14 +23,9 @@ export default {
       this.$store.dispatch('login', {
         username: this.userData.username,
         password: this.userData.password,
-      })
-        .then(() => {
-          this.$router.push('/');
-        });
-      axios.get('board')
-        .then((response) => {
-          console.log(response);
-        });
+      }).then(() => {
+        this.$router.push('/');
+      });
     },
   },
 };
@@ -43,8 +36,7 @@ export default {
     width: 500px;
     border: 1px solid #CCCCCC;
     background-color: #FFFFFF;
-    margin: auto;
-    margin-top: 200px;
+    margin: 200px auto auto;
     padding: 20px;
   }
 </style>

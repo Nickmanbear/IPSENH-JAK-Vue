@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login has the expected html structure 1`] = `
+<div
+  id="login"
+>
+  <h1>
+    Login
+  </h1>
+   
+  <input
+    name="username"
+    placeholder="Username"
+    type="text"
+  />
+   
+  <input
+    name="password"
+    placeholder="Password"
+    type="password"
+  />
+   
+  <button
+    type="button"
+  >
+    Login
+  </button>
+</div>
+`;
