@@ -7,7 +7,7 @@
 
     <div v-if="isLeader">
       <input v-model="selectedMemberName" type="text" placeholder="Username" list="user-list">
-      <datalist id="user-list">
+      <datalist id="user-list" v-if="selectedMemberName">
         <option v-for="user in users" :key="user.id" :value="user.username"/>
       </datalist>
       <button @click="addMember">Add member</button>
@@ -59,27 +59,27 @@ export default {
       const selectedUser = this.users.find(
         (user) => user.username === this.selectedMemberName,
       );
+      this.selectedMemberName = '';
       if (!selectedUser) {
         alert('This user doesn\'t exist.');
         return;
       }
 
       axios.post(`/team/member/${this.team.id}/${selectedUser.id}`)
-        .then((response) => {
-          this.team = response.data;
-          this.selectedMemberName = '';
+        .then(() => {
+          this.$emit('refresh');
         });
     },
     deleteTeam() {
       axios.delete(`/team/${this.team.id}`)
         .then(() => {
-          this.$emit('deleted');
+          this.$emit('refresh');
         });
     },
     deleteMember(userId) {
-      axios.delete(`/team/${this.team.id}/${userId}`)
+      axios.delete(`/team/member/${this.team.id}/${userId}`)
         .then(() => {
-          this.$emit('deleted');
+          this.$emit('refresh');
         });
     },
   },

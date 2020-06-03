@@ -11,7 +11,7 @@
       <span> Add user</span>
     </div>
 
-    <AddUser v-if="addingUser" v-bind:boardUsers="board.users"/>
+    <AddUser v-if="addingUser" v-bind:boardUsers="board.users" v-on:refresh="getBoard"/>
 
     <div id="columns">
       <Column v-for="column in columns" :key="column.id" ref="columns"

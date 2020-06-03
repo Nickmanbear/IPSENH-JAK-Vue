@@ -7,7 +7,8 @@
     <button @click="addUser">Add to board</button>
 
     <p>Current users:</p>
-    <p v-for="user in boardUsers" :key="user.id">{{ user.username }}</p>
+    <p id="users" v-for="user in boardUsers" :key="user.id"
+       @click="() => deleteUser(user.id)">{{ user.username }}</p>
   </div>
 </template>
 
@@ -55,6 +56,13 @@ export default {
           this.selectedUsername = '';
         });
     },
+    deleteUser(userId) {
+      const boardId = parseInt(this.$route.params.id, 10);
+      axios.delete(`/board/user/${boardId}/${userId}`)
+        .then(() => {
+          this.$emit('refresh');
+        });
+    },
   },
 };
 </script>
@@ -69,5 +77,10 @@ export default {
   padding: 5px 10px;
   background-color: #ccc;
   border: 1px solid #ccc;
+
+  #users:hover {
+    text-decoration: line-through;
+    cursor: pointer;
+  }
 }
 </style>

@@ -2,14 +2,14 @@
   <div id="teams">
     <h1>Teams</h1>
 
-    <input v-model="newTeamName" type="text" @keydown.enter="createTeam">
+    <input v-model="newTeamName" type="text" placeholder="Team name" @keydown.enter="createTeam">
     <button @click="createTeam()">Make team</button>
 
     <Team v-for="team in teams"
           :key="team.id"
           v-bind:team="team"
           v-bind:users="users"
-          v-bind:deleted="getTeams"/>
+          v-on:refresh="getTeams"/>
   </div>
 </template>
 
