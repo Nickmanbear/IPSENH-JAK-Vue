@@ -23,7 +23,7 @@ import BoardPreview from '@/components/BoardPreview.vue';
 import axios from '@/axiosInstance';
 
 export default {
-  name: 'Home',
+  name: 'BoardOverview',
   components: {
     BoardPreview,
   },
@@ -50,7 +50,6 @@ export default {
         '/board',
         {
           id: 0,
-          userId: 1, // TODO: Make current user_id
           name: this.newBoardName,
         },
       ).then((response) => {

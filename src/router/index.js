@@ -40,14 +40,6 @@ const routes = [
       requiresAuth: true,
     },
   },
-  {
-    path: '/board/:id',
-    name: 'Board',
-    component: () => import('../views/Board.vue'),
-    meta: {
-      requiresAuth: true,
-    },
-  },
 ];
 
 const router = new VueRouter({

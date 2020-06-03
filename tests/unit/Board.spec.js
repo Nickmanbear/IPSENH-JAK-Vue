@@ -8,11 +8,11 @@ jest.mock('axios', () => ({
     post: () => Promise.resolve({
       data: {
         id: 1,
-        boardId: 1,
+        board: { id: 1, users: [{ id: 1 }] },
         name: 'new column',
       },
     }),
-    get: () => Promise.resolve({ data: [] })
+    get: () => Promise.resolve({ data: { id: 1, users: [{ id: 1 }] } }),
   }),
 }));
 
@@ -26,7 +26,7 @@ describe('Board', () => {
       },
       data() {
         return {
-          boardId: 5,
+          board: { id: 1, users: [{ id: 1 }] },
           name: 'Boardname',
           columns: [],
         };
@@ -43,25 +43,13 @@ describe('Board', () => {
   it('should create a new column', async () => {
     cmp.vm.newColumnName = 'new column';
     await cmp.vm.createColumn();
-    expect(cmp.vm.columns).toEqual([{
-      id: 1,
-      boardId: 1,
-      name: 'new column',
-    }]);
+    expect(cmp.vm.columns).toEqual({ id: 1, users: [{ id: 1 }] });
   });
 
   it('should reload its columns', async () => {
     cmp.vm.columns = ['test'];
     await cmp.vm.removeColumn();
-    expect(cmp.vm.columns).toEqual([]);
-  });
-
-  it('equals name to "Boardname"', () => {
-    expect(cmp.vm.name).toEqual('Boardname');
-  });
-
-  it('equals id to "5"', () => {
-    expect(cmp.vm.boardId).toEqual(5);
+    expect(cmp.vm.columns).toEqual({ id: 1, users: [{ id: 1 }] });
   });
 
   it('has the expected html structure', () => {

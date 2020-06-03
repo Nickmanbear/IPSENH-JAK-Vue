@@ -10,52 +10,70 @@ exports[`Card has the expected html structure 1`] = `
     ×
   </button>
    
-  <h3>
-    test card
-  </h3>
-   
-  <!---->
-   
-  <!---->
-   
-  <span>
-    Priority: 
-  </span>
-   
-  <span>
-    high
-  </span>
-   
-  <!---->
-   
-  <span>
-     - 
-  </span>
-   
-  <span>
-    Points: 
-  </span>
-   
-  <span>
-    5
-  </span>
-   
-  <!---->
-   
-  <p>
-    <strong>
-      Description
-    </strong>
-  </p>
+  <div>
+    <h3>
+      test card
+    </h3>
+     
+    <!---->
+    
+    |
+    
+    <span
+      id="assign-user-button"
+    >
+      <span>
+        +
+      </span>
+       
+      <span>
+         Assign user
+      </span>
+    </span>
+     
+    <!---->
+  </div>
    
   <div>
+    <span>
+      Priority: 
+    </span>
+     
+    <span>
+      high
+    </span>
+     
+    <!---->
+     
+    <span>
+       - 
+    </span>
+     
+    <span>
+      Points: 
+    </span>
+     
+    <span>
+      5
+    </span>
+     
     <!---->
      
     <p>
-      test description for the card
+      <strong>
+        Description
+      </strong>
     </p>
+     
+    <div>
+      <!---->
+       
+      <p>
+        test description for the card
+      </p>
+    </div>
+     
+    <!---->
   </div>
-   
-  <!---->
 </div>
 `;
