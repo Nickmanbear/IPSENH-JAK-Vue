@@ -101,7 +101,7 @@ export default {
     moveCard(event) {
       // eslint-disable-next-line no-underscore-dangle
       const card = event.item._underlying_vm_;
-      card.columnId = this.column.id;
+      card.column = { id: this.column.id };
       axios.post('/card', card).then(() => {
         stomp.send(`/app/board/${this.$route.params.id}`);
       });

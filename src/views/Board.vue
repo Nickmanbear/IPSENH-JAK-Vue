@@ -1,7 +1,7 @@
 <template>
   <div class="board">
-    <h1 v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
-    <div id="title" v-else>
+    <h1 class="title" v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
+    <div class="title" v-else>
       <input v-model="board.name" @keydown.enter="saveName" type="text">
       <button @click="saveName">save</button>
     </div>
@@ -12,6 +12,20 @@
     </div>
 
     <AddUser v-if="addingUser" v-bind:boardUsers="board.users"/>
+
+    <div id="timeline">
+      <h2>Timeline</h2>
+      <p class="event" v-for="event in timeline" :key="event.id">
+        <span>{{
+          new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
+          .format(new Date(event.timestamp))
+        }}</span>:
+        <br>
+        <span>{{ event.card.name }}</span> moved from
+        <span>{{ event.from.name }}</span> to
+        <span>{{ event.to.name }}</span>
+      </p>
+    </div>
 
     <div id="columns">
       <Column v-for="column in columns" :key="column.id" ref="columns"
@@ -48,6 +62,7 @@ export default {
         name: 'board1',
       },
       columns: [],
+      timeline: [],
       editingName: false,
       editingNewColumn: false,
       newColumnName: '',
@@ -58,12 +73,14 @@ export default {
     this.stompSetup();
     await this.getBoard();
     this.getColumns();
+    this.getTimeline();
   },
   methods: {
     stompSetup() {
       // eslint-disable-next-line quote-props
       stomp.connect({}, () => {
         stomp.subscribe(`/app/board/${this.$route.params.id}`, () => {
+          this.getTimeline();
           this.$refs.columns.forEach((column) => {
             column.getCards();
           });
@@ -74,6 +91,12 @@ export default {
       axios.get(`/column/board/${this.$route.params.id}`)
         .then((response) => {
           this.columns = response.data;
+        });
+    },
+    getTimeline() {
+      axios.get(`/board/timeline/${this.$route.params.id}`)
+        .then((response) => {
+          this.timeline = response.data;
         });
     },
     saveName() {
@@ -117,6 +140,11 @@ export default {
 
 <style lang="scss">
   .board {
+    display: grid;
+    grid: 1fr 7fr / 7fr 1fr;
+    grid-template-areas:
+      "header timeline"
+      "columns timeline";
     padding: 0 10px;
 
     h1 {
@@ -139,7 +167,9 @@ export default {
       margin: 0;
     }
 
-    #title {
+    .title {
+      grid-area: header;
+
       input {
         font-size: 2em;
         font-weight: bold;
@@ -148,6 +178,23 @@ export default {
 
       button {
         font-size: 1em;
+      }
+    }
+
+    #timeline {
+      grid-area: timeline;
+
+      .event {
+        background-color: #eee;
+        border: 1px solid #eee;
+        border-radius: 3px;
+        padding: 8px;
+        margin: 8px 0;
+        box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.5);
+
+        span {
+          font-weight: bold;
+        }
       }
     }
   }
@@ -188,7 +235,8 @@ export default {
   }
 
   #columns {
-    overflow: auto;
+    grid-area: columns;
+    overflow: scroll;
     white-space: nowrap;
     -ms-overflow-style: none;
 
