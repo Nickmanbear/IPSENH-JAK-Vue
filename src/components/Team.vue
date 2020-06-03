@@ -1,7 +1,8 @@
 <template>
   <div id="team">
+    <button v-if="!editingName && isLeader" id="delete" @click="deleteTeam">&times;</button>
     <h2 v-if="!editingName" @click="editingName = true">{{ team.name }}</h2>
-    <input id="column-name" v-else v-model="team.name" @keydown.enter="saveTeam" type="text">
+    <input id="team-name" v-else v-model="team.name" @keydown.enter="saveTeam" type="text">
     <button v-if="editingName" @click="saveTeam">save</button>
 
     <div v-if="isLeader">
@@ -12,7 +13,9 @@
       <button @click="addMember">Add member</button>
     </div>
 
-    <p v-for="member in team.members" :key="member.id">{{ member.username }}</p>
+      <p v-for="member in team.members" :key="member.id"
+         v-bind:class="{ memberName: isLeader }"
+         @click="() => deleteMember(member.id)">{{ member.username }}</p>
   </div>
 </template>
 
@@ -23,7 +26,12 @@ import axios from '@/axiosInstance';
 export default {
   name: 'Team',
   props: {
-    team: {},
+    team: {
+      id: 0,
+      name: '',
+      leader: {},
+      members: [],
+    },
     users: {},
   },
   data() {
@@ -39,10 +47,13 @@ export default {
   methods: {
     saveTeam() {
       this.editingName = false;
-      axios.post(
-        '/team',
-        this.team,
-      );
+      console.log(this.team);
+      const team = JSON.parse(JSON.stringify(this.team));
+      console.log(team);
+      axios.post('/team', JSON.parse(JSON.stringify(this.team)))
+        .then(() => {
+          // TODO update
+        });
     },
     addMember() {
       const selectedUser = this.users.find(
@@ -57,6 +68,18 @@ export default {
         .then((response) => {
           this.team = response.data;
           this.selectedMemberName = '';
+        });
+    },
+    deleteTeam() {
+      axios.delete(`/team/${this.team.id}`)
+        .then(() => {
+          this.$emit('deleted');
+        });
+    },
+    deleteMember(userId) {
+      axios.delete(`/team/${this.team.id}/${userId}`)
+        .then(() => {
+          this.$emit('deleted');
         });
     },
   },
@@ -75,6 +98,30 @@ export default {
 
     p {
       margin: 5px 0 0 0;
+    }
+
+    #delete {
+      font-size: 1em;
+      border: none;
+      background-color: transparent;
+      cursor: pointer;
+      padding: 5px 10px;
+      position: relative;
+      float: right;
+      border-radius: 50%;
+      color: #fff;
+      top: 0;
+      transition: all 0.3s ease-out;
+
+      &:hover {
+        color: red;
+        background-color: #f4f4f4;
+      }
+    }
+
+    .memberName:hover {
+      text-decoration: line-through;
+      cursor: pointer;
     }
   }
 </style>

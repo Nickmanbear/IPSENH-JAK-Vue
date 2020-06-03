@@ -27,7 +27,6 @@ export default {
       'https://i.ytimg.com/vi/o4Nw1VgqhnA/maxresdefault.jpg',
     ];
     const count = Math.trunc(Math.random() * 2);
-    console.log(count);
 
     this.imgUrl = images[count];
   },
@@ -54,6 +53,7 @@ body {
     top: 0;
     left: 0;
     height: 100vh;
+    opacity: 75%;
     /*background-size: cover;*/
   }
 }

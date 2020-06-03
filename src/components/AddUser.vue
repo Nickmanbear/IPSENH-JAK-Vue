@@ -1,7 +1,7 @@
 <template>
   <div id="add-user">
     <input v-model="selectedUsername" type="text" placeholder="Username" list="user-list">
-    <datalist id="user-list">
+    <datalist id="user-list" v-if="selectedUsername">
       <option v-for="user in users" :key="user.id" :value="user.username"/>
     </datalist>
     <button @click="addUser">Add to board</button>

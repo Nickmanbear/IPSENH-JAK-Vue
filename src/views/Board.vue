@@ -204,6 +204,7 @@ export default {
       width: 240px;
       max-height: 80vh;
       color: #888;
+      opacity: 50%;
 
       p {
         padding-left: 10px;

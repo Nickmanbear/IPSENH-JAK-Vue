@@ -5,7 +5,11 @@
     <input v-model="newTeamName" type="text" @keydown.enter="createTeam">
     <button @click="createTeam()">Make team</button>
 
-    <Team v-for="team in teams" :key="team.id" v-bind:team="team" v-bind:users="users"/>
+    <Team v-for="team in teams"
+          :key="team.id"
+          v-bind:team="team"
+          v-bind:users="users"
+          v-bind:deleted="getTeams"/>
   </div>
 </template>
 
@@ -53,26 +57,6 @@ export default {
           this.teams.push(response.data);
         });
     },
-    createBoard() {
-      this.editingNewBoard = false;
-      // axios.post(
-      //   '/board',
-      //   {
-      //     id: 0,
-      //     userId: 1, // TODO: Make current user_id
-      //     name: this.newBoardName,
-      //   },
-      // ).then((response) => {
-      //   this.boards.push(response.data);
-      //   this.newBoardName = '';
-      // });
-      // axios.post('/team/member/1/3').then((res) => {
-      //   console.log(res);
-      // });
-      console.log(this.teams);
-      console.log(this.$store.getters.isLoggedIn);
-      console.log(JSON.parse(JSON.stringify(this.$store.getters.userId)));
-    },
   },
 };
 </script>
@@ -90,6 +74,7 @@ export default {
     padding: 15px 20px;
     background-color: #ccc;
     border: 1px solid #ccc;
+    /*opacity: 80%;*/
     -ms-overflow-style: none;
 
     &::-webkit-scrollbar {

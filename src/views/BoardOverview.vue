@@ -16,6 +16,8 @@
              @keydown.enter="createBoard" @keydown.esc="editingNewBoard = false">
       <button v-if="editingNewBoard" @click="createBoard()">Add</button>
     </div>
+
+    <TeamBoards v-for="team in teams" :key="team.id" v-bind:team="team"/>
   </div>
 </template>
 
@@ -23,6 +25,7 @@
 // @ is an alias to /src
 import BoardPreview from '@/components/BoardPreview.vue';
 import Teams from '@/components/Teams.vue';
+import TeamBoards from '@/components/TeamBoards.vue';
 import axios from '@/axiosInstance';
 
 export default {
@@ -30,10 +33,12 @@ export default {
   components: {
     BoardPreview,
     Teams,
+    TeamBoards,
   },
   data() {
     return {
       boards: [],
+      teams: [],
       editingNewBoard: false,
       newBoardName: '',
       managingTeams: false,
@@ -41,12 +46,19 @@ export default {
   },
   mounted() {
     this.getBoards();
+    this.getTeams();
   },
   methods: {
     getBoards() {
       axios.get('/board')
         .then((response) => {
           this.boards = response.data;
+        });
+    },
+    getTeams() {
+      axios.get('/team')
+        .then((response) => {
+          this.teams = response.data;
         });
     },
     createBoard() {
@@ -88,6 +100,7 @@ export default {
       display: inline-block;
       vertical-align: top;
       width: 250px;
+      opacity: 50%;
 
       h2 {
         margin-left: 5px;
