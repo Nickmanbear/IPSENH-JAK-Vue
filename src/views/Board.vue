@@ -183,6 +183,8 @@ export default {
 
     #timeline {
       grid-area: timeline;
+      overflow-y: scroll;
+      -ms-overflow-style: none;
 
       .event {
         background-color: #eee;
