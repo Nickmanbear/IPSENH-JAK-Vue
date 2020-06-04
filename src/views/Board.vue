@@ -141,15 +141,15 @@ export default {
 <style lang="scss">
   .board {
     display: grid;
-    grid: 3rem 7fr / 7fr 1fr;
+    grid: auto 1fr / 1fr auto;
     grid-template-areas:
       "header timeline"
       "columns timeline";
     padding: 0 10px;
+    max-height: calc(100vh - 34px);
 
     h1 {
       padding: 0;
-      margin: 0 0 5px 10px;
     }
 
     input {
@@ -184,7 +184,11 @@ export default {
     #timeline {
       grid-area: timeline;
       overflow-y: scroll;
-      -ms-overflow-style: none;
+      padding: 0 4px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       .event {
         background-color: #eee;
@@ -240,7 +244,6 @@ export default {
     grid-area: columns;
     overflow: scroll;
     white-space: nowrap;
-    -ms-overflow-style: none;
 
     &::-webkit-scrollbar {
       display: none;
