@@ -141,7 +141,7 @@ export default {
 <style lang="scss">
   .board {
     display: grid;
-    grid: 1fr 7fr / 7fr 1fr;
+    grid: 3rem 7fr / 7fr 1fr;
     grid-template-areas:
       "header timeline"
       "columns timeline";
