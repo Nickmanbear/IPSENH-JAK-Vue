@@ -30,9 +30,9 @@
     "eslint": "^6.7.2",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-vue": "^6.2.2",
+    "jest-sonar-reporter": "^2.0.0",
     "sass": "^1.26.3",
     "sass-loader": "^8.0.2",
-    "jest-sonar-reporter": "^2.0.0",
     "vue-template-compiler": "^2.6.11"
   },
   "eslintConfig": {
@@ -72,7 +72,7 @@
     "testResultsProcessor": "jest-sonar-reporter",
     "collectCoverage": true,
     "collectCoverageFrom": [
-      "./src/**/*.vue",
+      "./src/**/*.{js,vue}",
       "!**/node_modules/**"
     ]
   }

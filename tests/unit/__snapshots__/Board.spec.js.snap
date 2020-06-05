@@ -4,7 +4,9 @@ exports[`Board has the expected html structure 1`] = `
 <div
   class="board"
 >
-  <h1>
+  <h1
+    class="title"
+  >
     
   </h1>
    
@@ -21,6 +23,15 @@ exports[`Board has the expected html structure 1`] = `
   </div>
    
   <!---->
+   
+  <div
+    id="timeline"
+  >
+    <h2>
+      Timeline
+    </h2>
+     
+  </div>
    
   <div
     id="columns"
