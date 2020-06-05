@@ -1,7 +1,6 @@
 <template>
   <div class="small">
     <line-chart :chart-data="datacollection"></line-chart>
-    <button @click="fillData()">Randomize</button>
   </div>
 </template>
 
@@ -10,10 +9,15 @@
 
 import LineChart from './LineChart';
 
+
 export default {
   name: 'Burndown',
   components: {
     LineChart,
+  },
+  props: {
+    allCards: Array,
+    doneCards: Array,
   },
   data() {
     return {
@@ -25,11 +29,12 @@ export default {
   },
   methods: {
     fillData() {
+      console.log(this.gettotalPoints(this.allCards));
       this.datacollection = {
         labels: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
         datasets: [
           {
-            label: 'ultime tijd',
+            label: 'Perfect burndown',
             backgroundColor: '#f87979',
             data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
           }, {
@@ -40,6 +45,13 @@ export default {
         ],
       };
     },
+    gettotalPoints(cards) {
+      let count = 0;
+      cards.forEach((card) => {
+        count += card.points;
+      });
+      return count;
+    },
 
   },
 };
@@ -47,7 +59,10 @@ export default {
 
 <style>
   .small {
-    max-width: 600px;
-    margin: 150px auto;
+    display: block;
+    width: 100%;
+    max-width: 750px;
+    height: 350px;
+    /*margin: 150px auto;*/
   }
 </style>

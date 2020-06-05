@@ -1,7 +1,9 @@
 <template>
   <div class="board">
+
     <h1 class="title" v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
     <div class="title" v-else>
+
       <input v-model="board.name" @keydown.enter="saveName" type="text">
       <button @click="saveName">save</button>
     </div>
@@ -26,8 +28,11 @@
         <span>{{ event.to.name }}</span>
       </p>
     </div>
-
+    <div id="burndown">
+      <burndown v-bind:done-cards="doneCards" v-bind:allCards="allCards"></burndown>
+    </div>
     <div id="columns">
+
       <Column v-for="column in columns" :key="column.id" ref="columns"
               v-bind:column="column"
               @deleted="removeColumn()"/>
@@ -47,10 +52,12 @@ import AddUser from '@/components/AddUser.vue';
 import Column from '@/components/Column.vue';
 import axios from '@/axiosInstance';
 import stomp from '@/stompInstance';
+import Burndown from '../components/Burndown.vue';
 
 export default {
   name: 'Board',
   components: {
+    Burndown,
     AddUser,
     Column,
   },
@@ -67,13 +74,17 @@ export default {
       editingNewColumn: false,
       newColumnName: '',
       addingUser: false,
+      doneCards: [],
+      allCards: [],
     };
   },
   async mounted() {
     this.stompSetup();
     await this.getBoard();
     this.getColumns();
-    this.getTimeline();
+    await this.getTimeline();
+    await this.getAllCards();
+    await this.getLastColumnCards();
   },
   methods: {
     stompSetup() {
@@ -134,6 +145,18 @@ export default {
     removeColumn() {
       this.getColumns(); // TODO: Remove from array instead
     },
+    getAllCards() {
+      axios.get(`/card/board/${this.$route.params.id}`)
+        .then((response) => {
+          this.allCards = response.data;
+        });
+    },
+    getLastColumnCards() {
+      axios.get('/card/column/3')
+        .then((response) => {
+          this.doneCards = response.data;
+        });
+    },
   },
 };
 </script>
@@ -142,9 +165,7 @@ export default {
   .board {
     display: grid;
     grid: 1fr 7fr / 7fr 1fr;
-    grid-template-areas:
-      "header timeline"
-      "columns timeline";
+    grid-template-areas: "header timeline" "columns timeline";
     padding: 0 10px;
 
     h1 {
@@ -190,7 +211,7 @@ export default {
         border-radius: 3px;
         padding: 8px;
         margin: 8px 0;
-        box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.5);
+        box-shadow: 1px 1px 2px -1px rgba(0, 0, 0, 0.5);
 
         span {
           font-weight: bold;
@@ -270,5 +291,9 @@ export default {
         width: 80%;
       }
     }
+  }
+
+  #burndown {
+    grid-area: columns;
   }
 </style>
