@@ -37,7 +37,6 @@ export default {
   },
   data() {
     return {
-      isLeader: true,
       editingName: false,
       selectedMemberName: '',
     };
@@ -54,9 +53,9 @@ export default {
       temporaryUsers = temporaryUsers.filter((user) => (user !== null));
       return temporaryUsers;
     },
-  },
-  mounted() {
-    this.isLeader = this.team.leader.username === this.username;
+    isLeader() {
+      return this.team.leader.username === this.username;
+    },
   },
   methods: {
     userInTeam(user) {
