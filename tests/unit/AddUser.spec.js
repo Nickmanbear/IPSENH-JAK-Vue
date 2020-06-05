@@ -5,12 +5,7 @@ const $route = { params: { id: 1 } };
 
 jest.mock('axios', () => ({
   create: () => ({
-    post: (url, userId) => Promise.resolve({
-      data: {
-        userId,
-        boardId: url,
-      },
-    }),
+    post: () => Promise.resolve(null),
     get: () => Promise.resolve({
       data: {
         1: 'user1',
@@ -30,7 +25,7 @@ describe('AddUser', () => {
         $route,
       },
       propsData: {
-        boardUsers: {},
+        boardUsers: [],
       },
       data() {
         return {
@@ -65,11 +60,7 @@ describe('AddUser', () => {
     cmp.vm.selectedUsername = 'user2';
 
     await cmp.vm.addUser();
-    await cmp.vm.$nextTick(() => {
-      expect(cmp.vm.boardUsers).toEqual([
-        { id: '2', username: 'user2' },
-      ]);
-    });
+    expect(cmp.vm.boardUsers).toEqual([{ id: '2', username: 'user2' }]);
   });
 
   it('has the expected html structure', () => {

@@ -22,8 +22,8 @@
         }}</span>:
         <br>
         <span>{{ event.card.name }}</span> moved from
-        <span>{{ event.from.name }}</span> to
-        <span>{{ event.to.name }}</span>
+        <span>{{ event.fromColumn.name }}</span> to
+        <span>{{ event.toColumn.name }}</span>
       </p>
     </div>
 
