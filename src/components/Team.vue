@@ -8,7 +8,7 @@
     <div v-if="isLeader">
       <input v-model="selectedMemberName" type="text" placeholder="Username" list="user-list">
       <datalist id="user-list" v-if="selectedMemberName">
-        <option v-for="user in users" :key="user.id" :value="user.username"/>
+        <option v-for="user in filteredUsers" :key="user.id" :value="user.username"/>
       </datalist>
       <button @click="addMember">Add member</button>
     </div>
@@ -33,6 +33,7 @@ export default {
       members: [],
     },
     users: {},
+    username: String,
   },
   data() {
     return {
@@ -41,16 +42,31 @@ export default {
       selectedMemberName: '',
     };
   },
+  computed: {
+    filteredUsers() {
+      let temporaryUsers = this.users
+        .map((user) => {
+          if (!this.userInTeam(user)) {
+            return user;
+          }
+          return null;
+        });
+      temporaryUsers = temporaryUsers.filter((user) => (user !== null));
+      return temporaryUsers;
+    },
+  },
   mounted() {
-    // this.isLeader = this.team.leader === 'me'; // TODO real check
+    this.isLeader = this.team.leader.username === this.username;
   },
   methods: {
+    userInTeam(user) {
+      return this.team.members.find(
+        (member) => member.username === user.username,
+      );
+    },
     saveTeam() {
       this.editingName = false;
-      console.log(this.team);
-      const team = JSON.parse(JSON.stringify(this.team));
-      console.log(team);
-      axios.post('/team', JSON.parse(JSON.stringify(this.team)))
+      axios.post('/team', this.team)
         .then(() => {
           // TODO update
         });

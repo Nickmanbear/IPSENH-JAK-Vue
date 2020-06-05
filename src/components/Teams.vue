@@ -9,6 +9,7 @@
           :key="team.id"
           v-bind:team="team"
           v-bind:users="users"
+          v-bind:username="myUsername"
           v-on:refresh="getTeams"/>
   </div>
 </template>
@@ -25,6 +26,7 @@ export default {
   },
   data() {
     return {
+      myUsername: '',
       teams: [],
       users: [],
       newTeamName: '',
@@ -35,6 +37,7 @@ export default {
   mounted() {
     this.getTeams();
     this.getUsers();
+    this.getMyUsername();
   },
   methods: {
     getTeams() {
@@ -44,15 +47,28 @@ export default {
         });
     },
     getUsers() {
-      axios.get('/user').then((response) => {
-        this.users = Object.keys(response.data)
-          .map((key) => (
-            { id: key, username: response.data[key] }
-          ));
-      });
+      axios.get('/user')
+        .then((response) => {
+          this.users = Object.keys(response.data)
+            .map((key) => (
+              { id: key, username: response.data[key] }
+            ));
+        });
+    },
+    getMyUsername() {
+      axios.get('/user/me')
+        .then((response) => {
+          this.myUsername = response.data.username;
+        });
     },
     createTeam() {
-      axios.post(`/team/new/${this.newTeamName}`)
+      const team = {
+        id: 0,
+        name: this.newTeamName,
+      };
+      this.newTeamName = '';
+
+      axios.post('/team', team)
         .then((response) => {
           this.teams.push(response.data);
         });
