@@ -5,13 +5,11 @@ const $route = { params: { id: 1 } };
 
 jest.mock('axios', () => ({
   create: () => ({
-    post: () => Promise.resolve({
-      data: {
-        id: 1,
-        board: { id: 1, users: [{ id: 1 }] },
-        name: 'new column',
-      },
-    }),
+    post: (url, data) => Promise.resolve(
+      url === '/column'
+        ? { data: { id: 1, board: { id: 1 }, name: 'new column' } }
+        : data,
+    ),
     get: () => Promise.resolve({ data: { id: 1, users: [{ id: 1 }] } }),
   }),
 }));
@@ -41,9 +39,14 @@ describe('Board', () => {
   });
 
   it('should create a new column', async () => {
+    cmp.vm.board = { id: 1 };
+    cmp.vm.columns = [];
+    cmp.vm.editingNewColumn = true;
     cmp.vm.newColumnName = 'new column';
     await cmp.vm.createColumn();
-    expect(cmp.vm.columns).toEqual({ id: 1, users: [{ id: 1 }] });
+    expect(cmp.vm.editingNewColumn).toBeFalsy();
+    expect(cmp.vm.columns).toEqual([{ id: 1, board: { id: 1 }, name: 'new column' }]);
+    expect(cmp.vm.newColumnName).toEqual('');
   });
 
   it('should reload its columns', async () => {

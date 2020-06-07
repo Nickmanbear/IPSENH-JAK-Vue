@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <Navigation />
-    <br>
     <router-view/>
     <img v-bind:src="imgUrl">
   </div>
