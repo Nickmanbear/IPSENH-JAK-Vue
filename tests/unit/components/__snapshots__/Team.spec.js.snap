@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Team has the expected html structure 1`] = `
+<div
+  id="team"
+>
+  <button
+    id="delete"
+  >
+    ×
+  </button>
+   
+  <h2>
+    test team
+  </h2>
+   
+  <!---->
+   
+  <div>
+    <input
+      list="user-list"
+      placeholder="Username"
+      type="text"
+    />
+     
+    <!---->
+     
+    <button>
+      Add member
+    </button>
+  </div>
+   
+  <p
+    class="memberName"
+  >
+    teamleader
+  </p>
+  <p
+    class="memberName"
+  >
+    member1
+  </p>
+  <p
+    class="memberName"
+  >
+    member2
+  </p>
+</div>
+`;

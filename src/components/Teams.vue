@@ -31,7 +31,6 @@ export default {
       users: [],
       newTeamName: '',
       editingName: false,
-      selectedMemberName: '',
     };
   },
   mounted() {

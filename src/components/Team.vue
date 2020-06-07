@@ -67,7 +67,7 @@ export default {
       this.editingName = false;
       axios.post('/team', this.team)
         .then(() => {
-          // TODO update
+          this.$emit('refresh');
         });
     },
     addMember() {

@@ -4,33 +4,44 @@ exports[`AddUser has the expected html structure 1`] = `
 <div
   id="add-user"
 >
-  <input
-    list="user-list"
-    placeholder="Username"
-    type="text"
-  />
-   
-  <datalist
-    id="user-list"
+  <div
+    id="toggle"
   >
-    <option
-      value="user1"
-    />
-    <option
-      value="user2"
-    />
-    <option
-      value="user3"
-    />
-  </datalist>
+    <p
+      class="active"
+    >
+      Users
+    </p>
+     
+    <p
+      class=""
+    >
+      Team
+    </p>
+  </div>
    
-  <button>
-    Add to board
-  </button>
-   
-  <p>
-    Current users:
-  </p>
-   
+  <div>
+    <input
+      list="user-list"
+      placeholder="Username"
+      type="text"
+    />
+     
+    <!---->
+     
+    <button>
+      Add to board
+    </button>
+     
+    <p>
+      Current users:
+    </p>
+     
+    <p
+      id="users"
+    >
+      user2
+    </p>
+  </div>
 </div>
 `;

@@ -1,11 +1,32 @@
 import { shallowMount } from '@vue/test-utils';
-import AddUser from '@/components/AddUser.vue';
-
-const $route = { params: { id: 1 } };
+import Teams from '@/components/Teams.vue';
 
 jest.mock('axios', () => ({
   create: () => ({
-    post: () => Promise.resolve(null),
+    post: () => Promise.resolve({
+      data: {
+        id: 3,
+        name: 'test team3',
+        leader: {
+          id: 1,
+          username: 'teamleader',
+        },
+        members: [
+          {
+            id: 1,
+            username: 'teamleader',
+          },
+          {
+            id: 2,
+            username: 'member1',
+          },
+          {
+            id: 3,
+            username: 'member2',
+          },
+        ],
+      },
+    }),
     get: (url) => {
       let data;
       switch (url) {
@@ -56,14 +77,18 @@ jest.mock('axios', () => ({
           },
         ];
           break;
-        case '/user':
-          data = {
-            1: 'user1',
-            2: 'user2',
-            3: 'user3',
-          };
+        case '/user': data = {
+          1: 'user1',
+          2: 'user2',
+          3: 'user3',
+        };
           break;
-        default: data = {};
+        case '/user/me': data = {
+          id: 1,
+          username: 'teamleader',
+        };
+          break;
+        default: data = [];
           break;
       }
       return Promise.resolve({
@@ -73,42 +98,27 @@ jest.mock('axios', () => ({
   }),
 }));
 
-describe('AddUser', () => {
+describe('Teams', () => {
   let cmp;
 
   beforeEach(() => {
-    cmp = shallowMount(AddUser, {
-      mocks: {
-        $route,
-      },
-      propsData: {
-        boardUsers: [{ id: '2', username: 'user2' }],
-        boardTeam: {},
-      },
+    cmp = shallowMount(Teams, {
       data() {
         return {
-          toggleIsUsers: true,
-          users: [],
+          myUsername: '',
           teams: [],
-          selectedUsername: '',
-          selectedTeamName: '',
+          users: [],
+          newTeamName: '',
+          editingName: false,
+          selectedMemberName: '',
         };
       },
     });
-    window.alert = jest.fn(() => true);
   });
 
-  it('should update selectedUsername', () => {
-    cmp.find('input').setValue('test username');
-    expect(cmp.vm.selectedUsername).toEqual('test username');
-  });
-
-  it('should get users', async () => {
-    await cmp.vm.getUsers();
-    expect(cmp.vm.users).toEqual([
-      { id: '1', username: 'user1' },
-      { id: '3', username: 'user3' },
-    ]);
+  it('should update newTeamName', () => {
+    cmp.find('input').setValue('test teamName');
+    expect(cmp.vm.newTeamName).toEqual('test teamName');
   });
 
   it('should get teams', async () => {
@@ -161,23 +171,90 @@ describe('AddUser', () => {
     ]);
   });
 
-  it('should add user', async () => {
-    cmp.vm.users = [
+  it('should get users', async () => {
+    await cmp.vm.getUsers();
+    expect(cmp.vm.users).toEqual([
       { id: '1', username: 'user1' },
       { id: '2', username: 'user2' },
       { id: '3', username: 'user3' },
-    ];
-    cmp.vm.selectedUsername = 'user2';
+    ]);
+  });
 
-    await cmp.vm.addUser();
-    expect(cmp.vm.boardUsers).toEqual([{ id: '2', username: 'user2' }]);
+  it('should get my username', async () => {
+    await cmp.vm.getMyUsername();
+    expect(cmp.vm.myUsername).toEqual('teamleader');
   });
 
   it('should add team', async () => {
-    cmp.vm.selectedTeamName = 'test team';
-
-    await cmp.vm.addTeam();
-    expect(cmp.vm.boardTeam).toEqual({});
+    await cmp.vm.createTeam();
+    expect(cmp.vm.teams).toEqual([
+      {
+        id: 1,
+        name: 'test team',
+        leader: {
+          id: 1,
+          username: 'teamleader',
+        },
+        members: [
+          {
+            id: 1,
+            username: 'teamleader',
+          },
+          {
+            id: 2,
+            username: 'member1',
+          },
+          {
+            id: 3,
+            username: 'member2',
+          },
+        ],
+      },
+      {
+        id: 2,
+        name: 'test team 2',
+        leader: {
+          id: 4,
+          username: 'teamleader2',
+        },
+        members: [
+          {
+            id: 4,
+            username: 'teamleader2',
+          },
+          {
+            id: 2,
+            username: 'member1',
+          },
+          {
+            id: 3,
+            username: 'member2',
+          },
+        ],
+      },
+      {
+        id: 3,
+        name: 'test team3',
+        leader: {
+          id: 1,
+          username: 'teamleader',
+        },
+        members: [
+          {
+            id: 1,
+            username: 'teamleader',
+          },
+          {
+            id: 2,
+            username: 'member1',
+          },
+          {
+            id: 3,
+            username: 'member2',
+          },
+        ],
+      },
+    ]);
   });
 
   it('has the expected html structure', () => {

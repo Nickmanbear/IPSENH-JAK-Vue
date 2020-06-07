@@ -38,7 +38,7 @@ export default {
         });
     },
     removeBoardPreview() {
-      this.getBoards(); // TODO: Remove from array instead
+      this.getBoards();
     },
   },
 };
