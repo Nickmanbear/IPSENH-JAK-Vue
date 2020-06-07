@@ -4,12 +4,29 @@ exports[`BoardOverview has the expected html structure 1`] = `
 <div
   class="overview"
 >
+  <div
+    id="manage-teams-button"
+  >
+    <span>
+      Manage teams
+    </span>
+  </div>
+   
+  <!---->
+   
   <h1>
     Choose your board
   </h1>
+    
+  <div
+    id="createBoard"
+  >
+    <h2>
+      Add board
+    </h2>
+     
+    <!---->
+  </div>
    
-  <p>
-    Loading...
-  </p>
 </div>
 `;

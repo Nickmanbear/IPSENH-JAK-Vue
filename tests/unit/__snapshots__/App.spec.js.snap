@@ -7,5 +7,9 @@ exports[`App has the expected html structure 1`] = `
   <navigation-stub />
    
   <router-view-stub />
+   
+  <img
+    src="https://www.departures.com/sites/default/files/styles/responsive_900x600/public/1577142212/chureito-pagoda-MTFUJI1219.jpg?itok=Z9hDcHlz"
+  />
 </div>
 `;
