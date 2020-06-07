@@ -1,0 +1,38 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Column has the expected html structure 1`] = `
+<div
+  id="column"
+>
+  <h2>
+    test column
+  </h2>
+   
+  <!---->
+   
+  <button
+    id="delete"
+  >
+    ×
+  </button>
+   
+  <div
+    id="cards"
+  >
+    <draggable-stub
+      clone="function(t){return t}"
+      element="div"
+      group="cards"
+      value=""
+    />
+  </div>
+   
+  <button
+    id="create"
+  >
+    + Add card
+  </button>
+   
+  <!---->
+</div>
+`;
