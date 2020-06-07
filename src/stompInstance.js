@@ -1,9 +1,9 @@
 import webstomp from 'webstomp-client';
+import SockJS from 'sockjs-client';
 
-const protocols = webstomp.VERSIONS.supportedProtocols();
-if (localStorage.getItem('token')) {
-  protocols.push(localStorage.getItem('token').replace(' ', '.'));
-}
-const stompInstance = webstomp.over(new WebSocket(`ws${process.env.VUE_APP_BACKEND_URL}/ws`, protocols));
+const stompInstance = webstomp.over(
+  new SockJS(`${process.env.VUE_APP_BACKEND_URL}/ws?${localStorage.getItem('token')}`),
+  { debug: false, heartbeat: false },
+);
 
 export default stompInstance;

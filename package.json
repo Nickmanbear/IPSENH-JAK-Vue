@@ -12,6 +12,7 @@
     "axios": "^0.19.2",
     "core-js": "^3.6.4",
     "node": "latest",
+    "sockjs-client": "^1.4.0",
     "vue": "^2.6.11",
     "vue-router": "^3.1.6",
     "vuedraggable": "^2.23.2",
