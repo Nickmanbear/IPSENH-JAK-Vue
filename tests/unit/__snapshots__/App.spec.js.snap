@@ -9,6 +9,7 @@ exports[`App has the expected html structure 1`] = `
   <router-view-stub />
    
   <img
+    alt="background image"
     src="test url"
   />
 </div>

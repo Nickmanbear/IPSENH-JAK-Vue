@@ -2,7 +2,7 @@
   <div id="app">
     <Navigation />
     <router-view/>
-    <img v-bind:src="imgUrl">
+    <img v-bind:src="imgUrl" alt="background image">
   </div>
 </template>
 
