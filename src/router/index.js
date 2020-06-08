@@ -16,7 +16,7 @@ const routes = [
   },
   {
     path: '/board/:id',
-    name: 'Board',
+    name: 'Boards',
     component: () => import('../views/Board.vue'),
     meta: {
       requiresAuth: true,

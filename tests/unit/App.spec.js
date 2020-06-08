@@ -5,7 +5,15 @@ describe('App', () => {
   let cmp;
 
   beforeEach(() => {
-    cmp = shallowMount(App, { stubs: ['router-view'] });
+    cmp = shallowMount(App, {
+      stubs: ['router-view'],
+      data() {
+        return {
+          imgUrl: '',
+        };
+      },
+    });
+    cmp.setData({ imgUrl: 'test url' });
   });
 
   it('has the expected html structure', () => {

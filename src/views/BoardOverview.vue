@@ -1,47 +1,64 @@
 <template>
   <div class="overview">
-    <h1>Choose your board</h1>
-    <div v-if="boards.length > 0">
-      <BoardPreview
-        v-for="board in boards" :key="board.id"
-        v-bind:board="board"
-        @deleted="removeBoardPreview()"/>
-      <div id="createBoard">
-        <h2 v-if="!editingNewBoard" @click="editingNewBoard = true">Add board</h2>
-        <input v-else v-model="newBoardName" type="text"
-               @keydown.enter="createBoard" @keydown.esc="editingNewBoard = false">
-        <button v-if="editingNewBoard" @click="createBoard()">Add</button>
-      </div>
+    <div id="manage-teams-button" @click="managingTeams = !managingTeams">
+      <span>Manage teams</span>
     </div>
-    <p v-else>Loading...</p>
+    <Teams v-if="managingTeams"/>
+
+    <h1>Choose your board</h1>
+    <BoardPreview
+      v-for="board in boards" :key="board.id"
+      v-bind:board="board"
+      @deleted="removeBoardPreview()"/>
+    <div id="createBoard">
+      <h2 v-if="!editingNewBoard" @click="editingNewBoard = true">Add board</h2>
+      <input v-else v-model="newBoardName" type="text"
+             @keydown.enter="createBoard" @keydown.esc="editingNewBoard = false">
+      <button v-if="editingNewBoard" @click="createBoard()">Add</button>
+    </div>
+
+    <TeamBoards v-for="team in teams" :key="team.id" v-bind:team="team"/>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 import BoardPreview from '@/components/BoardPreview.vue';
+import Teams from '@/components/Teams.vue';
+import TeamBoards from '@/components/TeamBoards.vue';
 import axios from '@/axiosInstance';
 
 export default {
   name: 'BoardOverview',
   components: {
     BoardPreview,
+    Teams,
+    TeamBoards,
   },
   data() {
     return {
       boards: [],
+      teams: [],
       editingNewBoard: false,
       newBoardName: '',
+      managingTeams: false,
     };
   },
   mounted() {
     this.getBoards();
+    this.getTeams();
   },
   methods: {
     getBoards() {
       axios.get('/board')
         .then((response) => {
           this.boards = response.data;
+        });
+    },
+    getTeams() {
+      axios.get('/team')
+        .then((response) => {
+          this.teams = response.data;
         });
     },
     createBoard() {
@@ -82,6 +99,7 @@ export default {
       display: inline-block;
       vertical-align: top;
       width: 250px;
+      opacity: 50%;
 
       h2 {
         margin-left: 5px;
@@ -104,6 +122,27 @@ export default {
         font-size: 0.8em;
         padding: 3px 5px;
         margin: 0;
+      }
+    }
+
+    #manage-teams-button {
+      position: fixed;
+      top: 48px;
+      right: 15px;
+      height: calc(1em + 4px);
+      overflow: hidden;
+      font-size: 1em;
+      text-align: center;
+      color: #ccc;
+      background-color: #eee;
+      border: 1px solid #eee;
+      border-radius: 4px;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: all 0.3s ease-out;
+
+      &:hover {
+        color: black;
       }
     }
   }

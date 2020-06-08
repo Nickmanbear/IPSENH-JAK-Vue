@@ -1,0 +1,47 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AddUser has the expected html structure 1`] = `
+<div
+  id="add-user"
+>
+  <div
+    id="toggle"
+  >
+    <p
+      class="active"
+    >
+      Users
+    </p>
+     
+    <p
+      class=""
+    >
+      Team
+    </p>
+  </div>
+   
+  <div>
+    <input
+      list="user-list"
+      placeholder="Username"
+      type="text"
+    />
+     
+    <!---->
+     
+    <button>
+      Add to board
+    </button>
+     
+    <p>
+      Current users:
+    </p>
+     
+    <p
+      id="users"
+    >
+      user2
+    </p>
+  </div>
+</div>
+`;

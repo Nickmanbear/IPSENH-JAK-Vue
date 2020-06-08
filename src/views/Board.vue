@@ -11,7 +11,10 @@
       <span> Add user</span>
     </div>
 
-    <AddUser v-if="addingUser" v-bind:boardUsers="board.users"/>
+    <AddUser v-if="addingUser"
+             v-bind:boardUsers="board.users"
+             v-bind:boardTeam="board.team"
+             v-on:refresh="getBoard"/>
 
     <div id="timeline">
       <h2>Timeline</h2>
@@ -165,6 +168,10 @@ export default {
       font-size: 0.8em;
       padding: 3px 5px;
       margin: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .title {
@@ -260,6 +267,7 @@ export default {
       width: 240px;
       max-height: 80vh;
       color: #888;
+      opacity: 50%;
 
       p {
         padding-left: 10px;
