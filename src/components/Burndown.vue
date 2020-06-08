@@ -18,29 +18,40 @@ export default {
   props: {
     allCards: Array,
     doneCards: Array,
+    events: Array,
   },
   data() {
     return {
       datacollection: null,
+      totalPoints: 0,
     };
   },
   mounted() {
+    this.gettotalPoints(this.allCards);
+    this.getData();
+    this.buildDataSets();
     this.fillData();
   },
   methods: {
+    getData() {
+      this.totalPoints = this.gettotalPoints(this.allCards);
+    },
+    buildDataSets() {
+
+    },
     fillData() {
-      console.log(this.gettotalPoints(this.allCards));
       this.datacollection = {
-        labels: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
+        labels: this.getTimestamps(this.events),
         datasets: [
+          // {
+          //   label: 'Perfect burndown',
+          //   backgroundColor: '#f87979',
+          //   data: this.getPoints(this.allCards),
+          // },
           {
-            label: 'Perfect burndown',
-            backgroundColor: '#f87979',
-            data: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-          }, {
             label: 'Echte tijd',
             backgroundColor: 'blue',
-            data: [10, 8, 6, 4, 3, 1, 0],
+            data: this.countDownPoints(this.doneCards),
           },
         ],
       };
@@ -52,8 +63,37 @@ export default {
       });
       return count;
     },
+    getTimestamps(events) {
+      const timestamps = [];
+      events.forEach((event) => {
+        const options = { month: 'numeric', day: 'numeric' };
+        timestamps.push(
+          new Intl.DateTimeFormat('en-GB', options).format(new Date(event.timestamp)),
+        );
+      });
+      return timestamps;
+    },
+    getPoints(cards) {
+      const points = [];
+      points.push(0);
+      cards.forEach((card) => {
+        points.push(card.points + points.slice(-1)[0]);
+      });
+      return points.reverse();
+    },
+    countDownPoints(cards) {
+      const points = [];
+      points.push(this.totalPoints);
+      cards.forEach((card) => {
+        console.log(card.points);
+        points.push(points.slice(-1)[0] - card.points);
+      });
+      points.shift();
+      return points;
+    },
 
   },
+
 };
 </script>
 

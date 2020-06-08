@@ -17,19 +17,20 @@
 
     <div id="timeline">
       <h2>Timeline</h2>
-      <p class="event" v-for="event in timeline" :key="event.id">
-        <span>{{
-          new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
-          .format(new Date(event.timestamp))
-        }}</span>:
-        <br>
-        <span>{{ event.card.name }}</span> moved from
-        <span>{{ event.from.name }}</span> to
-        <span>{{ event.to.name }}</span>
-      </p>
+            <p class="event" v-for="event in timeline" :key="event.id">
+              <span>{{
+                new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
+                .format(new Date(event.timestamp))
+              }}</span>:
+              <br>
+              <span>{{ event.card.name }}</span> moved from
+              <span>{{ event.fromColumn.name }}</span> to
+              <span>{{ event.toColumn.name }}</span>
+            </p>
     </div>
     <div id="burndown">
-      <burndown v-bind:done-cards="doneCards" v-bind:allCards="allCards"></burndown>
+      <burndown v-if="allCards.length >0 && timeline.length > 0" v-bind:doneCards="doneCards"
+                v-bind:allCards="allCards" v-bind:events="timeline"></burndown>
     </div>
     <div id="columns">
 

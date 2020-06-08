@@ -4,17 +4,14 @@
     <input type="text" name="username" v-model="userData.username" placeholder="Username"/>
     <input type="password" name="password" v-model="userData.password" placeholder="Password"/>
     <button type="button" v-on:click="login()">Login</button>
-    <burndown/>
   </div>
 </template>
 
 <script>
 
-import Burndown from '@/components/Burndown.vue';
 
 export default {
   name: 'Login',
-  components: { Burndown },
   data() {
     return {
       userData: {
