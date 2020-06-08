@@ -16,18 +16,20 @@ export default {
   },
   data() {
     return {
-      imgUrl: '',
+      publicPath: process.env.BASE_URL,
+      img: '',
     };
   },
+  computed: {
+    imgUrl() {
+      return `${this.publicPath}images/${this.img}`;
+    },
+  },
   mounted() {
-    const images = [
-      'https://www.departures.com/sites/default/files/styles/responsive_900x600/'
-      + 'public/1577142212/chureito-pagoda-MTFUJI1219.jpg?itok=Z9hDcHlz',
-      'https://i.ytimg.com/vi/o4Nw1VgqhnA/maxresdefault.jpg',
-    ];
-    const count = Math.trunc(Math.random() * 2);
+    const images = ['MtFujiWithTemple.jpg', 'MtFujiWithLake.jpg'];
 
-    this.imgUrl = images[count];
+    const count = Math.trunc(Math.random() * 2);
+    this.img = images[count];
   },
 };
 </script>
@@ -51,7 +53,8 @@ body {
     /*top: -85%;*/
     top: 0;
     left: 0;
-    height: 100vh;
+    min-height: 100vh;
+    min-width: 100vw;
     opacity: 75%;
     /*background-size: cover;*/
   }
