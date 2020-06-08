@@ -16,7 +16,7 @@ const routes = [
   },
   {
     path: '/board/:id',
-    name: 'Board',
+    name: 'Boards',
     component: () => import('../views/Board.vue'),
     meta: {
       requiresAuth: true,
@@ -31,14 +31,6 @@ const routes = [
     path: '/register',
     name: 'Register',
     component: () => import('../views/Register.vue'),
-  },
-  {
-    path: '/logout',
-    name: 'logout',
-    component: () => import('../views/Logout.vue'),
-    meta: {
-      requiresAuth: true,
-    },
   },
 ];
 

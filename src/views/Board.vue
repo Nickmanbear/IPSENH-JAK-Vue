@@ -1,9 +1,7 @@
 <template>
   <div class="board">
-
     <h1 class="title" v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
     <div class="title" v-else>
-
       <input v-model="board.name" @keydown.enter="saveName" type="text">
       <button @click="saveName">save</button>
     </div>
@@ -13,27 +11,29 @@
       <span> Add user</span>
     </div>
 
-    <AddUser v-if="addingUser" v-bind:boardUsers="board.users"/>
+    <AddUser v-if="addingUser"
+             v-bind:boardUsers="board.users"
+             v-bind:boardTeam="board.team"
+             v-on:refresh="getBoard"/>
 
     <div id="timeline">
       <h2>Timeline</h2>
-            <p class="event" v-for="event in timeline" :key="event.id">
-              <span>{{
-                new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
-                .format(new Date(event.timestamp))
-              }}</span>:
-              <br>
-              <span>{{ event.card.name }}</span> moved from
-              <span>{{ event.fromColumn.name }}</span> to
-              <span>{{ event.toColumn.name }}</span>
-            </p>
+      <p class="event" v-for="event in timeline" :key="event.id">
+        <span>{{
+          new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
+          .format(new Date(event.timestamp))
+        }}</span>:
+        <br>
+        <span>{{ event.card.name }}</span> moved from
+        <span>{{ event.from.name }}</span> to
+        <span>{{ event.to.name }}</span>
+      </p>
     </div>
     <div id="burndown">
       <burndown v-if="allCards.length >0 && timeline.length > 0" v-bind:doneCards="doneCards"
                 v-bind:allCards="allCards" v-bind:events="timeline"></burndown>
     </div>
     <div id="columns">
-
       <Column v-for="column in columns" :key="column.id" ref="columns"
               v-bind:column="column"
               @deleted="removeColumn()"/>
@@ -53,7 +53,6 @@ import AddUser from '@/components/AddUser.vue';
 import Column from '@/components/Column.vue';
 import axios from '@/axiosInstance';
 import stomp from '@/stompInstance';
-import Burndown from '../components/Burndown.vue';
 
 export default {
   name: 'Board',
@@ -83,9 +82,9 @@ export default {
     this.stompSetup();
     await this.getBoard();
     this.getColumns();
-    await this.getTimeline();
-    await this.getAllCards();
-    await this.getLastColumnCards();
+    this.getTimeline();
+    this.getAllCards();
+    this.getLastColumnCards();
   },
   methods: {
     stompSetup() {
@@ -97,6 +96,9 @@ export default {
             column.getCards();
           });
         });
+      },
+      () => {
+        this.stompSetup();
       });
     },
     getColumns() {
@@ -165,9 +167,12 @@ export default {
 <style lang="scss">
   .board {
     display: grid;
-    grid: 1fr 7fr / 7fr 1fr;
-    grid-template-areas: "header timeline" "columns timeline";
+    grid: auto 1fr / 1fr auto;
+    grid-template-areas:
+      "header timeline"
+      "columns timeline";
     padding: 0 10px;
+    max-height: calc(100vh - 34px);
 
     h1 {
       padding: 0;
@@ -187,6 +192,10 @@ export default {
       font-size: 0.8em;
       padding: 3px 5px;
       margin: 0;
+
+      &:hover {
+        cursor: pointer;
+      }
     }
 
     .title {
@@ -205,6 +214,12 @@ export default {
 
     #timeline {
       grid-area: timeline;
+      overflow-y: scroll;
+      padding: 0 4px;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
 
       .event {
         background-color: #eee;
@@ -212,7 +227,7 @@ export default {
         border-radius: 3px;
         padding: 8px;
         margin: 8px 0;
-        box-shadow: 1px 1px 2px -1px rgba(0, 0, 0, 0.5);
+        box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.5);
 
         span {
           font-weight: bold;
@@ -260,7 +275,6 @@ export default {
     grid-area: columns;
     overflow: scroll;
     white-space: nowrap;
-    -ms-overflow-style: none;
 
     &::-webkit-scrollbar {
       display: none;
@@ -277,6 +291,7 @@ export default {
       width: 240px;
       max-height: 80vh;
       color: #888;
+      opacity: 50%;
 
       p {
         padding-left: 10px;
@@ -292,9 +307,5 @@ export default {
         width: 80%;
       }
     }
-  }
-
-  #burndown {
-    grid-area: columns;
   }
 </style>

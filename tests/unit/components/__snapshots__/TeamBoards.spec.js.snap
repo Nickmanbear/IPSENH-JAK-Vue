@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TeamBoards has the expected html structure 1`] = `
+<div
+  class="teamBoards"
+>
+  <br />
+   
+  <h1>
+    test team
+  </h1>
+   
+  <boardpreview-stub
+    board="[object Object]"
+  />
+  <boardpreview-stub
+    board="[object Object]"
+  />
+  <boardpreview-stub
+    board="[object Object]"
+  />
+</div>
+`;
