@@ -80,7 +80,6 @@ export default {
   },
   methods: {
     stompSetup() {
-      // eslint-disable-next-line quote-props
       stomp.connect({}, () => {
         stomp.subscribe(`/app/board/${this.$route.params.id}`, () => {
           this.getTimeline();
@@ -88,6 +87,9 @@ export default {
             column.getCards();
           });
         });
+      },
+      () => {
+        this.stompSetup();
       });
     },
     getColumns() {
