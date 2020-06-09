@@ -10,7 +10,7 @@ exports[`App has the expected html structure 1`] = `
    
   <img
     alt="background image"
-    src="test url"
+    src="undefinedimages/MtFujiWithLake.jpg"
   />
 </div>
 `;
