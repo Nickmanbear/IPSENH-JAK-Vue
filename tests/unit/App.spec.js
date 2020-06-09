@@ -9,11 +9,10 @@ describe('App', () => {
       stubs: ['router-view'],
       data() {
         return {
-          imgUrl: '',
+          img: '',
         };
       },
     });
-    cmp.setData({ imgUrl: 'test url' });
   });
 
   it('has the expected html structure', () => {
