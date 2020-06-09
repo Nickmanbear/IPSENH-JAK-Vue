@@ -25,8 +25,8 @@
         }}</span>:
         <br>
         <span>{{ event.card.name }}</span> moved from
-        <span>{{ event.from.name }}</span> to
-        <span>{{ event.to.name }}</span>
+        <span>{{ event.fromColumn.name }}</span> to
+        <span>{{ event.toColumn.name }}</span>
       </p>
     </div>
     <div id="burndown">
@@ -51,6 +51,7 @@
 // @ is an alias to /src
 import AddUser from '@/components/AddUser.vue';
 import Column from '@/components/Column.vue';
+import Burndown from '@/components/Burndown.vue';
 import axios from '@/axiosInstance';
 import stomp from '@/stompInstance';
 

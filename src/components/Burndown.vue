@@ -1,6 +1,6 @@
 <template>
   <div class="small">
-    <line-chart :chart-data="datacollection"></line-chart>
+    <line-chart :options="options" v-on: :chart-data="datacollection"></line-chart>
   </div>
 </template>
 
@@ -24,7 +24,23 @@ export default {
     return {
       datacollection: null,
       totalPoints: 0,
+      options: {
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true,
+            },
+          }],
+          responsive: true,
+        },
+      },
     };
+  },
+  watch: {
+    // Watch for the datasets changes.
+    allCards() {
+      this.fillData();
+    },
   },
   mounted() {
     this.gettotalPoints(this.allCards);
@@ -43,15 +59,12 @@ export default {
       this.datacollection = {
         labels: this.getTimestamps(this.events),
         datasets: [
-          // {
-          //   label: 'Perfect burndown',
-          //   backgroundColor: '#f87979',
-          //   data: this.getPoints(this.allCards),
-          // },
           {
-            label: 'Echte tijd',
-            backgroundColor: 'blue',
+            label: 'Verlopen punten',
+            borderColor: 'rgba(50, 115, 220, 0.5)',
+            backgroundColor: 'rgba(50, 115, 220, 0.1)',
             data: this.countDownPoints(this.doneCards),
+            steppedLine: true,
           },
         ],
       };
@@ -85,7 +98,6 @@ export default {
       const points = [];
       points.push(this.totalPoints);
       cards.forEach((card) => {
-        console.log(card.points);
         points.push(points.slice(-1)[0] - card.points);
       });
       points.shift();
@@ -101,8 +113,9 @@ export default {
   .small {
     display: block;
     width: 100%;
-    max-width: 750px;
-    height: 350px;
+    max-width: 550px;
+    /*height: 350px;*/
+    background: white;
     /*margin: 150px auto;*/
   }
 </style>
