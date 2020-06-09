@@ -27,15 +27,22 @@ export default {
 
   methods: {
     register() {
-      // TODO check if not null
+      if (this.userData.username === '' || this.userData.password === '') {
+        window.alert('Please enter your username and password.');
+      }
       this.$store.dispatch('register', {
         username: this.userData.username,
         password: this.userData.password,
       })
         .then(() => {
           this.$router.push('/login');
+        })
+        .catch(() => {
+          window.alert('This username is already taken.');
+          // TODO hij alert 2 keer idk whyy
+          this.userData.username = '';
+          this.userData.password = '';
         });
-      // TODO make .catch
     },
   },
 };

@@ -28,8 +28,11 @@ export default {
       })
         .then(() => {
           this.$router.push('/');
+        })
+        .catch(() => {
+          window.alert('Login failed wrong user credentials.');
+          this.userData.password = '';
         });
-      // TODO make .catch
     },
   },
 };

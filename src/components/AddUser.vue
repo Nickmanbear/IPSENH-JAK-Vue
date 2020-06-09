@@ -13,7 +13,7 @@
       <button @click="addUser">Add to board</button>
 
       <p v-if="boardUsers">Current users:</p>
-      <p id="users" v-for="user in boardUsers" :key="user.id"
+      <p class="deletable" v-for="user in boardUsers" :key="user.id"
          @click="() => deleteUser(user.id)">{{ user.username }}</p>
     </div>
 
@@ -25,7 +25,7 @@
       <button @click="addTeam">Add to board</button>
 
       <p v-if="boardTeam">Current team:</p>
-      <p v-if="boardTeam">{{ boardTeam.name }}</p>
+      <p class="deletable" v-if="boardTeam" @click="deleteTeam">{{ boardTeam.name }}</p>
     </div>
   </div>
 </template>
@@ -118,6 +118,13 @@ export default {
           this.$emit('refresh');
         });
     },
+    deleteTeam() {
+      const boardId = parseInt(this.$route.params.id, 10);
+      axios.delete(`/board/team/${boardId}`)
+        .then(() => {
+          this.$emit('refresh');
+        });
+    },
   },
 };
 </script>
@@ -133,7 +140,7 @@ export default {
   background-color: #ccc;
   border: 1px solid #ccc;
 
-  #users:hover {
+  .deletable:hover {
     text-decoration: line-through;
     cursor: pointer;
   }
