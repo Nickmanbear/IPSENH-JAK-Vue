@@ -98,6 +98,7 @@ export default {
 
     h1 {
       margin: 0;
+      padding: 0;
     }
 
     button {

@@ -74,8 +74,8 @@ export default {
         this.newBoardName = '';
       });
     },
-    removeBoardPreview() {
-      this.getBoards(); // TODO: Remove from array instead
+    removeBoardPreview(removedBoard) {
+      this.boards = this.boards.filter((board) => board !== removedBoard);
     },
   },
 };
@@ -86,8 +86,7 @@ export default {
     padding: 0 10px;
 
     h1 {
-      padding: 0;
-      margin: 0 0 5px 10px;
+      padding-left: 8px;
     }
 
     #createBoard {
@@ -101,8 +100,8 @@ export default {
       width: 250px;
       opacity: 50%;
 
-      h2 {
-        margin-left: 5px;
+      h1, h2 {
+        margin-left: 8px;
         cursor: pointer;
         color: #888;
       }

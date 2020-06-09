@@ -33,7 +33,7 @@
     <div id="columns">
       <Column v-for="column in columns" :key="column.id" ref="columns"
               v-bind:column="column"
-              @deleted="removeColumn()"/>
+              @deleted="removeColumn(column)"/>
       <div id="createColumn">
         <p v-if="!editingNewColumn" @click="editingNewColumn = true">+ Add column</p>
         <input v-else v-model="newColumnName" type="text"
@@ -136,8 +136,8 @@ export default {
         this.newColumnName = '';
       });
     },
-    removeColumn() {
-      this.getColumns(); // TODO: Remove from array instead
+    removeColumn(removedColumn) {
+      this.columns = this.columns.filter((column) => column !== removedColumn);
     },
   },
 };
@@ -154,7 +154,7 @@ export default {
     max-height: calc(100vh - 34px);
 
     h1 {
-      padding: 0;
+      padding: 0 0 0 5px;
     }
 
     input {
