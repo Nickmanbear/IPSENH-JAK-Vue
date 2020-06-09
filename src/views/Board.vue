@@ -29,10 +29,7 @@
         <span>{{ event.toColumn.name }}</span>
       </p>
     </div>
-    <div id="burndown">
-      <burndown v-if="allCards.length >0 && timeline.length > 0" v-bind:doneCards="doneCards"
-                v-bind:allCards="allCards" v-bind:events="timeline"></burndown>
-    </div>
+
     <div id="columns">
       <Column v-for="column in columns" :key="column.id" ref="columns"
               v-bind:column="column"
@@ -42,6 +39,12 @@
         <input v-else v-model="newColumnName" type="text"
                @keydown.enter="createColumn" @keydown.esc="editingNewColumn = false">
         <button v-if="editingNewColumn" @click="createColumn()">Add</button>
+      </div>
+      <div id="burndown">
+        <h2>Burndown</h2>
+        <burndown v-if="allCards.length >0 && timeline.length > 0 && doneCards.length >0 "
+                  v-bind:doneCards="doneCards"
+                  v-bind:allCards="allCards" v-bind:events="timeline"></burndown>
       </div>
     </div>
   </div>
@@ -156,9 +159,11 @@ export default {
         });
     },
     getLastColumnCards() {
-      axios.get('/card/column/3')
+      axios.get(`/column/board/${this.$route.params.id}/last/`)
         .then((response) => {
-          this.doneCards = response.data;
+          axios.get(`/card/column/${response.data[0].id}`).then((cardResponse) => {
+            this.doneCards = cardResponse.data;
+          });
         });
     },
   },
