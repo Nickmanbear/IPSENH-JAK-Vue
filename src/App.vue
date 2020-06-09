@@ -2,7 +2,7 @@
   <div id="app">
     <Navigation />
     <router-view/>
-    <img v-bind:src="imgUrl" alt="background image">
+    <img v-bind:src="img" alt="background image">
   </div>
 </template>
 
@@ -20,16 +20,11 @@ export default {
       img: '',
     };
   },
-  computed: {
-    imgUrl() {
-      return `${this.publicPath}images/${this.img}`;
-    },
-  },
   mounted() {
     const images = ['MtFujiWithTemple.jpg', 'MtFujiWithLake.jpg'];
 
     const count = Math.trunc(Math.random() * 2);
-    this.img = images[count];
+    this.img = `${this.publicPath}images/${images[count]}`;
   },
 };
 </script>

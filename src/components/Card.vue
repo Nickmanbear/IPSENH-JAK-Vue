@@ -17,7 +17,7 @@
 
       <div id="assign-user-list" v-if="assigningUser">
         <p @click="assignUser(0)">None</p>
-        <p v-for="user in card.column.board.users" :key="user.id" @click="assignUser(user.id)">
+        <p v-for="user in assignableUsers" :key="user.id" @click="assignUser(user.id)">
           {{ user.username }}
         </p>
       </div>
@@ -61,13 +61,16 @@ export default {
     return {
       editing: null,
       assigningUser: false,
+      assignableUsers: [],
     };
   },
   methods: {
     async switchAssigning() {
-      if (!this.card.column.board || !this.card.column.board.users) {
+      if (!this.assigningUser) {
         this.card.column.board = await axios.get(`/board/${this.$route.params.id}`)
           .then((response) => response.data);
+        this.assignableUsers = this.card.column.board.users
+          .concat(this.card.column.board.team.members);
       }
       this.assigningUser = !this.assigningUser;
     },
