@@ -7,10 +7,10 @@
       <input id="name" v-else v-model="card.name" @keydown.enter="save" type="text">
       <button v-if="editing === 'name'" @click="save">save</button>
       |
-      <span v-if="card.assignedUser" @click="assigningUser = !assigningUser">
+      <span v-if="card.assignedUser" @click="switchAssigning">
         {{ card.assignedUser.username }}
       </span>
-      <span v-else id="assign-user-button" @click="assigningUser = !assigningUser">
+      <span v-else id="assign-user-button" @click="switchAssigning">
         <span>+</span>
         <span> Assign user</span>
       </span>
@@ -64,6 +64,13 @@ export default {
     };
   },
   methods: {
+    async switchAssigning() {
+      if (!this.card.column.board || !this.card.column.board.users) {
+        this.card.column.board = await axios.get(`/board/${this.$route.params.id}`)
+          .then((response) => response.data);
+      }
+      this.assigningUser = !this.assigningUser;
+    },
     assignUser(userId) {
       this.assigningUser = false;
       this.card.assignedUser = userId ? { id: userId } : null;
