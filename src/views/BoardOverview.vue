@@ -9,8 +9,9 @@
     <BoardPreview
       v-for="board in boards" :key="board.id"
       v-bind:board="board"
-      @deleted="removeBoardPreview()"/>
-    <div id="createBoard">
+      @deleted="removeBoardPreview(board)"/>
+
+    <div id="createBoard" v-bind:class="{ changing:editingNewBoard }">
       <h2 v-if="!editingNewBoard" @click="editingNewBoard = true">Add board</h2>
       <input v-else v-model="newBoardName" type="text"
              @keydown.enter="createBoard" @keydown.esc="editingNewBoard = false">
@@ -121,6 +122,11 @@ export default {
         font-size: 0.8em;
         padding: 3px 5px;
         margin: 0;
+      }
+
+      &:hover, .changing {
+        opacity: 1;
+        /*TODO .changing werkt nog niet helemaal, dit moet ook in board later*/
       }
     }
 
