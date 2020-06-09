@@ -64,7 +64,8 @@ export default {
 
     button {
       border: none;
-      background-color: #ddd;
+      color: white;
+      background-color: #d37b33;
       font-size: 1em;
       padding: 3px 5px;
       margin: 0;
@@ -72,7 +73,7 @@ export default {
       cursor: pointer;
 
       &:hover {
-        background-color: #ccc;
+        background-color: #aa5a25;
       }
     }
   }

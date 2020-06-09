@@ -2,7 +2,7 @@
   <div id="app">
     <Navigation />
     <router-view/>
-    <img v-bind:src="imgUrl" alt="background image">
+    <img id="background" v-bind:src="imgUrl" alt="background image">
   </div>
 </template>
 
@@ -46,7 +46,7 @@ body {
   /*text-align: center;*/
   color: #2c3e50;
 
-  img {
+  #background {
     z-index: -1;
     position: fixed;
     overflow: hidden;
