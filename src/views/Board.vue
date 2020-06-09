@@ -22,7 +22,7 @@
       <Column v-for="column in columns" :key="column.id" ref="columns"
               v-bind:column="column"
               @deleted="removeColumn(column)"/>
-      <div id="createColumn">
+      <div id="createColumn" v-bind:class="{changing: editingNewColumn}">
         <p v-if="!editingNewColumn" @click="editingNewColumn = true">+ Add column</p>
         <input v-else v-model="newColumnName" type="text"
                @keydown.enter="createColumn" @keydown.esc="editingNewColumn = false">
@@ -251,6 +251,14 @@ export default {
         margin: 8px 5px 8px 0;
         width: 80%;
       }
+
+      &:hover {
+        opacity: 1;
+      }
     }
+  }
+
+  .changing {
+    opacity: 1 !important;
   }
 </style>
