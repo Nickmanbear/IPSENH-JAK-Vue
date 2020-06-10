@@ -18,6 +18,8 @@ exports[`Register has the expected html structure 1`] = `
         type="text"
       />
        
+      <!---->
+       
       <input
         id="password"
         placeholder="Password"
