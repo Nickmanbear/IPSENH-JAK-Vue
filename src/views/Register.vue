@@ -3,11 +3,12 @@
     <div class="container">
       <form>
         <h1>Register</h1>
+        <p v-if="emptyFields">Please enter a username and password</p>
         <input type="text" id="username" v-model="userData.username"
                @keydown="usernameTaken = false" placeholder="Username">
         <p v-if="usernameTaken">This username is already taken</p>
         <input type="password" id="password" v-model="userData.password"
-               @keydown.enter="register" placeholder="Password">
+               @keydown="emptyFields = false" @keydown.enter="register" placeholder="Password">
         <button @click.prevent="register">Sign up!</button>
       </form>
     </div>
@@ -24,6 +25,7 @@ export default {
         username: '',
         password: '',
       },
+      emptyFields: false,
       usernameTaken: false,
     };
   },
@@ -31,7 +33,8 @@ export default {
   methods: {
     register() {
       if (this.userData.username === '' || this.userData.password === '') {
-        window.alert('Please enter your username and password.');
+        this.emptyFields = true;
+        return;
       }
       this.$store.dispatch('register', {
         username: this.userData.username,

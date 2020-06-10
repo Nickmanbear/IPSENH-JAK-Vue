@@ -12,6 +12,8 @@ exports[`Register has the expected html structure 1`] = `
         Register
       </h1>
        
+      <!---->
+       
       <input
         id="username"
         placeholder="Username"
