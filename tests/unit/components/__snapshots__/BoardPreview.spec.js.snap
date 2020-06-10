@@ -4,13 +4,9 @@ exports[`BoardPreview has the expected html structure 1`] = `
 <div
   id="boardprev"
 >
-  <router-link-stub
-    to="/board/1"
-  >
-    <h2>
-      test board
-    </h2>
-  </router-link-stub>
+  <h2>
+    test board
+  </h2>
    
   <button
     id="delete"
