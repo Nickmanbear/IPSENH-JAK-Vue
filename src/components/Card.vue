@@ -67,10 +67,12 @@ export default {
   methods: {
     async switchAssigning() {
       if (!this.assigningUser) {
-        this.card.column.board = await axios.get(`/board/${this.$route.params.id}`)
-          .then((response) => response.data);
-        this.assignableUsers = this.card.column.board.users
-          .concat(this.card.column.board.team.members);
+        axios.get(`/board/${this.$route.params.id}`)
+          .then((response) => {
+            this.card.column.board = response.data;
+            this.assignableUsers = this.card.column.board.users
+              .concat(this.card.column.board.team.members);
+          });
       }
       this.assigningUser = !this.assigningUser;
     },
