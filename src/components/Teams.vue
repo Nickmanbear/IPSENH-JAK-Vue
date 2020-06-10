@@ -104,6 +104,7 @@ export default {
     button {
       border: none;
       font-size: 0.8em;
+      border-radius: 4px;
       padding: 3px 5px;
       margin: 0;
 
@@ -118,6 +119,8 @@ export default {
       font-family: Arial, serif;
       font-size: 1em;
       margin: 8px 5px 8px 0;
+      border-radius: 4px;
+      padding: 3px;
     }
   }
 </style>

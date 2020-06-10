@@ -1,7 +1,8 @@
 <template>
   <div id="column">
     <h2 v-if="!editingName" @click="editingName = true">{{ column.name }}</h2>
-    <input id="column-name" v-else v-model="column.name" @keydown.enter="saveName" type="text">
+    <input id="column-name" v-else v-model="column.name" @keydown.enter="saveName"
+           @keydown.esc="editingName = false" type="text">
     <button v-if="editingName" @click="saveName">save</button>
 
     <button id="delete" @click="deleteColumn">&times;</button>
@@ -138,8 +139,10 @@ export default {
       font-family: Arial, serif;
       font-size: 1.5em;
       font-weight: bold;
-      margin: 8px 5px 8px 0;
+      margin: 5px 5px 5px 0;
       width: 80%;
+      border-radius: 4px;
+      padding: 3px;
     }
 
     button {

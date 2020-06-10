@@ -1,8 +1,6 @@
 <template>
-  <div id="boardprev">
-    <router-link :to="`/board/${board.id}`">
+  <div id="boardprev" @click="route">
       <h2>{{ board.name }}</h2>
-    </router-link>
     <button id="delete" @click="deleteBoard">&times;</button>
   </div>
 </template>
@@ -20,8 +18,19 @@ export default {
       name: '',
     },
   },
+  data() {
+    return {
+      deleting: false,
+    };
+  },
   methods: {
+    route() {
+      if (!this.deleting) {
+        this.$router.push(`/board/${this.board.id}`);
+      }
+    },
     deleteBoard() {
+      this.deleting = true;
       if (window.confirm(`Do you really want to delete board '${this.board.name}'?`)) {
         axios.delete(`board/${this.board.id}`)
           .then(() => this.$emit('deleted'));
@@ -40,6 +49,7 @@ export default {
     margin: 10px;
     display: inline-block;
     width: 250px;
+    cursor: pointer;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
     a {

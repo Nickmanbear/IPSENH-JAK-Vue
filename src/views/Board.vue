@@ -157,7 +157,9 @@ export default {
     }
 
     #boardName {
-      margin: 20px 5px !important;
+      margin: 18px 5px !important;
+      border-radius: 4px;
+      padding: 3px;
     }
 
     button {
@@ -165,6 +167,7 @@ export default {
       font-size: 0.8em;
       padding: 3px 5px;
       margin: 0;
+      border-radius: 4px;
 
       &:hover {
         cursor: pointer;
@@ -182,6 +185,7 @@ export default {
 
       button {
         font-size: 1em;
+        border-radius: 4px;
       }
     }
   }
