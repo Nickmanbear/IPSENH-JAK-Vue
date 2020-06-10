@@ -62,7 +62,7 @@ export default {
       board: {
         id: 0,
         users: [],
-        name: 'board1',
+        name: '',
       },
       columns: [],
       timeline: [],
