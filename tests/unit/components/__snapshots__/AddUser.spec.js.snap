@@ -38,7 +38,7 @@ exports[`AddUser has the expected html structure 1`] = `
     </p>
      
     <p
-      id="users"
+      class="deletable"
     >
       user2
     </p>

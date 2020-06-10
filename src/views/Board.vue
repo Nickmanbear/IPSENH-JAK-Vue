@@ -2,7 +2,8 @@
   <div class="board">
     <h1 class="title" v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
     <div class="title" v-else>
-      <input v-model="board.name" @keydown.enter="saveName" type="text">
+      <input id="boardName" v-model="board.name" @keydown.esc="editingName = false"
+             @keydown.enter="saveName" type="text">
       <button @click="saveName">save</button>
     </div>
 
@@ -16,25 +17,13 @@
              v-bind:boardTeam="board.team"
              v-on:refresh="getBoard"/>
 
-    <div id="timeline">
-      <h2>Timeline</h2>
-      <p class="event" v-for="event in timeline" :key="event.id">
-        <span>{{
-          new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
-          .format(new Date(event.timestamp))
-        }}</span>:
-        <br>
-        <span>{{ event.card.name }}</span> moved from
-        <span>{{ event.fromColumn.name }}</span> to
-        <span>{{ event.toColumn.name }}</span>
-      </p>
-    </div>
+    <Timeline v-bind:timeline="timeline"/>
 
     <div id="columns">
       <Column v-for="column in columns" :key="column.id" ref="columns"
               v-bind:column="column"
-              @deleted="removeColumn()"/>
-      <div id="createColumn">
+              @deleted="removeColumn(column)"/>
+      <div id="createColumn" v-bind:class="{changing: editingNewColumn}">
         <p v-if="!editingNewColumn" @click="editingNewColumn = true">+ Add column</p>
         <input v-else v-model="newColumnName" type="text"
                @keydown.enter="createColumn" @keydown.esc="editingNewColumn = false">
@@ -48,6 +37,7 @@
 // @ is an alias to /src
 import AddUser from '@/components/AddUser.vue';
 import Column from '@/components/Column.vue';
+import Timeline from '@/components/Timeline.vue';
 import axios from '@/axiosInstance';
 import stomp from '@/stompInstance';
 
@@ -56,6 +46,7 @@ export default {
   components: {
     AddUser,
     Column,
+    Timeline,
   },
   data() {
     return {
@@ -136,8 +127,8 @@ export default {
         this.newColumnName = '';
       });
     },
-    removeColumn() {
-      this.getColumns(); // TODO: Remove from array instead
+    removeColumn(removedColumn) {
+      this.columns = this.columns.filter((column) => column !== removedColumn);
     },
   },
 };
@@ -154,7 +145,7 @@ export default {
     max-height: calc(100vh - 34px);
 
     h1 {
-      padding: 0;
+      padding: 0 0 0 5px;
     }
 
     input {
@@ -163,6 +154,10 @@ export default {
       font-family: Arial, serif;
       font-size: 1em;
       margin: 8px 5px 8px 0;
+    }
+
+    #boardName {
+      margin: 20px 5px !important;
     }
 
     button {
@@ -189,29 +184,6 @@ export default {
         font-size: 1em;
       }
     }
-
-    #timeline {
-      grid-area: timeline;
-      overflow-y: scroll;
-      padding: 0 4px;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
-      .event {
-        background-color: #eee;
-        border: 1px solid #eee;
-        border-radius: 3px;
-        padding: 8px;
-        margin: 8px 0;
-        box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.5);
-
-        span {
-          font-weight: bold;
-        }
-      }
-    }
   }
 
   #add-user-button {
@@ -223,9 +195,9 @@ export default {
     overflow: hidden;
     font-size: 1em;
     text-align: center;
-    color: #ccc;
-    background-color: #eee;
-    border: 1px solid #eee;
+    color: white;
+    background-color: #d37b33;
+    border: 1px solid #d37b33;
     border-radius: 50px;
     padding: 5px 10px;
     cursor: pointer;
@@ -240,10 +212,11 @@ export default {
     &:hover {
       border-radius: 4px;
       width: 80px;
-      color: black;
+      background-color: #aa5a25;
+      border-color: #aa5a25;
 
       span:nth-child(2) {
-        color: black;
+        color: white;
         display: inline;
       }
     }
@@ -284,6 +257,14 @@ export default {
         margin: 8px 5px 8px 0;
         width: 80%;
       }
+
+      &:hover {
+        opacity: 1;
+      }
     }
+  }
+
+  .changing {
+    opacity: 1 !important;
   }
 </style>

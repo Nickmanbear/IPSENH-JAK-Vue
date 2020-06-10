@@ -9,7 +9,7 @@
     <div id="cards">
       <draggable v-model="cards" group="cards" @add="moveCard($event)">
         <CardPreview v-for="card in cards" :key="card.id" v-bind:card="card"
-              @deleted="removeCard()" @saved="getCards"/>
+              @deleted="removeCard(card)" @saved="getCards"/>
       </draggable>
     </div>
 
@@ -57,10 +57,8 @@ export default {
         });
     },
     deleteColumn() {
-      if (window.confirm(`Do you really want to delete column '${this.column.name}'?`)) {
-        axios.delete(`column/${this.column.id}`)
-          .then(() => this.$emit('deleted'));
-      }
+      axios.delete(`column/${this.column.id}`)
+        .then(() => this.$emit('deleted'));
     },
     saveName() {
       this.editingName = false;
@@ -91,8 +89,8 @@ export default {
         });
       }
     },
-    removeCard() {
-      this.getCards(); // TODO: Remove from array instead
+    removeCard(removedCard) {
+      this.cards = this.cards.filter((card) => card !== removedCard);
     },
     moveCard(event) {
       // eslint-disable-next-line no-underscore-dangle

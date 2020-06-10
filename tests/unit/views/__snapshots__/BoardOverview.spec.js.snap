@@ -19,6 +19,7 @@ exports[`BoardOverview has the expected html structure 1`] = `
   </h1>
     
   <div
+    class=""
     id="createBoard"
   >
     <h2>

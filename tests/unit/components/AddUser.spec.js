@@ -70,6 +70,7 @@ jest.mock('axios', () => ({
         data,
       });
     },
+    delete: () => Promise.resolve(null),
   }),
 }));
 
@@ -178,6 +179,16 @@ describe('AddUser', () => {
 
     await cmp.vm.addTeam();
     expect(cmp.vm.boardTeam).toEqual({});
+  });
+
+  it('should delete user', async () => {
+    await cmp.vm.deleteUser(1);
+    expect(cmp.emitted().refresh).toBeTruthy();
+  });
+
+  it('should delete team', async () => {
+    await cmp.vm.deleteTeam();
+    expect(cmp.emitted().refresh).toBeTruthy();
   });
 
   it('has the expected html structure', () => {

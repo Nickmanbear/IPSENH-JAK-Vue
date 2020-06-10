@@ -40,10 +40,8 @@ export default {
       this.show = !this.show;
     },
     deleteCard() {
-      if (window.confirm(`Do you really want to delete card '${this.card.name}'?`)) {
-        axios.delete(`card/${this.card.id}`)
-          .then(() => this.$emit('deleted'));
-      }
+      axios.delete(`card/${this.card.id}`)
+        .then(() => this.$emit('deleted'));
     },
   },
 };
