@@ -174,6 +174,22 @@ describe('AddUser', () => {
     expect(cmp.vm.boardUsers).toEqual([{ id: '2', username: 'user2' }]);
   });
 
+  it('should not find add user', async () => {
+    cmp.vm.users = [];
+    cmp.vm.selectedUsername = 'user2';
+
+    await cmp.vm.addUser();
+    expect(cmp.vm.boardUsers).toEqual([{ id: '2', username: 'user2' }]);
+  });
+
+  it('should not find add team', async () => {
+    cmp.vm.teams = [];
+    cmp.vm.selectedTeamName = 'test team';
+
+    await cmp.vm.addTeam();
+    expect(cmp.vm.boardTeam).toEqual({});
+  });
+
   it('should add team', async () => {
     cmp.vm.selectedTeamName = 'test team';
 
