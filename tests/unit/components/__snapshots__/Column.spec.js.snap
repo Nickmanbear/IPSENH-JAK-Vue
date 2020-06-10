@@ -16,6 +16,8 @@ exports[`Column has the expected html structure 1`] = `
     ×
   </button>
    
+  <hr />
+   
   <div
     id="cards"
   >
