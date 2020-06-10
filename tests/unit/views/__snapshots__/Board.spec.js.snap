@@ -44,6 +44,12 @@ exports[`Board has the expected html structure 1`] = `
        
       <hr />
     </div>
+     
+    <div
+      id="burndown"
+    >
+      <!---->
+    </div>
   </div>
 </div>
 `;
