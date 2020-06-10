@@ -115,6 +115,7 @@ export default {
     vertical-align: top;
     width: 240px;
     max-height: 80vh;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
     h2 {
       margin: 5px 0;

@@ -87,10 +87,10 @@ export default {
     overflow: scroll;
     border-radius: 4px;
     padding: 15px 20px;
-    background-color: #ccc;
-    border: 1px solid #ccc;
-    /*opacity: 80%;*/
+    background-color: white;
+    border: 1px solid white;
     -ms-overflow-style: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
     &::-webkit-scrollbar {
       display: none;

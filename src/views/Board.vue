@@ -201,6 +201,7 @@ export default {
     border-radius: 50px;
     padding: 5px 10px;
     cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s ease-out;
 
     span:nth-child(2) {
@@ -243,6 +244,7 @@ export default {
       max-height: 80vh;
       color: #888;
       opacity: 50%;
+      transition: all 0.2s ease-out;
 
       p {
         padding-left: 10px;
@@ -266,5 +268,6 @@ export default {
 
   .changing {
     opacity: 1 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
 </style>

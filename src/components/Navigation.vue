@@ -60,7 +60,6 @@ export default {
 
       &.router-link-exact-active {
         color: #d37b33;
-        text-decoration: underline;
       }
     }
   }
