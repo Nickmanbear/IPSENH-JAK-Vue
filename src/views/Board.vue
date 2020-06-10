@@ -32,12 +32,11 @@
         <hr>
       </div>
       <div id="burndown">
-        <h2>Burndown</h2>
-        <burndown v-if="allCards.length && timeline.length && doneCards.length &&
-         renderComponent"
+        <burndown v-if="allCards.length && timeline.length && doneCards.length && renderComponent"
                   v-bind:doneCards="doneCards"
-                  v-bind:allCards="allCards" v-bind:events="timeline"></burndown>
-        <button @click="forceRerender()">Rerender</button>
+                  v-bind:allCards="allCards"
+                  v-bind:timeline="timeline"
+                  v-bind:render="renderComponent"/>
       </div>
     </div>
   </div>
@@ -75,7 +74,7 @@ export default {
       addingUser: false,
       doneCards: [],
       allCards: [],
-      renderComponent: false,
+      renderComponent: true,
     };
   },
   async mounted() {
@@ -155,6 +154,8 @@ export default {
       axios.get(`/card/board/${this.$route.params.id}`)
         .then((response) => {
           this.allCards = response.data;
+          this.renderComponent = false;
+          this.showBurndown();
         });
     },
     async getLastColumnCards() {
@@ -163,22 +164,18 @@ export default {
           axios.get(`/card/column/${response.data[0].id}`)
             .then((cardResponse) => {
               this.doneCards = cardResponse.data;
+              this.renderComponent = false;
+              this.showBurndown();
             });
         });
     },
     forceRerender() {
-      // Remove my-component from the DOM
       this.renderComponent = false;
       this.getAllCards();
       this.getLastColumnCards();
-
-      // If you like promises better you can
-      // also use nextTick this way
-      this.$nextTick()
-        .then(() => {
-          // Add the component back in
-          this.renderComponent = true;
-        });
+    },
+    showBurndown() {
+      this.renderComponent = true;
     },
     listenerColumn() {
       this.forceRerender();

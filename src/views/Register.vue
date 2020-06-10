@@ -44,7 +44,6 @@ export default {
           this.$router.push('/login');
         })
         .catch(() => {
-          // TODO hij alert 2 keer idk whyy
           this.usernameTaken = true;
           this.userData.password = '';
         });
