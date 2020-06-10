@@ -134,11 +134,12 @@ export default {
   position: fixed;
   top: 85px;
   right: 15px;
-  z-index: 50;
+  z-index: 90;
   border-radius: 4px;
   padding: 5px 10px;
-  background-color: #ccc;
-  border: 1px solid #ccc;
+  background-color: white;
+  border: 1px solid white;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
   .deletable:hover {
     text-decoration: line-through;
@@ -162,6 +163,10 @@ export default {
       &:hover {
         color: #2c3e50;
       }
+    }
+
+    input, button {
+      border-radius: 4px;
     }
 
     .active {

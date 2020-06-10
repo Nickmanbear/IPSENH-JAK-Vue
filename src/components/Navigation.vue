@@ -1,6 +1,8 @@
 <template>
   <div id="nav">
-    <img v-bind:src="`${this.publicPath}images/jak.png`" alt="logo">
+    <router-link to="/">
+      <img v-bind:src="`${this.publicPath}images/jak.png`" alt="logo">
+    </router-link>
     <div v-if="$store.getters.isLoggedIn">
       <router-link to="/">Board Overview</router-link>
       <a @click="logout">Logout</a>
@@ -43,7 +45,7 @@ export default {
       height: 20px;
       padding: -5px;
       margin: -5px;
-      margin-left: 5px;
+      margin-left: -5px;
     }
 
     div {
@@ -60,7 +62,6 @@ export default {
 
       &.router-link-exact-active {
         color: #d37b33;
-        text-decoration: underline;
       }
     }
   }

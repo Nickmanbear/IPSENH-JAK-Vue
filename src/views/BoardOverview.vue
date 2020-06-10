@@ -85,6 +85,7 @@ export default {
 <style lang="scss">
   .overview {
     padding: 0 10px;
+    transition: all 0.3s ease-out;
 
     h1 {
       padding-left: 8px;
@@ -100,6 +101,7 @@ export default {
       vertical-align: top;
       width: 250px;
       opacity: 50%;
+      transition: all 0.2s ease-out;
 
       h1, h2 {
         margin-left: 8px;
@@ -143,7 +145,7 @@ export default {
       border-radius: 4px;
       padding: 5px 10px;
       cursor: pointer;
-      transition: all 0.3s ease-out;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
       &:hover {
         background-color: #aa5a25;
@@ -154,5 +156,6 @@ export default {
 
   .changing {
     opacity: 1 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
 </style>
