@@ -104,7 +104,7 @@ export default {
       display: inline-block;
       vertical-align: top;
       width: 250px;
-      opacity: 50%;
+      opacity: 0.5;
       transition: all 0.2s ease-out;
 
       h1, h2 {
