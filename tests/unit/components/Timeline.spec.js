@@ -1,19 +1,20 @@
 import { shallowMount } from '@vue/test-utils';
-import App from '@/App.vue';
+import Timeline from '@/components/Timeline.vue';
 
-describe('App', () => {
+describe('Timeline', () => {
   let cmp;
 
   beforeEach(() => {
-    cmp = shallowMount(App, {
-      stubs: ['router-view'],
+    cmp = shallowMount(Timeline, {
+      propsData: {
+        timeline: [],
+      },
       data() {
         return {
-          img: '',
+          showTimeline: false,
         };
       },
     });
-    cmp.setData({ img: 'test url' });
   });
 
   it('has the expected html structure', () => {

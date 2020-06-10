@@ -6,8 +6,12 @@ exports[`App has the expected html structure 1`] = `
 >
   <navigation-stub />
    
-  <br />
-   
   <router-view-stub />
+   
+  <img
+    alt="background image"
+    id="background"
+    src="test url"
+  />
 </div>
 `;

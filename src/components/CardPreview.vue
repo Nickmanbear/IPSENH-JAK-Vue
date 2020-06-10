@@ -1,11 +1,11 @@
 <template>
   <div>
-    <div id="cardprev">
-      <p @click="toggleCard">{{ card.name }}</p>
+    <div id="cardprev" @click="toggleCard">
+      <p>{{ card.name }}</p>
       <button id="delete" @click="deleteCard">&times;</button>
     </div>
     <Backdrop v-if="show" @clicked="toggleCard"/>
-    <Card v-if="show" v-bind:card="card" v-on:close="toggleCard"/>
+    <Card v-if="show" v-bind:card="card" @close="toggleCard" @saved="$emit('saved')"/>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ import Backdrop from '@/components/UI/Backdrop.vue';
 import axios from '@/axiosInstance';
 
 export default {
-  name: 'Home',
+  name: 'CardPreview',
   components: {
     Backdrop,
     Card,
@@ -33,17 +33,19 @@ export default {
   data() {
     return {
       show: false,
+      deleting: false,
     };
   },
   methods: {
     toggleCard() {
-      this.show = !this.show;
+      if (!this.deleting) {
+        this.show = !this.show;
+      }
     },
     deleteCard() {
-      if (window.confirm(`Do you really want to delete card '${this.card.name}'?`)) {
-        axios.delete(`card/${this.card.id}`)
-          .then(() => this.$emit('deleted'));
-      }
+      this.deleting = true;
+      axios.delete(`card/${this.card.id}`)
+        .then(() => this.$emit('deleted'));
     },
   },
 };
@@ -56,19 +58,16 @@ export default {
     border-radius: 3px;
     padding: 0 8px;
     margin: 8px 0;
-    box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.5);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
     p {
       display: inline-block;
-
-      &:hover {
-        cursor: pointer;
-      }
     }
 
     &:hover {
       background-color: #fbfbfb;
       box-shadow: none;
+      cursor: pointer;
     }
 
     #delete {
@@ -81,6 +80,7 @@ export default {
       float: right;
       color: #eee;
       margin: 5px 0;
+      z-index: 10;
 
       &:hover {
         color: red;

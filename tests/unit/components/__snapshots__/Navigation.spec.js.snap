@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation has the expected html structure 1`] = `
+<div
+  id="nav"
+>
+  <router-link-stub
+    to="/"
+  >
+    <img
+      alt="logo"
+      src="undefinedimages/jak.png"
+    />
+  </router-link-stub>
+   
+  <div>
+    <router-link-stub
+      to="/login"
+    >
+      Login
+    </router-link-stub>
+     
+    <router-link-stub
+      to="/register"
+    >
+      Register
+    </router-link-stub>
+  </div>
+</div>
+`;

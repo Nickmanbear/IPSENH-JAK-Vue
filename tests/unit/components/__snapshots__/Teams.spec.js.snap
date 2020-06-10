@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Teams has the expected html structure 1`] = `
+<div
+  id="teams"
+>
+  <h1>
+    Teams
+  </h1>
+   
+  <input
+    placeholder="Team name"
+    type="text"
+  />
+   
+  <button>
+    Make team
+  </button>
+   
+  <team-stub
+    team="[object Object]"
+    username="teamleader"
+    users="[object Object],[object Object],[object Object]"
+  />
+  <team-stub
+    team="[object Object]"
+    username="teamleader"
+    users="[object Object],[object Object],[object Object]"
+  />
+</div>
+`;

@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Register has the expected html structure 1`] = `
+<div
+  id="register"
+>
+  <div
+    class="container"
+  >
+    <form>
+      <h1>
+        Register
+      </h1>
+       
+      <!---->
+       
+      <input
+        id="username"
+        placeholder="Username"
+        type="text"
+      />
+       
+      <!---->
+       
+      <input
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
+       
+      <button>
+        Sign up!
+      </button>
+    </form>
+  </div>
+</div>
+`;

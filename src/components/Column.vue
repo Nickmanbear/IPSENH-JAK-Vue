@@ -1,14 +1,16 @@
 <template>
   <div id="column">
     <h2 v-if="!editingName" @click="editingName = true">{{ column.name }}</h2>
-    <input v-else v-model="column.name" @keydown.enter="saveName" type="text">
+    <input id="column-name" v-else v-model="column.name" @keydown.enter="saveName"
+           @keydown.esc="editingName = false" type="text">
     <button v-if="editingName" @click="saveName">save</button>
 
     <button id="delete" @click="deleteColumn">&times;</button>
-
+    <hr>
     <div id="cards">
       <draggable v-model="cards" group="cards" @add="moveCard($event)">
-        <Card v-for="card in cards" :key="card.id" v-bind:card="card" @deleted="removeCard()" />
+        <CardPreview v-for="card in cards" :key="card.id" v-bind:card="card"
+              @deleted="removeCard(card)" @saved="getCards"/>
       </draggable>
     </div>
 
@@ -23,22 +25,19 @@
 
 <script>
 // @ is an alias to /src
-import Card from '@/components/CardPreview.vue';
+import CardPreview from '@/components/CardPreview.vue';
 import draggable from 'vuedraggable';
 import axios from '@/axiosInstance';
+import stomp from '@/stompInstance';
 
 export default {
-  name: 'Home',
+  name: 'Column',
   components: {
     draggable,
-    Card,
+    CardPreview,
   },
   props: {
-    column: {
-      id: 0,
-      boardId: 0,
-      name: '',
-    },
+    column: Object,
   },
   data() {
     return {
@@ -59,17 +58,18 @@ export default {
         });
     },
     deleteColumn() {
-      if (window.confirm(`Do you really want to delete column '${this.column.name}'?`)) {
-        axios.delete(`column/${this.column.id}`)
-          .then(() => this.$emit('deleted'));
-      }
+      axios.delete(`column/${this.column.id}`)
+        .then(() => this.$emit('deleted'));
     },
     saveName() {
       this.editingName = false;
+      this.column.board = { id: this.column.board.id };
       axios.post(
         '/column',
         this.column,
-      );
+      ).then((response) => {
+        this.column = response.data;
+      });
     },
     createCard() {
       this.creatingCard = false;
@@ -78,7 +78,7 @@ export default {
           '/card',
           {
             id: 0,
-            columnId: this.column.id,
+            column: { id: this.column.id },
             name: this.newCardName,
             description: '',
             priority: '',
@@ -90,14 +90,16 @@ export default {
         });
       }
     },
-    removeCard() {
-      this.getCards(); // TODO: Remove from array instead
+    removeCard(removedCard) {
+      this.cards = this.cards.filter((card) => card !== removedCard);
     },
     moveCard(event) {
       // eslint-disable-next-line no-underscore-dangle
       const card = event.item._underlying_vm_;
-      card.columnId = this.column.id;
-      axios.post('/card', card);
+      card.column = { id: this.column.id };
+      axios.post('/card', card).then(() => {
+        stomp.send(`/app/board/${this.$route.params.id}`);
+      });
     },
   },
 };
@@ -105,9 +107,6 @@ export default {
 
 <style lang="scss">
   #column {
-    background-color: #eee;
-    border: 1px solid #eee;
-    border-radius: 4px;
     padding: 5px 10px;
     margin: 5px;
     display: inline-block;
@@ -130,14 +129,16 @@ export default {
       }
     }
 
-    input {
+    #column-name {
       border: none;
-      background-color: #f9f9f9;
+      background: none;
       font-family: Arial, serif;
       font-size: 1.5em;
       font-weight: bold;
-      margin: 8px 5px 8px 0;
+      margin: 5px 5px 5px 0;
       width: 80%;
+      border-radius: 4px;
+      padding: 3px;
     }
 
     button {
@@ -155,20 +156,27 @@ export default {
       padding: 5px 10px;
       position: relative;
       float: right;
-      color: #ddd;
+      color: black;
       top: 5px;
+      border-radius: 50%;
+      transition: all 0.1s;
 
       &:hover {
         color: red;
         background-color: #f4f4f4;
+        opacity: 0.85;
         border-radius: 50%;
       }
     }
 
     #create {
-      color: #666;
+      color: black;
       background-color: transparent;
       padding: 10px 5px;
+    }
+
+    input {
+      border-radius: 4px;
     }
   }
 </style>

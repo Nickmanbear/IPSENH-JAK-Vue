@@ -6,7 +6,7 @@ jest.mock('axios', () => ({
     post: () => Promise.resolve({
       data: {
         id: 1,
-        columnId: 1,
+        column: { id: 1, board: { id: 1, users: [{ id: 1 }] } },
         name: 'new card',
         description: '',
       },
@@ -24,7 +24,7 @@ describe('Column', () => {
       propsData: {
         column: {
           id: 1,
-          boardId: 1,
+          board: { id: 1 },
           name: 'test column',
         },
       },
@@ -48,16 +48,20 @@ describe('Column', () => {
     await cmp.vm.createCard();
     expect(cmp.vm.cards).toEqual([{
       id: 1,
-      columnId: 1,
+      column: { id: 1, board: { id: 1, users: [{ id: 1 }] } },
       name: 'new card',
       description: '',
     }]);
   });
 
   it('should reload its cards', async () => {
-    cmp.vm.cards = ['test'];
-    await cmp.vm.removeCard();
-    expect(cmp.vm.cards).toEqual([]);
+    cmp.vm.cards = ['test', 'test2', 'test3'];
+    await cmp.vm.removeCard('test2');
+    expect(cmp.vm.cards).toEqual(['test', 'test3']);
+  });
+
+  it('should react to a moved card', () => {
+    cmp.vm.moveCard({ item: { _underlying_vm_: { column: { id: 1} } } });
   });
 
   it('equals name to "test column"', () => {

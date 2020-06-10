@@ -5,14 +5,12 @@ const $route = { params: { id: 1 } };
 
 jest.mock('axios', () => ({
   create: () => ({
-    post: () => Promise.resolve({
-      data: {
-        id: 1,
-        boardId: 1,
-        name: 'new column',
-      },
-    }),
-    get: () => Promise.resolve({ data: [] })
+    post: (url, data) => Promise.resolve(
+      url === '/column'
+        ? { data: { id: 1, board: { id: 1 }, name: 'new column' } }
+        : data,
+    ),
+    get: () => Promise.resolve({ data: { id: 1, users: [{ id: 1 }] } }),
   }),
 }));
 
@@ -26,7 +24,7 @@ describe('Board', () => {
       },
       data() {
         return {
-          boardId: 5,
+          board: { id: 1, users: [{ id: 1 }] },
           name: 'Boardname',
           columns: [],
         };
@@ -41,27 +39,20 @@ describe('Board', () => {
   });
 
   it('should create a new column', async () => {
+    cmp.vm.board = { id: 1 };
+    cmp.vm.columns = [];
+    cmp.vm.editingNewColumn = true;
     cmp.vm.newColumnName = 'new column';
     await cmp.vm.createColumn();
-    expect(cmp.vm.columns).toEqual([{
-      id: 1,
-      boardId: 1,
-      name: 'new column',
-    }]);
+    expect(cmp.vm.editingNewColumn).toBeFalsy();
+    expect(cmp.vm.columns).toEqual([{ id: 1, board: { id: 1 }, name: 'new column' }]);
+    expect(cmp.vm.newColumnName).toEqual('');
   });
 
-  it('should reload its columns', async () => {
-    cmp.vm.columns = ['test'];
-    await cmp.vm.removeColumn();
-    expect(cmp.vm.columns).toEqual([]);
-  });
-
-  it('equals name to "Boardname"', () => {
-    expect(cmp.vm.name).toEqual('Boardname');
-  });
-
-  it('equals id to "5"', () => {
-    expect(cmp.vm.boardId).toEqual(5);
+  it('should remove element in columns', async () => {
+    cmp.vm.columns = ['test', 'test2', 'test3'];
+    await cmp.vm.removeColumn('test2');
+    expect(cmp.vm.columns).toEqual(['test', 'test3']);
   });
 
   it('has the expected html structure', () => {
