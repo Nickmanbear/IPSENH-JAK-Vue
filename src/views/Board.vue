@@ -20,7 +20,7 @@
       <h2>Timeline</h2>
       <p class="event" v-for="event in timeline" :key="event.id">
         <span>{{
-          new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
+          new Intl.DateTimeFormat('nl-NL', { dateStyle: 'short', timeStyle: 'medium' })
           .format(new Date(event.timestamp))
         }}</span>:
         <br>
@@ -31,7 +31,8 @@
     </div>
 
     <div id="columns">
-      <Column v-for="column in columns" :key="column.id" ref="columns"
+      <Column v-on:columnUpdate="listenerColumn" v-for="column in columns" :key="column.id"
+              ref="columns"
               v-bind:column="column"
               @deleted="removeColumn()"/>
       <div id="createColumn">
@@ -42,9 +43,11 @@
       </div>
       <div id="burndown">
         <h2>Burndown</h2>
-        <burndown v-if="allCards.length >0 && timeline.length > 0 && doneCards.length >0 "
+        <burndown v-if="allCards.length && timeline.length && doneCards.length &&
+         renderComponent"
                   v-bind:doneCards="doneCards"
                   v-bind:allCards="allCards" v-bind:events="timeline"></burndown>
+        <button @click="forceRerender()">Rerender</button>
       </div>
     </div>
   </div>
@@ -80,6 +83,7 @@ export default {
       addingUser: false,
       doneCards: [],
       allCards: [],
+      renderComponent: false,
     };
   },
   async mounted() {
@@ -127,9 +131,10 @@ export default {
       axios.post(
         '/board',
         this.board,
-      ).then((response) => {
-        this.board = response.data;
-      });
+      )
+        .then((response) => {
+          this.board = response.data;
+        });
     },
     async getBoard() {
       this.board = await axios.get(`/board/${this.$route.params.id}`)
@@ -144,27 +149,46 @@ export default {
           board: { id: this.board.id },
           name: this.newColumnName,
         },
-      ).then((response) => {
-        this.columns.push(response.data);
-        this.newColumnName = '';
-      });
+      )
+        .then((response) => {
+          this.columns.push(response.data);
+          this.newColumnName = '';
+        });
     },
     removeColumn() {
       this.getColumns(); // TODO: Remove from array instead
     },
-    getAllCards() {
+    async getAllCards() {
       axios.get(`/card/board/${this.$route.params.id}`)
         .then((response) => {
           this.allCards = response.data;
         });
     },
-    getLastColumnCards() {
+    async getLastColumnCards() {
       axios.get(`/column/board/${this.$route.params.id}/last/`)
         .then((response) => {
-          axios.get(`/card/column/${response.data[0].id}`).then((cardResponse) => {
-            this.doneCards = cardResponse.data;
-          });
+          axios.get(`/card/column/${response.data[0].id}`)
+            .then((cardResponse) => {
+              this.doneCards = cardResponse.data;
+            });
         });
+    },
+    forceRerender() {
+      // Remove my-component from the DOM
+      this.renderComponent = false;
+      this.getAllCards();
+      this.getLastColumnCards();
+
+      // If you like promises better you can
+      // also use nextTick this way
+      this.$nextTick()
+        .then(() => {
+          // Add the component back in
+          this.renderComponent = true;
+        });
+    },
+    listenerColumn() {
+      this.forceRerender();
     },
   },
 };
@@ -174,9 +198,7 @@ export default {
   .board {
     display: grid;
     grid: auto 1fr / 1fr auto;
-    grid-template-areas:
-      "header timeline"
-      "columns timeline";
+    grid-template-areas: "header timeline" "columns timeline";
     padding: 0 10px;
     max-height: calc(100vh - 34px);
 
@@ -203,7 +225,6 @@ export default {
         cursor: pointer;
       }
     }
-
     .title {
       grid-area: header;
 
@@ -233,7 +254,7 @@ export default {
         border-radius: 3px;
         padding: 8px;
         margin: 8px 0;
-        box-shadow: 1px 1px 2px -1px rgba(0,0,0,0.5);
+        box-shadow: 1px 1px 2px -1px rgba(0, 0, 0, 0.5);
 
         span {
           font-weight: bold;

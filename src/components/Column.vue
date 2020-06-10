@@ -88,6 +88,7 @@ export default {
         ).then((response) => {
           this.cards.push(response.data);
           this.newCardName = '';
+          this.$emit('columnUpdate');
         });
       }
     },
@@ -100,6 +101,7 @@ export default {
       card.column = { id: this.column.id };
       axios.post('/card', card).then(() => {
         stomp.send(`/app/board/${this.$route.params.id}`);
+        this.$emit('columnUpdate');
       });
     },
   },
