@@ -1,9 +1,11 @@
 <template>
   <div id="login">
     <h1>Login</h1>
-    <input type="text" name="username" v-model="userData.username" placeholder="Username"/>
+    <p v-if="loginFailed">Login failed: Wrong credentials</p>
+    <input type="text" name="username" v-model="userData.username"
+           @keydown="loginFailed = false" placeholder="Username"/>
     <input type="password" name="password" v-model="userData.password"
-           @keydown.enter="login" placeholder="Password"/>
+           @keydown.enter="login" @keydown="loginFailed = false" placeholder="Password"/>
     <button type="button" v-on:click="login">Login</button>
   </div>
 </template>
@@ -18,6 +20,7 @@ export default {
         username: '',
         password: '',
       },
+      loginFailed: false,
     };
   },
   methods: {
@@ -30,7 +33,7 @@ export default {
           this.$router.push('/');
         })
         .catch(() => {
-          window.alert('Login failed wrong user credentials.');
+          this.loginFailed = true;
           this.userData.password = '';
         });
     },
@@ -72,6 +75,12 @@ export default {
       &:hover {
         background-color: #aa5a25;
       }
+    }
+
+    p {
+      color: red;
+      font-size: 0.8em;
+      margin-top: -10px;
     }
   }
 </style>
