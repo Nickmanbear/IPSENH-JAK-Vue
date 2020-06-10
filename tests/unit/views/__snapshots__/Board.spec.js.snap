@@ -34,13 +34,15 @@ exports[`Board has the expected html structure 1`] = `
      
     <div
       class=""
-      id="createColumn"
+      id="create-column"
     >
       <p>
         + Add column
       </p>
        
       <!---->
+       
+      <hr />
     </div>
   </div>
 </div>

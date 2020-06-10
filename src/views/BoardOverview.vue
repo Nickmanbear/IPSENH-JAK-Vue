@@ -115,11 +115,11 @@ export default {
 
       input {
         border: none;
-        background-color: #f9f9f9;
+        background-color: #eee;
         font-family: Arial, serif;
         font-size: 1.5em;
         font-weight: bold;
-        margin: 8px 5px 8px 0;
+        margin: 18.5px 5px 19px 0;
         width: 80%;
       }
 

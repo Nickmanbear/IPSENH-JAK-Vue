@@ -60,7 +60,7 @@ export default {
       cursor: pointer;
       text-decoration: none;
 
-      &.router-link-exact-active {
+      &.router-link-exact-active, &:hover {
         color: #d37b33;
       }
     }

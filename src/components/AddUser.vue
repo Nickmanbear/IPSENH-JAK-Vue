@@ -167,6 +167,7 @@ export default {
 
     input, button {
       border-radius: 4px;
+      background-color: #eee;
     }
 
     .active {

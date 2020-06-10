@@ -58,8 +58,8 @@ export default {
     }
 
     .event {
-      background-color: #eee;
-      border: 1px solid #eee;
+      background-color: white;
+      border: 1px solid white;
       border-radius: 3px;
       padding: 8px;
       margin: 8px 0;
