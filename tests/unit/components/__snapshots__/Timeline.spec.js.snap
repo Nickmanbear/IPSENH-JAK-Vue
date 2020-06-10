@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Timeline has the expected html structure 1`] = `
+<div
+  class="hidden"
+  id="timeline"
+>
+  <h2>
+    Timeline
+  </h2>
+   
+</div>
+`;

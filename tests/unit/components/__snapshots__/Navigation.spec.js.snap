@@ -4,6 +4,11 @@ exports[`Navigation has the expected html structure 1`] = `
 <div
   id="nav"
 >
+  <img
+    alt="logo"
+    src="undefinedimages/jak.png"
+  />
+   
   <div>
     <router-link-stub
       to="/login"

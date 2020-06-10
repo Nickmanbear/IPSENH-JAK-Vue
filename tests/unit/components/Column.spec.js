@@ -55,9 +55,9 @@ describe('Column', () => {
   });
 
   it('should reload its cards', async () => {
-    cmp.vm.cards = ['test'];
-    await cmp.vm.removeCard();
-    expect(cmp.vm.cards).toEqual([]);
+    cmp.vm.cards = ['test', 'test2', 'test3'];
+    await cmp.vm.removeCard('test2');
+    expect(cmp.vm.cards).toEqual(['test', 'test3']);
   });
 
   it('should react to a moved card', () => {

@@ -9,46 +9,24 @@ exports[`Register has the expected html structure 1`] = `
   >
     <form>
       <h1>
-        Signup
+        Register
       </h1>
        
-      <hr />
+      <input
+        id="username"
+        placeholder="Username"
+        type="text"
+      />
        
-      <div>
-        <label
-          for="username"
-        >
-          Username
-        </label>
-         
-        <input
-          id="username"
-          type="text"
-        />
-      </div>
+      <input
+        id="password"
+        placeholder="Password"
+        type="password"
+      />
        
-      <div>
-        <label
-          for="password"
-        >
-          Password
-        </label>
-         
-        <input
-          id="password"
-          type="password"
-        />
-      </div>
-       
-      <hr />
-       
-      <div
-        class="row"
-      >
-        <button>
-          Submit!
-        </button>
-      </div>
+      <button>
+        Sign up!
+      </button>
     </form>
   </div>
 </div>
