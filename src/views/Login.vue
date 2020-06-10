@@ -49,7 +49,7 @@ export default {
     background-color: #fff;
     margin: 200px auto auto;
     padding: 0 20px 20px 20px;
-    opacity: 85%;
+    opacity: 86%;
 
     input {
       border: none;
