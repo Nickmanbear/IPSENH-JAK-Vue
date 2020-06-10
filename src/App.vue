@@ -47,7 +47,7 @@ body {
     left: 0;
     min-height: 100vh;
     min-width: 100vw;
-    opacity: 75%;
+    opacity: 0.75;
   }
 
   textarea:focus, input:focus, button:active {

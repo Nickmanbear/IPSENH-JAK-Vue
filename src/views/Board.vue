@@ -291,7 +291,7 @@ export default {
       width: 240px;
       max-height: 80vh;
       color: black;
-      opacity: 50%;
+      opacity: 0.5;
       transition: all 0.2s ease-out;
 
       p {

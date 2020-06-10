@@ -85,8 +85,7 @@ export default {
       let groupedMap;
       // eslint-disable-next-line no-shadow,prefer-const
       groupedMap = this.groupBy(convertEventsDate,
-        // eslint-disable-next-line no-shadow
-        (convertEventsDate) => convertEventsDate.timestamp);
+        (convertEventDate) => convertEventDate.timestamp);
       return groupedMap;
     },
     convertEventsTimestampToDate(events) {
