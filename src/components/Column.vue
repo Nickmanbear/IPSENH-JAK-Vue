@@ -36,11 +36,7 @@ export default {
     CardPreview,
   },
   props: {
-    column: {
-      id: 0,
-      boardId: 0,
-      name: '',
-    },
+    column: Object,
   },
   data() {
     return {
