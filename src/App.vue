@@ -21,9 +21,9 @@ export default {
     };
   },
   mounted() {
-    const images = ['MtFujiWithTemple.jpg', 'MtFujiWithLake.jpg'];
+    const images = ['fujiSun.jpg', 'fujiWithSakura.jpg', 'fujiWithTemple.jpg'];
 
-    const count = Math.trunc(Math.random() * 2);
+    const count = Math.trunc(Math.random() * images.length);
     this.img = `${this.publicPath}images/${images[count]}`;
   },
 };
@@ -38,20 +38,16 @@ body {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  /*text-align: center;*/
-  color: #2c3e50;
+  color: black;
 
   #background {
     z-index: -1;
     position: fixed;
-    overflow: hidden;
-    /*top: -85%;*/
     top: 0;
     left: 0;
     min-height: 100vh;
     min-width: 100vw;
     opacity: 75%;
-    /*background-size: cover;*/
   }
 }
 </style>
