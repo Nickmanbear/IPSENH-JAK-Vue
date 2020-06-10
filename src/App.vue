@@ -21,7 +21,7 @@ export default {
     };
   },
   mounted() {
-    const images = ['fujiSun.jpg', 'fujiWithSakura.jpg', 'fujiWithTemple.jpg'];
+    const images = ['fujiWithSakura.jpg', 'fujiWithTemple.jpg'];
 
     const count = Math.trunc(Math.random() * images.length);
     this.img = `${this.publicPath}images/${images[count]}`;
@@ -48,6 +48,10 @@ body {
     min-height: 100vh;
     min-width: 100vw;
     opacity: 75%;
+  }
+
+  textarea:focus, input:focus, button:active {
+    outline: none;
   }
 }
 </style>

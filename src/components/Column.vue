@@ -6,7 +6,7 @@
     <button v-if="editingName" @click="saveName">save</button>
 
     <button id="delete" @click="deleteColumn">&times;</button>
-
+    <hr>
     <div id="cards">
       <draggable v-model="cards" group="cards" @add="moveCard($event)">
         <CardPreview v-for="card in cards" :key="card.id" v-bind:card="card"
@@ -107,9 +107,6 @@ export default {
 
 <style lang="scss">
   #column {
-    background-color: #eee;
-    border: 1px solid #eee;
-    border-radius: 4px;
     padding: 5px 10px;
     margin: 5px;
     display: inline-block;
@@ -135,7 +132,7 @@ export default {
 
     #column-name {
       border: none;
-      background-color: #f9f9f9;
+      background: none;
       font-family: Arial, serif;
       font-size: 1.5em;
       font-weight: bold;
@@ -160,20 +157,27 @@ export default {
       padding: 5px 10px;
       position: relative;
       float: right;
-      color: #ccc;
+      color: black;
       top: 5px;
+      border-radius: 50%;
+      transition: all 0.1s;
 
       &:hover {
         color: red;
         background-color: #f4f4f4;
+        opacity: 0.85;
         border-radius: 50%;
       }
     }
 
     #create {
-      color: #666;
+      color: black;
       background-color: transparent;
       padding: 10px 5px;
+    }
+
+    input {
+      border-radius: 4px;
     }
   }
 </style>

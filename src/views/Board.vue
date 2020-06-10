@@ -2,7 +2,7 @@
   <div class="board">
     <h1 class="title" v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
     <div class="title" v-else>
-      <input id="boardName" v-model="board.name" @keydown.esc="editingName = false"
+      <input id="board-name" v-model="board.name" @keydown.esc="editingName = false"
              @keydown.enter="saveName" type="text">
       <button @click="saveName">save</button>
     </div>
@@ -23,11 +23,12 @@
       <Column v-for="column in columns" :key="column.id" ref="columns"
               v-bind:column="column"
               @deleted="removeColumn(column)"/>
-      <div id="createColumn" v-bind:class="{changing: editingNewColumn}">
+      <div id="create-column" v-bind:class="{changing: editingNewColumn}">
         <p v-if="!editingNewColumn" @click="editingNewColumn = true">+ Add column</p>
         <input v-else v-model="newColumnName" type="text"
                @keydown.enter="createColumn" @keydown.esc="editingNewColumn = false">
         <button v-if="editingNewColumn" @click="createColumn()">Add</button>
+        <hr>
       </div>
     </div>
   </div>
@@ -150,13 +151,14 @@ export default {
 
     input {
       border: none;
-      background-color: #f9f9f9;
+      background-color: #eee;
       font-family: Arial, serif;
       font-size: 1em;
       margin: 8px 5px 8px 0;
     }
 
-    #boardName {
+    #board-name {
+      background: none;
       margin: 18px 5px !important;
       border-radius: 4px;
       padding: 3px;
@@ -236,17 +238,13 @@ export default {
       display: none;
     }
 
-    #createColumn {
-      background-color: #f8f8f8;
-      border: 1px solid #f8f8f8;
-      border-radius: 4px;
-      padding: 5px 10px;
+    #create-column {
       margin: 5px;
       display: inline-block;
       vertical-align: top;
       width: 240px;
       max-height: 80vh;
-      color: #888;
+      color: black;
       opacity: 50%;
       transition: all 0.2s ease-out;
 
@@ -256,7 +254,7 @@ export default {
 
       input {
         border: none;
-        background-color: #f9f9f9;
+        background-color: #eee;
         font-family: Arial, serif;
         font-size: 1.5em;
         font-weight: bold;
@@ -268,10 +266,14 @@ export default {
         opacity: 1;
       }
     }
+
+    input {
+      border-radius: 4px;
+    }
   }
 
   .changing {
     opacity: 1 !important;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    box-shadow: none;
   }
 </style>
