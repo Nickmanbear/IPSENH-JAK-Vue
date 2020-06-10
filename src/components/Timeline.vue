@@ -70,10 +70,8 @@ export default {
     text-align: center;
     color: white;
     background-color: #d37b33;
-    /*border: 5px solid #d37b33;*/
     border-radius: 4px;
     padding: 10px !important;
     width: 110px !important;
-    /*TODO styling, optional*/
   }
 </style>

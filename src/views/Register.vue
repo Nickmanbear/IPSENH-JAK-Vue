@@ -3,7 +3,9 @@
     <div class="container">
       <form>
         <h1>Register</h1>
-        <input type="text" id="username" v-model="userData.username" placeholder="Username">
+        <input type="text" id="username" v-model="userData.username"
+               @keydown="usernameTaken = false" placeholder="Username">
+        <p v-if="usernameTaken">This username is already taken</p>
         <input type="password" id="password" v-model="userData.password"
                @keydown.enter="register" placeholder="Password">
         <button @click.prevent="register">Sign up!</button>
@@ -22,6 +24,7 @@ export default {
         username: '',
         password: '',
       },
+      usernameTaken: false,
     };
   },
 
@@ -38,9 +41,8 @@ export default {
           this.$router.push('/login');
         })
         .catch(() => {
-          window.alert('This username is already taken.');
           // TODO hij alert 2 keer idk whyy
-          this.userData.username = '';
+          this.usernameTaken = true;
           this.userData.password = '';
         });
     },
@@ -82,6 +84,12 @@ export default {
       &:hover {
         background-color: #aa5a25;
       }
+    }
+
+    p {
+      color: red;
+      font-size: 0.8em;
+      margin-top: -10px;
     }
   }
 </style>
