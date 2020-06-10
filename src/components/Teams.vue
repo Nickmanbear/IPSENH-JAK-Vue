@@ -70,6 +70,7 @@ export default {
       axios.post('/team', team)
         .then((response) => {
           this.teams.push(response.data);
+          this.$emit('refresh');
         });
     },
   },
@@ -87,10 +88,10 @@ export default {
     overflow: scroll;
     border-radius: 4px;
     padding: 15px 20px;
-    background-color: #ccc;
-    border: 1px solid #ccc;
-    /*opacity: 80%;*/
+    background-color: white;
+    border: 1px solid white;
     -ms-overflow-style: none;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
     &::-webkit-scrollbar {
       display: none;
@@ -98,11 +99,13 @@ export default {
 
     h1 {
       margin: 0;
+      padding: 0;
     }
 
     button {
       border: none;
       font-size: 0.8em;
+      border-radius: 4px;
       padding: 3px 5px;
       margin: 0;
 
@@ -117,6 +120,8 @@ export default {
       font-family: Arial, serif;
       font-size: 1em;
       margin: 8px 5px 8px 0;
+      border-radius: 4px;
+      padding: 3px;
     }
   }
 </style>

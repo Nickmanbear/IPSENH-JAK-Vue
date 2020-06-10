@@ -124,7 +124,7 @@ export default {
       position: relative;
       float: right;
       border-radius: 50%;
-      color: #fff;
+      color: black;
       top: 0;
       transition: all 0.3s ease-out;
 

@@ -24,27 +24,25 @@ exports[`Board has the expected html structure 1`] = `
    
   <!---->
    
-  <div
-    id="timeline"
-  >
-    <h2>
-      Timeline
-    </h2>
-     
-  </div>
+  <timeline-stub
+    timeline=""
+  />
    
   <div
     id="columns"
   >
      
     <div
-      id="createColumn"
+      class=""
+      id="create-column"
     >
       <p>
         + Add column
       </p>
        
       <!---->
+       
+      <hr />
     </div>
   </div>
 </div>

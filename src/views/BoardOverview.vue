@@ -3,14 +3,15 @@
     <div id="manage-teams-button" @click="managingTeams = !managingTeams">
       <span>Manage teams</span>
     </div>
-    <Teams v-if="managingTeams"/>
+    <Teams v-if="managingTeams" @refresh="reload"/>
 
     <h1>Choose your board</h1>
     <BoardPreview
       v-for="board in boards" :key="board.id"
       v-bind:board="board"
-      @deleted="removeBoardPreview()"/>
-    <div id="createBoard">
+      @deleted="removeBoardPreview(board)"/>
+
+    <div id="createBoard" v-bind:class="{changing: editingNewBoard}">
       <h2 v-if="!editingNewBoard" @click="editingNewBoard = true">Add board</h2>
       <input v-else v-model="newBoardName" type="text"
              @keydown.enter="createBoard" @keydown.esc="editingNewBoard = false">
@@ -74,8 +75,12 @@ export default {
         this.newBoardName = '';
       });
     },
-    removeBoardPreview() {
-      this.getBoards(); // TODO: Remove from array instead
+    removeBoardPreview(removedBoard) {
+      this.boards = this.boards.filter((board) => board !== removedBoard);
+    },
+    reload() {
+      this.getBoards();
+      this.getTeams();
     },
   },
 };
@@ -84,10 +89,10 @@ export default {
 <style lang="scss">
   .overview {
     padding: 0 10px;
+    transition: all 0.3s ease-out;
 
     h1 {
-      padding: 0;
-      margin: 0 0 5px 10px;
+      padding-left: 8px;
     }
 
     #createBoard {
@@ -100,20 +105,21 @@ export default {
       vertical-align: top;
       width: 250px;
       opacity: 50%;
+      transition: all 0.2s ease-out;
 
-      h2 {
-        margin-left: 5px;
+      h1, h2 {
+        margin-left: 8px;
         cursor: pointer;
         color: #888;
       }
 
       input {
         border: none;
-        background-color: #f9f9f9;
+        background-color: #eee;
         font-family: Arial, serif;
         font-size: 1.5em;
         font-weight: bold;
-        margin: 8px 5px 8px 0;
+        margin: 18.5px 5px 19px 0;
         width: 80%;
       }
 
@@ -122,6 +128,10 @@ export default {
         font-size: 0.8em;
         padding: 3px 5px;
         margin: 0;
+      }
+
+      &:hover {
+        opacity: 1;
       }
     }
 
@@ -133,17 +143,23 @@ export default {
       overflow: hidden;
       font-size: 1em;
       text-align: center;
-      color: #ccc;
-      background-color: #eee;
-      border: 1px solid #eee;
+      color: white;
+      background-color: #d37b33;
+      border: 1px solid #d37b33;
       border-radius: 4px;
       padding: 5px 10px;
       cursor: pointer;
-      transition: all 0.3s ease-out;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
       &:hover {
-        color: black;
+        background-color: #aa5a25;
+        border-color: #aa5a25;
       }
     }
+  }
+
+  .changing {
+    opacity: 1 !important;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   }
 </style>

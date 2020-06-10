@@ -124,6 +124,8 @@ export default {
       font-family: Arial, serif;
       font-size: 1em;
       margin-right: 5px;
+      border-radius: 4px;
+      padding: 3px;
     }
 
     #name {

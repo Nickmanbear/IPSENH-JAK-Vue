@@ -45,10 +45,10 @@ describe('BoardOverview', () => {
     }]);
   });
 
-  it('should reload its boards', async () => {
-    cmp.vm.boards = [{ test: 'test' }];
-    await cmp.vm.removeBoardPreview();
-    expect(cmp.vm.boards).toEqual([]);
+  it('should remove element in boards', async () => {
+    cmp.vm.boards = ['test', 'test2', 'test3'];
+    await cmp.vm.removeBoardPreview('test2');
+    expect(cmp.vm.boards).toEqual(['test', 'test3']);
   });
 
   it('has the expected html structure', () => {

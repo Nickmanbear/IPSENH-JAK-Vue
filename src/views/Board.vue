@@ -2,7 +2,8 @@
   <div class="board">
     <h1 class="title" v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
     <div class="title" v-else>
-      <input v-model="board.name" @keydown.enter="saveName" type="text">
+      <input id="board-name" v-model="board.name" @keydown.esc="editingName = false"
+             @keydown.enter="saveName" type="text">
       <button @click="saveName">save</button>
     </div>
 
@@ -16,30 +17,19 @@
              v-bind:boardTeam="board.team"
              v-on:refresh="getBoard"/>
 
-    <div id="timeline">
-      <h2>Timeline</h2>
-      <p class="event" v-for="event in timeline" :key="event.id">
-        <span>{{
-          new Intl.DateTimeFormat('nl-NL', { dateStyle: 'short', timeStyle: 'medium' })
-          .format(new Date(event.timestamp))
-        }}</span>:
-        <br>
-        <span>{{ event.card.name }}</span> moved from
-        <span>{{ event.fromColumn.name }}</span> to
-        <span>{{ event.toColumn.name }}</span>
-      </p>
-    </div>
+    <Timeline v-bind:timeline="timeline"/>
 
     <div id="columns">
       <Column v-on:columnUpdate="listenerColumn" v-for="column in columns" :key="column.id"
               ref="columns"
               v-bind:column="column"
-              @deleted="removeColumn()"/>
-      <div id="createColumn">
+              @deleted="removeColumn(column)"/>
+      <div id="create-column" v-bind:class="{changing: editingNewColumn}">
         <p v-if="!editingNewColumn" @click="editingNewColumn = true">+ Add column</p>
         <input v-else v-model="newColumnName" type="text"
                @keydown.enter="createColumn" @keydown.esc="editingNewColumn = false">
         <button v-if="editingNewColumn" @click="createColumn()">Add</button>
+        <hr>
       </div>
       <div id="burndown">
         <h2>Burndown</h2>
@@ -57,6 +47,7 @@
 // @ is an alias to /src
 import AddUser from '@/components/AddUser.vue';
 import Column from '@/components/Column.vue';
+import Timeline from '@/components/Timeline.vue';
 import Burndown from '@/components/Burndown.vue';
 import axios from '@/axiosInstance';
 import stomp from '@/stompInstance';
@@ -67,6 +58,7 @@ export default {
     Burndown,
     AddUser,
     Column,
+    Timeline,
   },
   data() {
     return {
@@ -118,6 +110,7 @@ export default {
     getTimeline() {
       axios.get(`/board/timeline/${this.$route.params.id}`)
         .then((response) => {
+          response.data.sort((a, b) => (a.timestamp < b.timestamp) - (a.timestamp > b.timestamp));
           this.timeline = response.data;
         });
     },
@@ -155,8 +148,8 @@ export default {
           this.newColumnName = '';
         });
     },
-    removeColumn() {
-      this.getColumns(); // TODO: Remove from array instead
+    removeColumn(removedColumn) {
+      this.columns = this.columns.filter((column) => column !== removedColumn);
     },
     async getAllCards() {
       axios.get(`/card/board/${this.$route.params.id}`)
@@ -203,16 +196,22 @@ export default {
     max-height: calc(100vh - 34px);
 
     h1 {
-      padding: 0;
-      margin: 0 0 5px 10px;
+      padding: 0 0 0 5px;
     }
 
     input {
       border: none;
-      background-color: #f9f9f9;
+      background-color: #eee;
       font-family: Arial, serif;
       font-size: 1em;
       margin: 8px 5px 8px 0;
+    }
+
+    #board-name {
+      background: none;
+      margin: 18px 5px !important;
+      border-radius: 4px;
+      padding: 3px;
     }
 
     button {
@@ -220,6 +219,7 @@ export default {
       font-size: 0.8em;
       padding: 3px 5px;
       margin: 0;
+      border-radius: 4px;
 
       &:hover {
         cursor: pointer;
@@ -236,29 +236,7 @@ export default {
 
       button {
         font-size: 1em;
-      }
-    }
-
-    #timeline {
-      grid-area: timeline;
-      overflow-y: scroll;
-      padding: 0 4px;
-
-      &::-webkit-scrollbar {
-        display: none;
-      }
-
-      .event {
-        background-color: #eee;
-        border: 1px solid #eee;
-        border-radius: 3px;
-        padding: 8px;
-        margin: 8px 0;
-        box-shadow: 1px 1px 2px -1px rgba(0, 0, 0, 0.5);
-
-        span {
-          font-weight: bold;
-        }
+        border-radius: 4px;
       }
     }
   }
@@ -272,12 +250,13 @@ export default {
     overflow: hidden;
     font-size: 1em;
     text-align: center;
-    color: #ccc;
-    background-color: #eee;
-    border: 1px solid #eee;
+    color: white;
+    background-color: #d37b33;
+    border: 1px solid #d37b33;
     border-radius: 50px;
     padding: 5px 10px;
     cursor: pointer;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     transition: all 0.3s ease-out;
 
     span:nth-child(2) {
@@ -289,10 +268,11 @@ export default {
     &:hover {
       border-radius: 4px;
       width: 80px;
-      color: black;
+      background-color: #aa5a25;
+      border-color: #aa5a25;
 
       span:nth-child(2) {
-        color: black;
+        color: white;
         display: inline;
       }
     }
@@ -307,18 +287,15 @@ export default {
       display: none;
     }
 
-    #createColumn {
-      background-color: #f8f8f8;
-      border: 1px solid #f8f8f8;
-      border-radius: 4px;
-      padding: 5px 10px;
+    #create-column {
       margin: 5px;
       display: inline-block;
       vertical-align: top;
       width: 240px;
       max-height: 80vh;
-      color: #888;
+      color: black;
       opacity: 50%;
+      transition: all 0.2s ease-out;
 
       p {
         padding-left: 10px;
@@ -326,13 +303,26 @@ export default {
 
       input {
         border: none;
-        background-color: #f9f9f9;
+        background: none;
         font-family: Arial, serif;
         font-size: 1.5em;
         font-weight: bold;
-        margin: 8px 5px 8px 0;
+        margin: 8px 5px 5px 0;
         width: 80%;
       }
+
+      &:hover {
+        opacity: 1;
+      }
     }
+
+    input {
+      border-radius: 4px;
+    }
+  }
+
+  .changing {
+    opacity: 1 !important;
+    box-shadow: none;
   }
 </style>

@@ -49,10 +49,10 @@ describe('Board', () => {
     expect(cmp.vm.newColumnName).toEqual('');
   });
 
-  it('should reload its columns', async () => {
-    cmp.vm.columns = ['test'];
-    await cmp.vm.removeColumn();
-    expect(cmp.vm.columns).toEqual({ id: 1, users: [{ id: 1 }] });
+  it('should remove element in columns', async () => {
+    cmp.vm.columns = ['test', 'test2', 'test3'];
+    await cmp.vm.removeColumn('test2');
+    expect(cmp.vm.columns).toEqual(['test', 'test3']);
   });
 
   it('has the expected html structure', () => {
