@@ -92,6 +92,7 @@ export default {
     getTimeline() {
       axios.get(`/board/timeline/${this.$route.params.id}`)
         .then((response) => {
+          response.data.sort((a, b) => (a.timestamp < b.timestamp) - (a.timestamp > b.timestamp));
           this.timeline = response.data;
         });
     },
