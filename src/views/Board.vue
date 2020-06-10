@@ -20,7 +20,8 @@
     <Timeline v-bind:timeline="timeline"/>
 
     <div id="columns">
-      <Column v-for="column in columns" :key="column.id" ref="columns"
+      <Column v-on:columnUpdate="listenerColumn" v-for="column in columns" :key="column.id"
+              ref="columns"
               v-bind:column="column"
               @deleted="removeColumn(column)"/>
       <div id="create-column" v-bind:class="{changing: editingNewColumn}">
@@ -29,6 +30,13 @@
                @keydown.enter="createColumn" @keydown.esc="editingNewColumn = false">
         <button v-if="editingNewColumn" @click="createColumn()">Add</button>
         <hr>
+      </div>
+      <div id="burndown">
+        <burndown v-if="allCards.length && timeline.length && doneCards.length && renderComponent"
+                  v-bind:doneCards="doneCards"
+                  v-bind:allCards="allCards"
+                  v-bind:timeline="timeline"
+                  v-bind:render="renderComponent"/>
       </div>
     </div>
   </div>
@@ -39,12 +47,14 @@
 import AddUser from '@/components/AddUser.vue';
 import Column from '@/components/Column.vue';
 import Timeline from '@/components/Timeline.vue';
+import Burndown from '@/components/Burndown.vue';
 import axios from '@/axiosInstance';
 import stomp from '@/stompInstance';
 
 export default {
   name: 'Board',
   components: {
+    Burndown,
     AddUser,
     Column,
     Timeline,
@@ -62,6 +72,9 @@ export default {
       editingNewColumn: false,
       newColumnName: '',
       addingUser: false,
+      doneCards: [],
+      allCards: [],
+      renderComponent: true,
     };
   },
   async mounted() {
@@ -69,9 +82,12 @@ export default {
     await this.getBoard();
     this.getColumns();
     this.getTimeline();
+    this.getAllCards();
+    this.getLastColumnCards();
   },
   methods: {
     stompSetup() {
+      // eslint-disable-next-line quote-props
       stomp.connect({}, () => {
         stomp.subscribe(`/app/board/${this.$route.params.id}`, () => {
           this.getTimeline();
@@ -107,9 +123,10 @@ export default {
       axios.post(
         '/board',
         this.board,
-      ).then((response) => {
-        this.board = response.data;
-      });
+      )
+        .then((response) => {
+          this.board = response.data;
+        });
     },
     async getBoard() {
       this.board = await axios.get(`/board/${this.$route.params.id}`)
@@ -124,13 +141,44 @@ export default {
           board: { id: this.board.id },
           name: this.newColumnName,
         },
-      ).then((response) => {
-        this.columns.push(response.data);
-        this.newColumnName = '';
-      });
+      )
+        .then((response) => {
+          this.columns.push(response.data);
+          this.newColumnName = '';
+        });
     },
     removeColumn(removedColumn) {
       this.columns = this.columns.filter((column) => column !== removedColumn);
+    },
+    async getAllCards() {
+      axios.get(`/card/board/${this.$route.params.id}`)
+        .then((response) => {
+          this.allCards = response.data;
+          this.renderComponent = false;
+          this.showBurndown();
+        });
+    },
+    async getLastColumnCards() {
+      axios.get(`/column/board/${this.$route.params.id}/last/`)
+        .then((response) => {
+          axios.get(`/card/column/${response.data[0].id}`)
+            .then((cardResponse) => {
+              this.doneCards = cardResponse.data;
+              this.renderComponent = false;
+              this.showBurndown();
+            });
+        });
+    },
+    forceRerender() {
+      this.renderComponent = false;
+      this.getAllCards();
+      this.getLastColumnCards();
+    },
+    showBurndown() {
+      this.renderComponent = true;
+    },
+    listenerColumn() {
+      this.forceRerender();
     },
   },
 };
@@ -140,9 +188,7 @@ export default {
   .board {
     display: grid;
     grid: auto 1fr / 1fr auto;
-    grid-template-areas:
-      "header timeline"
-      "columns timeline";
+    grid-template-areas: "header timeline" "columns timeline";
     padding: 0 10px;
     max-height: calc(100vh - 34px);
 
@@ -176,7 +222,6 @@ export default {
         cursor: pointer;
       }
     }
-
     .title {
       grid-area: header;
 
@@ -246,7 +291,7 @@ export default {
       width: 240px;
       max-height: 80vh;
       color: black;
-      opacity: 50%;
+      opacity: 0.5;
       transition: all 0.2s ease-out;
 
       p {
