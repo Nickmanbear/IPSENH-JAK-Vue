@@ -3,7 +3,7 @@
     <div id="manage-teams-button" @click="managingTeams = !managingTeams">
       <span>Manage teams</span>
     </div>
-    <Teams v-if="managingTeams"/>
+    <Teams v-if="managingTeams" @refresh="reload"/>
 
     <h1>Choose your board</h1>
     <BoardPreview
@@ -77,6 +77,10 @@ export default {
     },
     removeBoardPreview(removedBoard) {
       this.boards = this.boards.filter((board) => board !== removedBoard);
+    },
+    reload() {
+      this.getBoards();
+      this.getTeams();
     },
   },
 };

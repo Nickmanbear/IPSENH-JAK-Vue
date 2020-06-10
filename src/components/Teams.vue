@@ -70,6 +70,7 @@ export default {
       axios.post('/team', team)
         .then((response) => {
           this.teams.push(response.data);
+          this.$emit('refresh');
         });
     },
   },
