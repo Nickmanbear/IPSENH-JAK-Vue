@@ -1,14 +1,12 @@
 <template>
-  <div class="small">
-    <line-chart :options="options" :chart-data="datacollection"></line-chart>
+  <div class="small" v-bind:class="{hiddenburndown: !showBurndown}">
+    <h2 @click="showBurndown = !showBurndown">Burndown</h2>
+    <line-chart id="chart" :options="options" :chart-data="datacollection"/>
   </div>
 </template>
 
 <script>
-
-
-import LineChart from '../LineChart';
-
+import LineChart from '@/LineChart';
 
 export default {
   name: 'Burndown',
@@ -18,10 +16,11 @@ export default {
   props: {
     allCards: Array,
     doneCards: Array,
-    events: Array,
+    timeline: Array,
   },
   data() {
     return {
+      showBurndown: false,
       datacollection: null,
       totalPoints: 0,
       burnColumn: 0,
@@ -36,6 +35,11 @@ export default {
         },
       },
     };
+  },
+  computed: {
+    events() {
+      return [...this.timeline].reverse();
+    },
   },
   watch: {
     // Watch for the datasets changes.
@@ -78,7 +82,6 @@ export default {
     getPerDay(events) {
       let convertEventsDate = [];
       convertEventsDate = this.convertEventsTimestampToDate(events);
-
       let groupedMap;
       // eslint-disable-next-line no-shadow,prefer-const
       groupedMap = this.groupBy(convertEventsDate,
@@ -96,7 +99,6 @@ export default {
         const changedEvnent = event1;
         changedEvnent.timestamp = new Intl.DateTimeFormat('en-GB',
           options).format(new Date(event1.timestamp));
-
         eventsConvertDay.push(changedEvnent);
       });
       return eventsConvertDay;
@@ -133,19 +135,14 @@ export default {
     getEventspoints(events) {
       const changes = [];
       const changesPerday = [];
-      let groupedEvents;
-      // eslint-disable-next-line prefer-const
-      groupedEvents = this.getPerDay(events);
+      const groupedEvents = this.getPerDay(events);
 
-      console.log(groupedEvents);
-
-      // eslint-disable-next-line no-restricted-syntax
+      // eslint-disable-next-line no-restricted-syntax,no-unused-vars
       for (const [key, values] of groupedEvents.entries()) {
         let counter;
         counter = 0;
         // eslint-disable-next-line no-restricted-syntax
         for (const event of values) {
-          console.log(key, event);
           if (event.toColumn.id === this.burnColumn) {
             counter += event.card.points;
           }
@@ -155,40 +152,51 @@ export default {
         }
         changesPerday.push(counter);
       }
-      console.log(changesPerday);
-
       changes.push(this.totalPoints);
       changesPerday.forEach((day) => {
         changes.push(changes.slice(-1)[0] - day);
       });
       changes.shift();
 
-      // Old method to create the line per event
-      // changes.push(this.totalPoints);
-      // events.forEach((event) => {
-      //   if (event.toColumn.id === 3) {
-      //     changes.push(changes.slice(-1)[0] - event.card.points);
-      //   } else if (changes.slice(-1)[0] !== this.totalPoints) {
-      //     changes.push(changes.slice(-1)[0] + event.card.points);
-      //   }
-      // });
-      console.log(changes);
       return changes;
     },
-
   },
-
 };
 </script>
 
-<style>
+<style lang="scss">
   .small {
-    display: block;
+    text-align: center;
+    position: fixed;
+    top: 80px;
+    right: calc(50vw - 275px);
     width: 100%;
     max-width: 550px;
     border-radius: 3px;
-    /*height: 350px;*/
+    padding: 1px 16px;
     background: white;
-    /*margin: 150px auto;*/
+    transition: all 0.5s ease-out;
+    z-index: 120;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+    h2 {
+      cursor: pointer;
+    }
+  }
+
+  .hiddenburndown {
+    top: calc(100vh - 45px) !important;
+    text-align: center;
+    color: white;
+    background-color: #d37b33;
+    z-index: 90;
+    right: 220px;
+    border-radius: 4px;
+    padding: 10px !important;
+    width: 120px !important;
+
+    h2 {
+      margin: 0;
+    }
   }
 </style>
