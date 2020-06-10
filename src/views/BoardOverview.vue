@@ -137,16 +137,17 @@ export default {
       overflow: hidden;
       font-size: 1em;
       text-align: center;
-      color: #ccc;
-      background-color: #eee;
-      border: 1px solid #eee;
+      color: white;
+      background-color: #d37b33;
+      border: 1px solid #d37b33;
       border-radius: 4px;
       padding: 5px 10px;
       cursor: pointer;
       transition: all 0.3s ease-out;
 
       &:hover {
-        color: black;
+        background-color: #aa5a25;
+        border-color: #aa5a25;
       }
     }
   }

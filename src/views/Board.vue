@@ -2,7 +2,8 @@
   <div class="board">
     <h1 class="title" v-if="!editingName" @click="editingName = true">{{ board.name }}</h1>
     <div class="title" v-else>
-      <input v-model="board.name" @keydown.enter="saveName" type="text">
+      <input id="boardName" v-model="board.name" @keydown.esc="editingName = false"
+             @keydown.enter="saveName" type="text">
       <button @click="saveName">save</button>
     </div>
 
@@ -155,6 +156,10 @@ export default {
       margin: 8px 5px 8px 0;
     }
 
+    #boardName {
+      margin: 20px 5px !important;
+    }
+
     button {
       border: none;
       font-size: 0.8em;
@@ -190,9 +195,9 @@ export default {
     overflow: hidden;
     font-size: 1em;
     text-align: center;
-    color: #ccc;
-    background-color: #eee;
-    border: 1px solid #eee;
+    color: white;
+    background-color: #d37b33;
+    border: 1px solid #d37b33;
     border-radius: 50px;
     padding: 5px 10px;
     cursor: pointer;
@@ -207,10 +212,11 @@ export default {
     &:hover {
       border-radius: 4px;
       width: 80px;
-      color: black;
+      background-color: #aa5a25;
+      border-color: #aa5a25;
 
       span:nth-child(2) {
-        color: black;
+        color: white;
         display: inline;
       }
     }

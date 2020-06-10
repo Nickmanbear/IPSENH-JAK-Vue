@@ -1,6 +1,6 @@
 <template>
-    <div id="timeline">
-      <h2>Timeline</h2>
+    <div id="timeline" v-bind:class="{hidden: !showTimeline}">
+      <h2 @click="showTimeline = !showTimeline">Timeline</h2>
       <p class="event" v-for="event in timeline" :key="event.id">
         <span>{{
           new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
@@ -22,17 +22,33 @@ export default {
   props: {
     timeline: {},
   },
+  data() {
+    return {
+      showTimeline: false,
+    };
+  },
 };
 </script>
 
 <style lang="scss">
   #timeline {
-    grid-area: timeline;
+    z-index: 80;
+    position: fixed;
+    top: 80px;
+    right: 15px;
+    width: 196px;
+    padding: 0;
+    transition: all 0.5s ease-out;
     overflow-y: scroll;
-    padding: 0 4px;
+    overflow-x: hidden;
 
     &::-webkit-scrollbar {
       display: none;
+    }
+
+    h2 {
+      margin-top: 0;
+      cursor: pointer;
     }
 
     .event {
@@ -47,5 +63,17 @@ export default {
         font-weight: bold;
       }
     }
+  }
+
+  .hidden {
+    top: calc(100vh - 45px) !important;
+    text-align: center;
+    color: white;
+    background-color: #d37b33;
+    /*border: 5px solid #d37b33;*/
+    border-radius: 4px;
+    padding: 10px !important;
+    width: 110px !important;
+    /*TODO styling, optional*/
   }
 </style>
