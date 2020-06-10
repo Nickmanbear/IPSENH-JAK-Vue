@@ -42,13 +42,13 @@ export default {
 
 <style lang="scss">
   #boardprev {
-    background-color: #eee;
-    border: 1px solid #eee;
+    background-color: white;
+    border: 1px solid white;
     border-radius: 2px;
-    padding: 0 8px;
+    padding: 0 8px 0 16px;
     margin: 10px;
     display: inline-block;
-    width: 250px;
+    width: 242px;
     cursor: pointer;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 

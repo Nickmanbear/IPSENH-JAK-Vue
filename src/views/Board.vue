@@ -254,11 +254,11 @@ export default {
 
       input {
         border: none;
-        background-color: #eee;
+        background: none;
         font-family: Arial, serif;
         font-size: 1.5em;
         font-weight: bold;
-        margin: 8px 5px 8px 0;
+        margin: 8px 5px 5px 0;
         width: 80%;
       }
 
