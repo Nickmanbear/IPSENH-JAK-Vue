@@ -5,7 +5,7 @@
         <p class="event" v-for="event in timeline" :key="event.id">
           <span>{{
             new Intl.DateTimeFormat('en-GB', { dateStyle: 'short', timeStyle: 'medium' })
-            .format(new Date(event.timestamp))
+            .format(event.timestamp)
           }}</span>:
           <br>
           <span>{{ event.card.name }}</span> moved from

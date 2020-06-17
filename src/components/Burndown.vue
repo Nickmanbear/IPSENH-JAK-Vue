@@ -95,9 +95,9 @@ export default {
       };
       const eventsConvertDay = [];
       events.forEach((event1) => {
-        const changedEvnent = event1;
+        const changedEvnent = JSON.parse(JSON.stringify(event1));
         changedEvnent.timestamp = new Intl.DateTimeFormat('en-GB',
-          options).format(new Date(event1.timestamp));
+          options).format(event1.timestamp);
         eventsConvertDay.push(changedEvnent);
       });
       return eventsConvertDay;
@@ -110,7 +110,7 @@ export default {
           day: 'numeric',
         };
         timestamps.push(
-          new Intl.DateTimeFormat('en-GB', options).format(new Date(event.timestamp)),
+          new Intl.DateTimeFormat('en-GB', options).format(event.timestamp),
         );
       });
       return timestamps;
